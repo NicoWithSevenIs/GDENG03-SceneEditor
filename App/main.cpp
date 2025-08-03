@@ -1,11 +1,14 @@
 #include <iostream>
 
-#define TINYOBJLOADER_IMPLEMENTATION
-#include "AppWindow.h"
+//#define TINYOBJLOADER_IMPLEMENTATION
+//#include "AppWindow.h"
+
+//#include "Math/Matrix4x4.h"
 
 
 int main() {
 	
+	/*
 	AppWindow app;
 
 	if (app.init()) {
@@ -14,6 +17,12 @@ int main() {
 
 		}
 	}
+	*/
+
+	std::cout << "Hello World!";
+	//Matrix4x4 mat;
+	//mat.SetIdentity();
+	//mat.PrintMatrix();
 
 
 	return 0;

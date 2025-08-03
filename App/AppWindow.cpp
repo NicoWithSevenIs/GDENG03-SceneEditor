@@ -1,18 +1,21 @@
 #include "AppWindow.h"
 #include <Windows.h>
-#include "../Game Engine/Math/Vector3D.h"
-#include "../Game Engine/Math/Matrix4x4.h"
-#include "../Game Engine/Input System/InputSystem.h"
+
+#include "Game Engine/Math/Vector3D.h"
+#include "Game Engine/Math/Matrix4x4.h"
+#include "Game Engine/Input System/InputSystem.h"
+
 #include <iostream>
 #include <utility>
 #include <cstdlib>
 #include <algorithm>
 #include <DirectXMath.h>
+
 #include <corecrt_math_defines.h>
-#include "../Time.h"
+#include "Time.h"
 
 
-#include "../ParentingManager.h"
+#include "ParentingManager.h"
 
 AppWindow::AppWindow()
 {
