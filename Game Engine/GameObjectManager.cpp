@@ -5,21 +5,6 @@ void GameObjectManager::Initialize()
 {
 	
 
-	Mesh* m = new Mesh("Teapot", "teapot.obj", "brick.png");
-	m->load();
-	AddObject(m, nullptr);
-
-
-	Mesh* m2 = new Mesh("Bunny", "bunny.obj", "");
-	m2->load();
-	m2->m_transform.m_translation = Vector3D(-2, 0, 0);
-	AddObject(m2, nullptr);
-
-	Mesh* m3 = new Mesh("Armadillo", "armadillo.obj", "");
-	m3->load();
-	m3->m_transform.m_translation = Vector3D(2, 0, 0);
-	AddObject(m3, nullptr);
-
 	/*
 
 	Cube* child11 = new Cube("Cube 4");

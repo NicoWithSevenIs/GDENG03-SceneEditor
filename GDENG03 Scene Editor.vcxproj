@@ -82,6 +82,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)DirectXTex\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -100,6 +102,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)DirectXTex\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,6 +118,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)DirectXTex\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,6 +138,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)DirectXTex\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -159,7 +167,76 @@
     <ClCompile Include="Game Engine\VertexBuffer.cpp" />
     <ClCompile Include="Game Engine\VertexShader.cpp" />
     <ClCompile Include="Game Engine\Window.cpp" />
+    <ClCompile Include="IMGUI\imgui.cpp" />
+    <ClCompile Include="IMGUI\imgui_demo.cpp" />
+    <ClCompile Include="IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="IMGUI\imgui_impl_dx11.cpp" />
+    <ClCompile Include="IMGUI\imgui_impl_win32.cpp" />
+    <ClCompile Include="IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IMGUI\imconfig.h" />
+    <ClInclude Include="IMGUI\imgui.h" />
+    <ClInclude Include="IMGUI\imgui_impl_dx11.h" />
+    <ClInclude Include="IMGUI\imgui_impl_win32.h" />
+    <ClInclude Include="IMGUI\imgui_internal.h" />
+    <ClInclude Include="IMGUI\imstb_rectpack.h" />
+    <ClInclude Include="IMGUI\imstb_textedit.h" />
+    <ClInclude Include="IMGUI\imstb_truetype.h" />
+    <ClInclude Include="Include\Cameras\Camera.h" />
+    <ClInclude Include="Include\Cameras\PerspectiveCamera.h" />
+    <ClInclude Include="Include\Game Engine\EngineTime.h" />
+    <ClInclude Include="Include\GameObject\Cube.h" />
+    <ClInclude Include="Include\GameObject\GameObject.h" />
+    <ClInclude Include="Include\GameObject\GameObjectManager.h" />
+    <ClInclude Include="Include\GameObject\IGUID.h" />
+    <ClInclude Include="Include\GameObject\ParentingManager.h" />
+    <ClInclude Include="Include\GameObject\Quad.h" />
+    <ClInclude Include="Include\Input\InputListener.h" />
+    <ClInclude Include="Include\Input\InputSystem.h" />
+    <ClInclude Include="Include\Interfaces\IMediator.h" />
+    <ClInclude Include="Include\Interfaces\Singleton.h" />
+    <ClInclude Include="Include\Math\Matrix4x4.h" />
+    <ClInclude Include="Include\Math\Point.h" />
+    <ClInclude Include="Include\Math\Transform.h" />
+    <ClInclude Include="Include\Math\Vector2D.h" />
+    <ClInclude Include="Include\Math\Vector3D.h" />
+    <ClInclude Include="Include\Math\Vector4D.h" />
+    <ClInclude Include="Include\Rendering\ConstantBuffer.h" />
+    <ClInclude Include="Include\Rendering\DeviceContext.h" />
+    <ClInclude Include="Include\Rendering\GraphicsEngine.h" />
+    <ClInclude Include="Include\Rendering\IndexBuffer.h" />
+    <ClInclude Include="Include\Rendering\Mesh.h" />
+    <ClInclude Include="Include\Rendering\MeshVertex.h" />
+    <ClInclude Include="Include\Rendering\PixelShader.h" />
+    <ClInclude Include="Include\Rendering\SwapChain.h" />
+    <ClInclude Include="Include\Rendering\Texture.h" />
+    <ClInclude Include="Include\Rendering\VertexBuffer.h" />
+    <ClInclude Include="Include\Rendering\VertexShader.h" />
+    <ClInclude Include="Include\tiny_obj_loader.h" />
+    <ClInclude Include="Include\UI\HierarchyScreen.h" />
+    <ClInclude Include="Include\UI\InspectorScreen.h" />
+    <ClInclude Include="Include\UI\MenuBarUI.h" />
+    <ClInclude Include="Include\UI\ReparentPromptScreen.h" />
+    <ClInclude Include="Include\UI\UIManager.h" />
+    <ClInclude Include="Include\UI\UIScreen.h" />
+    <ClInclude Include="Include\Window\AppWindow.h" />
+    <ClInclude Include="Include\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

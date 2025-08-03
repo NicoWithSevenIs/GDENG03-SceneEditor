@@ -1,4 +1,5 @@
 #include "UI/HierarchyScreen.h"
+#include "UI/InspectorScreen.h"
 
 HierarchyScreen::HierarchyScreen(float width, float height)
 {

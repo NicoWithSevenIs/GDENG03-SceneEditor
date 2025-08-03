@@ -29,7 +29,6 @@ class AppWindow : public Window, public InputListener {
 	
 	private:
 		SwapChain* m_swap_chain;
-		ScreenCapture* m_screen_capture;
 		PerspectiveCamera* pc;
 
 		bool toggle_camera_movement = true;
