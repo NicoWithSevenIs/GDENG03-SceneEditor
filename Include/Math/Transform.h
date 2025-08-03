@@ -5,6 +5,7 @@
 #include "Math/Matrix4x4.h"
 
 #include "GameObject/IGUID.h"
+#include "ECS/Components/Component.h"
 
 class Transform
 {
@@ -16,14 +17,11 @@ class Transform
 	private:
 		Matrix4x4 m_transformation_matrix;
 
-	private:
-		IGUID* m_guid;
 
 
 	public:
-		Transform(IGUID* guid): m_translation(Vector3D()), m_scale(Vector3D(1,1,1)), m_rotation(Vector3D()), m_guid(guid) {}
+		Transform(): m_translation(Vector3D()), m_scale(Vector3D(1,1,1)), m_rotation(Vector3D()){}
 
-		IGUID* Parent() {return m_guid;}
 
 		void BuildTransform() {
 
@@ -43,26 +41,20 @@ class Transform
 			rm.setRotationX(m_rotation.m_x);
 			temp *= rm;
 
-
 			rm.SetIdentity();
 			rm.setRotationY(m_rotation.m_y);
 			temp *= rm;
 
-
 			rm.SetIdentity();
 			rm.setRotationZ(m_rotation.m_z);
 			temp *= rm;
-
 			m *= temp;
 		
-
 			Matrix4x4 tm;
 			tm.SetTranslation(m_translation);
 			m *= tm;
-	
-		
+			
 			this->m_transformation_matrix = m;
-
 		}
 
 		Matrix4x4 GetTransformationMatrix() {

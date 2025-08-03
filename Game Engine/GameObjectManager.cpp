@@ -1,6 +1,6 @@
 #include "GameObject/GameObjectManager.h"
 #include <iostream>
-
+#include "Utilities.h"
 void GameObjectManager::Initialize()
 {
 	
@@ -27,21 +27,29 @@ void GameObjectManager::Initialize()
 	
 	*/
 
+
+	GameObject* go = new GameObject("Cube");
+	go->AddComponent<SampleComponent>();
+	AddObject(go);
 }
 
 void GameObjectManager::Update(Matrix4x4 view_mat, Matrix4x4 proj_mat)
 {
 	for (auto i : get().m_map_objects) {
+		auto scripts = Utilities::Where<Component*>(i.second->GetComponents(), [](Component* c){ return c->Type == ComponentType::SCRIPT;});
 		i.second->Update(EngineTime::deltaTime(), view_mat, proj_mat);
+		for(auto s: scripts)
+			s->Update(i.second->GetConstant());
+	}
+
+	for (auto i : get().m_map_objects) {
+		auto renderers = Utilities::Where<Component*>(i.second->GetComponents(), [](Component* c) { return c->Type == ComponentType::RENDERER; });
+		for (auto r : renderers)
+			r->Update(i.second->GetConstant());
 	}
 }
 
-void GameObjectManager::Draw()
-{
-	for (auto i : get().m_map_objects) {
-		i.second->Draw();
-	}
-}
+
 
 void GameObjectManager::AddObject(GameObject* object, GameObject* parent)
 {
@@ -54,7 +62,7 @@ void GameObjectManager::AddObject(GameObject* object, GameObject* parent)
 void GameObjectManager::Release()
 {
 	for (auto i : get().m_map_objects) {
-		i.second->release();
+		//i.second->release();
 	}
 	get().m_map_objects.clear();
 	ParentingManager::get().Release();
@@ -62,21 +70,24 @@ void GameObjectManager::Release()
 
 void GameObjectManager::MakeCube(std::string name)
 {
-	if (!get().m_map_objects.contains(name)) {
-		Cube* root = new Cube(name);
-		root->load();
-		AddObject(root);
-	}
-
+	/*
+		if (!get().m_map_objects.contains(name)) {
+			Cube* root = new Cube(name);
+			root->load();
+			AddObject(root);
+		}
+	*/
 }
 
 void GameObjectManager::MakeQuad(std::string name)
 {
+/*
 	if (!get().m_map_objects.contains(name)) {
 		Quad* root = new Quad(name);
 		root->load();
 		AddObject(root);
 	}
+	*/
 }
 
 void GameObjectManager::DoOnAll(std::function<void(GameObject*)> callback)

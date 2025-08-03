@@ -68,9 +68,7 @@ void AppWindow::OnUpdate()
 
 
 	pc->Update();
-
 	GameObjectManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
-	GameObjectManager::Draw();
 
 
 	//m_screen_capture->Update();
@@ -115,10 +113,13 @@ void AppWindow::onKeyUp(int key)
 
 	if (key == '1') {
 		toggle_camera_movement = false;
+		std::cout << "NOT MOVING"<<std::endl;
 	}
 
 	if (key == '2') {
 		toggle_camera_movement = true;
+		std::cout << "MOVING" << std::endl;
+
 	}
 }
 

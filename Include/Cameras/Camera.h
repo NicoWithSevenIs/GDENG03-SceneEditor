@@ -11,7 +11,7 @@ class Camera: public IGUID {
 		Transform m_transform;
 
 	public:
-		Camera(): IGUID("Camera"), m_transform(this) {}
+		Camera(): IGUID("Camera"), m_transform() {}
 		inline virtual Matrix4x4 GetViewMatrix() {
 			Matrix4x4 mat = Matrix4x4(this->m_transform.GetTransformationMatrix());
 			mat.inverse();

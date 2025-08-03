@@ -14,61 +14,26 @@
 
 #include "Rendering/GraphicsEngine.h"
 #include "Rendering/DeviceContext.h"
-#include "Rendering/IndexBuffer.h"
-#include "Rendering/VertexBuffer.h"
-#include "Rendering/VertexShader.h"
-#include "Rendering/PixelShader.h"
-#include "Rendering/ConstantBuffer.h"
-
 
 #include "GameObject/IGUID.h"
 #include "GameObject/ParentingManager.h"
+#include "GameObject/Constant.h"
 
-
-__declspec(align(16))
-struct constant
-{
-	Matrix4x4 m_world;
-	Matrix4x4 m_view;
-	Matrix4x4 m_proj;
-	float m_angle;
-	Vector3D m_color;
-	UINT isRandom;
-	UINT hasTex;
-};
-
+#include "ECS/Components/Component.h"
+#include "ECS/Components/SampleComponent.h"
 
 class GameObject: public IGUID
 {
-	public:
-		Transform m_transform;
-
-
 	protected:
-
-		VertexBuffer* m_vb;
-
-		VertexShader* m_vs;
-		PixelShader* m_ps;
-
-		ConstantBuffer* m_cb;
-
-	protected:
+		std::vector<Component*> components;
 		constant cc;
 
 	public:
-		Vector3D m_color = Vector3D(1,0,1);
-		bool isRainbow = true;
-		std::function<void()> doOnUpdate = nullptr;
+		Transform m_transform;
 
 	public:
 
-		GameObject(std::string name): IGUID(name), m_transform(Transform(this)) {}
-
-		virtual bool load() = 0;
-		virtual bool release() = 0;
-
-		virtual void Draw() = 0;
+		inline GameObject(std::string name): IGUID(name) {}
 
 		inline virtual void Update(float delta_time, Matrix4x4 view_matrix, Matrix4x4 projection_matrix) {
 			cc.m_world = this->m_transform.GetTransformationMatrix();
@@ -81,7 +46,6 @@ class GameObject: public IGUID
 				parent = parent = (GameObject*)ParentingManager::get().GetParent(child);
 			}	
 		}
-
 		inline void OnUnparent() override {
 	
 			auto descendant = this;
@@ -112,29 +76,7 @@ class GameObject: public IGUID
 		
 
 			float pitch, yaw, roll;
-			
 		
-			/*
-				auto parent_mat = parent->m_transform.GetTransformationMatrix();
-				Matrix4x4 temp;
-
-				temp.SetIdentity();
-				temp.setRotationX(m_transform.m_rotation.m_x);
-				temp *= parent_mat;
-				pitch = atan2f(-temp.m_mat[1][2], temp.m_mat[1][1]);
-
-
-				temp.SetIdentity();
-				temp.setRotationY(m_transform.m_rotation.m_y);
-				temp *= parent_mat;
-				yaw = atan2f(-temp.m_mat[2][0], temp.m_mat[0][0]);
-
-
-				temp.SetIdentity();
-				temp.setRotationZ(m_transform.m_rotation.m_z);
-				temp *= parent_mat;
-				roll = asinf(temp.m_mat[1][0]);
-			*/
 			auto parent = (GameObject*)ParentingManager::get().GetParent(this);
 			GameObject* child = this;
 
@@ -153,13 +95,48 @@ class GameObject: public IGUID
 
 
 			m_transform.m_rotation = Vector3D(pitch, yaw, roll);
-
-
-			std::cout << "New Translate: " <<  mat[3][0] << "," << mat[3][1] << "," << mat[3][2] << std::endl;
-			//std::cout << "New Scale: " << scale.m_x << "," << scale.m_y << "," << scale.m_z << std::endl;
-			std::cout << "New Rotation: " << pitch << "," << yaw << "," << roll << std::endl;
 			
 		}
+
+		inline std::vector<Component*> GetComponents(){return std::vector<Component*>(components);}
+		inline constant GetConstant(){return cc;}
+
+	public:
+		
+		template <typename T> inline
+		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
+		AddComponent() 
+		{
+			for (auto c : components) {
+				if(typeid(*c) == typeid(T))
+					return nullptr;
+			}
+			T* component = new T();
+			components.push_back(component);
+			return component;
+		}
+
+
+		template <typename T> inline
+		typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
+		GetComponent()
+		{
+			for (auto c : components) {
+				if (typeid(*c) == typeid(T))
+					return static_cast<T*>(c);
+			}
+			return nullptr;
+		}
+
+		template <typename T> inline
+		typename std::enable_if<std::is_base_of<Component, T>::value, void>::type
+		RemoveComponent()
+		{
+			std::erase_if(components, [](Component* c) {
+				return typeid(*c) == typeid(T);
+			});
+		}
+
 
 };
 

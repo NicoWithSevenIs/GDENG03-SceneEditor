@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include "GameObject/GameObject.h"
 #include <vector>
 
@@ -19,4 +19,4 @@ public:
 	void Update(float delta_time, Matrix4x4 view_matrix, Matrix4x4 projection_matrix) override;
 	void Draw() override;
 };
-
+*/

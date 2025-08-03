@@ -1,6 +1,6 @@
 #pragma once
 
-
+/*
 #include <tiny_obj_loader.h>
 
 #include <vector>
@@ -35,4 +35,4 @@ class Mesh: public GameObject
 		void Update(float delta_time, Matrix4x4 view_matrix, Matrix4x4 projection_matrix) override;
 
 };
-
+*/

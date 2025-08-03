@@ -3,7 +3,7 @@
 #include "Rendering/VertexBuffer.h"
 
 
-
+/*
 Mesh::Mesh(std::string name, std::string model_path, std::string tex_path): GameObject(name), model_path(model_path), texture_path(tex_path)
 {}
 
@@ -142,8 +142,8 @@ void Mesh::Update(float delta_time, Matrix4x4 view_matrix, Matrix4x4 projection_
 	cc.m_angle = 0;
 	cc.m_view = view_matrix;
 	cc.m_proj = projection_matrix;
-	cc.m_color = m_color;
-	cc.isRandom = isRainbow;
+	cc.m_color = Vector3D(0,0,0);
+	cc.isRandom = true;
 
 	m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
-}
+}*/

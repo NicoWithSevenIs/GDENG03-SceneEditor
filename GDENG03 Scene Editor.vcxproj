@@ -143,9 +143,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="Game Engine\AppWindow.cpp" />
     <ClCompile Include="Game Engine\ConstantBuffer.cpp" />
-    <ClCompile Include="Game Engine\Cube.cpp" />
     <ClCompile Include="Game Engine\DeviceContext.cpp" />
     <ClCompile Include="Game Engine\EngineTime.cpp" />
     <ClCompile Include="Game Engine\GameObjectManager.cpp" />
@@ -173,9 +173,11 @@
     <ClCompile Include="IMGUI\imgui_impl_dx11.cpp" />
     <ClCompile Include="IMGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Include\ECS\Components\SampleComponent.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\ECS\Components\Component.h" />
     <ClInclude Include="IMGUI\imconfig.h" />
     <ClInclude Include="IMGUI\imgui.h" />
     <ClInclude Include="IMGUI\imgui_impl_dx11.h" />
@@ -187,7 +189,6 @@
     <ClInclude Include="Include\Cameras\Camera.h" />
     <ClInclude Include="Include\Cameras\PerspectiveCamera.h" />
     <ClInclude Include="Include\Game Engine\EngineTime.h" />
-    <ClInclude Include="Include\GameObject\Cube.h" />
     <ClInclude Include="Include\GameObject\GameObject.h" />
     <ClInclude Include="Include\GameObject\GameObjectManager.h" />
     <ClInclude Include="Include\GameObject\IGUID.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="Include\Input\InputSystem.h" />
     <ClInclude Include="Include\Interfaces\IMediator.h" />
     <ClInclude Include="Include\Interfaces\Singleton.h" />
+    <ClInclude Include="Include\GameObject\Constant.h" />
     <ClInclude Include="Include\Math\Matrix4x4.h" />
     <ClInclude Include="Include\Math\Point.h" />
     <ClInclude Include="Include\Math\Transform.h" />
@@ -221,6 +223,7 @@
     <ClInclude Include="Include\UI\ReparentPromptScreen.h" />
     <ClInclude Include="Include\UI\UIManager.h" />
     <ClInclude Include="Include\UI\UIScreen.h" />
+    <ClInclude Include="Include\Utilities.h" />
     <ClInclude Include="Include\Window\AppWindow.h" />
     <ClInclude Include="Include\Window\Window.h" />
   </ItemGroup>

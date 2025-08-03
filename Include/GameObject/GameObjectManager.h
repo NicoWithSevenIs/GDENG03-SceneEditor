@@ -4,7 +4,6 @@
 
 #include "GameObject/GameObject.h"
 #include "GameObject/ParentingManager.h"
-#include "GameObject/Cube.h"
 #include "GameObject/Quad.h"
 
 #include "Game Engine/EngineTime.h"
@@ -23,7 +22,6 @@ class GameObjectManager: public Singleton<GameObjectManager>
 	public:
 		static void Initialize();
 		static void Update(Matrix4x4 view_mat, Matrix4x4 proj_mat);
-		static void Draw();
 		static void AddObject(GameObject* object, GameObject* parent = nullptr);
 		static void Release();
 
