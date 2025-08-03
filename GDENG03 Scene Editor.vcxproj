@@ -186,6 +186,9 @@
     <ClInclude Include="IMGUI\imstb_truetype.h" />
     <ClInclude Include="Include\Cameras\Camera.h" />
     <ClInclude Include="Include\Cameras\PerspectiveCamera.h" />
+    <ClInclude Include="Include\ECS\Components\Component.h" />
+    <ClInclude Include="Include\ECS\Components\CubeRenderer.h" />
+    <ClInclude Include="Include\ECS\Entities\Entity.h" />
     <ClInclude Include="Include\Game Engine\EngineTime.h" />
     <ClInclude Include="Include\GameObject\Cube.h" />
     <ClInclude Include="Include\GameObject\GameObject.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="Include\Input\InputSystem.h" />
     <ClInclude Include="Include\Interfaces\IMediator.h" />
     <ClInclude Include="Include\Interfaces\Singleton.h" />
+    <ClInclude Include="Include\Math\Constant.h" />
     <ClInclude Include="Include\Math\Matrix4x4.h" />
     <ClInclude Include="Include\Math\Point.h" />
     <ClInclude Include="Include\Math\Transform.h" />
