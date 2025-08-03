@@ -1,0 +1,29 @@
+#pragma once
+#include "IGUID.h"
+#include "Library/Interfaces/Singleton.h"
+
+#include <unordered_map>
+#include <vector>
+
+class ParentingManager: public Singleton<ParentingManager>
+{
+	std::unordered_map<IGUID*, IGUID*> descendants;
+
+	public:
+		void AddObject(IGUID* object, IGUID* parent = nullptr);
+		void RemoveObject(IGUID* object);
+		void SetParent(IGUID* object, IGUID* new_parent);
+		void Unparent(IGUID* object);
+		bool hasChild(IGUID* object);
+	
+		IGUID* GetParent(IGUID* object);
+		std::vector<IGUID*> GetChildren(IGUID* object);
+
+		inline const std::unordered_map<IGUID*, IGUID*>& GetHierarchy() const {
+			return descendants;
+		}
+
+		inline void Release() {
+			descendants.clear();
+		}
+};
