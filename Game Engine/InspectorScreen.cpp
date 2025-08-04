@@ -1,5 +1,6 @@
 #include "UI/InspectorScreen.h"
 #include "ECS/Systems/TimelineManager.h"
+#include "Utilities.h"
 InspectorScreen::InspectorScreen(float width, float height)
 {
 	this->width = width;
@@ -57,6 +58,7 @@ void InspectorScreen::drawInspector()
 
 	if (ImGui::Checkbox("Enabled", &this->enabled)) {
 		this->currTrackedObject->enabled = this->enabled;
+		TimelineManager::get().SetDirty();
 	}
 }
 
@@ -141,6 +143,10 @@ void InspectorScreen::drawRotFields()
 
 void InspectorScreen::getTrackedTransform()
 {
+	if(this->m_tracked_name == "")
+		return;
+
+	this->currTrackedObject = Utilities::Select<Entity*>(EntityManager::get_all(), [this](Entity* e){ return e->m_name == this->m_tracked_name;});
 	if (this->currTrackedObject != nullptr) {
 		this->m_translate_x = this->currTrackedObject->m_transform.m_translation.m_x;
 		this->m_translate_y = this->currTrackedObject->m_transform.m_translation.m_y;
@@ -157,10 +163,7 @@ void InspectorScreen::getTrackedTransform()
 		this->m_tracked_name = this->currTrackedObject->m_name.c_str();
 		this->enabled =  this->currTrackedObject->enabled;
 	}
-	else {
-		std::string name = "NONE";
-		this->m_tracked_name = name;
-	}
+
 }
 
 void InspectorScreen::applyChanges()

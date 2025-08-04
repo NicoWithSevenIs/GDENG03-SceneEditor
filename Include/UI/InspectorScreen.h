@@ -52,6 +52,6 @@ class InspectorScreen : public UIScreen
 
 		bool enabled = true;
 
-		std::string m_tracked_name;
+		std::string m_tracked_name = "";
 };
 

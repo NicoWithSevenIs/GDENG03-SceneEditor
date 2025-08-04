@@ -36,7 +36,7 @@ void HierarchyScreen::drawParents(Entity* parent)
 		ImGui::SameLine();
 		if (ImGui::Button(p_name)) {
 			auto inspector = (InspectorScreen*)m_screen->Retrieve("inspector");
-			inspector->currTrackedObject = (Entity*)i;
+			inspector->m_tracked_name = ((Entity*)i)->m_name;
 		}
 		ImGui::Indent();
 		this->drawParents((Entity*) i);

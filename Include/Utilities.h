@@ -13,5 +13,16 @@ namespace Utilities {
 		}
 		return v;
 	}
-
+	template<typename T>
+	T Select(std::vector<T> vec, std::function<bool(T)> predicate) {
+		T selected{};
+		for (auto i : vec) {
+			if (predicate(i)) {
+				selected = i;
+				break;
+			}
+			
+		}
+		return selected;
+	}
 }
