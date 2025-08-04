@@ -14,10 +14,6 @@
 #include "Rendering/IndexBuffer.h"
 #include "Input/InputListener.h"
 
-#include "GameObject/GameObjectManager.h"
-#include "GameObject/Cube.h"
-#include "GameObject/Quad.h"
-
 #include "Cameras/PerspectiveCamera.h"
 
 #include "UI/UIManager.h"

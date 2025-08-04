@@ -9,23 +9,34 @@ void EntityManager::Initialize()
 	AddObject(e);
 }
 
-void EntityManager::Update(Matrix4x4 view_mat, Matrix4x4 proj_mat)
+void EntityManager::Update(Matrix4x4 view_mat, Matrix4x4 proj_mat, Entity* children)
 {
-	for (auto e : get().m_object_list) {
+	auto root_objects = ParentingManager::get().GetChildren(children);
+
+	for (auto entity : root_objects) {
+		auto e = (Entity*)entity;
+		if (!e->enabled) continue;
 		e->Update(view_mat, proj_mat);
 		auto scripts = Utilities::Where<Component*>(e->GetComponents(), [](Component* c) {return c->Type == ComponentType::SCRIPT; });
 		for (auto s : scripts)
 			s->Update(e->cc);
+		e->updated = true;
+		Update(view_mat, proj_mat, e);
 	}
 }
 
-void EntityManager::Draw()
+void EntityManager::Draw(Entity* children)
 {
+	
+	auto root_objects = ParentingManager::get().GetChildren(children);
 
-	for (auto e : get().m_object_list) {
+	for (auto entity : root_objects) {
+		auto e = (Entity*)entity;
+		if (!e->enabled) continue;
 		auto renderers = Utilities::Where<Component*>(e->GetComponents(), [](Component* c) {return c->Type == ComponentType::RENDERER; });
-		for(auto r: renderers)
+		for (auto r : renderers)
 			r->Update(e->cc);
+		Draw(e);
 	}
 
 }

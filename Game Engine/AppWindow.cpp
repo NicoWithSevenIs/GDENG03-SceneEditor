@@ -44,8 +44,6 @@ void AppWindow::OnCreate()
 	pc->m_transform.m_translation = Vector3D(0, 2, -3);
 
 	UIManager::initialize(this->m_hwnd, GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
-	GameObjectManager::Initialize();
-
 	EntityManager::Initialize();
 }
 
@@ -68,9 +66,7 @@ void AppWindow::OnUpdate()
 
 	pc->Update();
 
-	GameObjectManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
-	GameObjectManager::Draw();
-
+	EntityManager::ResetUpdatedFlags();
 	EntityManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
 	EntityManager::Draw();
 
@@ -84,7 +80,7 @@ void AppWindow::OnDestroy()
 	Window::OnDestroy();
 	this->m_swap_chain->release();
 
-	GameObjectManager::Release();
+	EntityManager::Release();
 
 	GraphicsEngine::get()->release();
 }

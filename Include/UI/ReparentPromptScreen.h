@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "GameObject/GameObject.h"
+#include "ECS/Entities/Entity.h"
 
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
@@ -13,17 +13,15 @@ class ReparentPromptScreen
 
 	public:
 		
-		GameObject* invoker = nullptr;
-		GameObject* selection = nullptr;
+		Entity* invoker = nullptr;
+		Entity* selection = nullptr;
 
 		bool aborted = false;
 		bool invoked = false;
 
 
 		void draw();
-		void drawParents(GameObject* obj);
+		void drawParents(Entity* obj);
 
-	private:
-		std::vector<GameObject*> rendered;
 };
 

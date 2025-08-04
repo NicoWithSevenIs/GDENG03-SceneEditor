@@ -24,16 +24,10 @@
     <ClCompile Include="Game Engine\ConstantBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game Engine\Cube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game Engine\DeviceContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game Engine\EngineTime.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game Engine\GameObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game Engine\GraphicsEngine.cpp">
@@ -54,9 +48,6 @@
     <ClCompile Include="Game Engine\MenuBarUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game Engine\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game Engine\ParentingManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,9 +55,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game Engine\PixelShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game Engine\Quad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game Engine\ReparentPromptScreen.cpp">
@@ -122,22 +110,10 @@
     <ClInclude Include="Include\Game Engine\EngineTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\GameObject\Cube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\GameObject\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\GameObject\GameObjectManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Include\GameObject\IGUID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\GameObject\ParentingManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\GameObject\Quad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Input\InputListener.h">
@@ -180,9 +156,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Rendering\IndexBuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Rendering\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Rendering\MeshVertex.h">

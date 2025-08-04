@@ -145,22 +145,18 @@
   <ItemGroup>
     <ClCompile Include="Game Engine\AppWindow.cpp" />
     <ClCompile Include="Game Engine\ConstantBuffer.cpp" />
-    <ClCompile Include="Game Engine\Cube.cpp" />
     <ClCompile Include="Game Engine\DeviceContext.cpp" />
     <ClCompile Include="Game Engine\EngineTime.cpp" />
     <ClCompile Include="Game Engine\EntityManager.cpp" />
-    <ClCompile Include="Game Engine\GameObjectManager.cpp" />
     <ClCompile Include="Game Engine\GraphicsEngine.cpp" />
     <ClCompile Include="Game Engine\HierarchyScreen.cpp" />
     <ClCompile Include="Game Engine\IndexBuffer.cpp" />
     <ClCompile Include="Game Engine\InputSystem.cpp" />
     <ClCompile Include="Game Engine\InspectorScreen.cpp" />
     <ClCompile Include="Game Engine\MenuBarUI.cpp" />
-    <ClCompile Include="Game Engine\Mesh.cpp" />
     <ClCompile Include="Game Engine\ParentingManager.cpp" />
     <ClCompile Include="Game Engine\PerspectiveCamera.cpp" />
     <ClCompile Include="Game Engine\PixelShader.cpp" />
-    <ClCompile Include="Game Engine\Quad.cpp" />
     <ClCompile Include="Game Engine\ReparentPromptScreen.cpp" />
     <ClCompile Include="Game Engine\SwapChain.cpp" />
     <ClCompile Include="Game Engine\Texture.cpp" />
@@ -192,12 +188,8 @@
     <ClInclude Include="Include\ECS\Entities\Entity.h" />
     <ClInclude Include="Include\ECS\Systems\EntityManager.h" />
     <ClInclude Include="Include\Game Engine\EngineTime.h" />
-    <ClInclude Include="Include\GameObject\Cube.h" />
-    <ClInclude Include="Include\GameObject\GameObject.h" />
-    <ClInclude Include="Include\GameObject\GameObjectManager.h" />
     <ClInclude Include="Include\GameObject\IGUID.h" />
     <ClInclude Include="Include\GameObject\ParentingManager.h" />
-    <ClInclude Include="Include\GameObject\Quad.h" />
     <ClInclude Include="Include\Input\InputListener.h" />
     <ClInclude Include="Include\Input\InputSystem.h" />
     <ClInclude Include="Include\Interfaces\IMediator.h" />
@@ -213,7 +205,6 @@
     <ClInclude Include="Include\Rendering\DeviceContext.h" />
     <ClInclude Include="Include\Rendering\GraphicsEngine.h" />
     <ClInclude Include="Include\Rendering\IndexBuffer.h" />
-    <ClInclude Include="Include\Rendering\Mesh.h" />
     <ClInclude Include="Include\Rendering\MeshVertex.h" />
     <ClInclude Include="Include\Rendering\PixelShader.h" />
     <ClInclude Include="Include\Rendering\SwapChain.h" />

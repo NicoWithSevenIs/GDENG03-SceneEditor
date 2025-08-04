@@ -12,23 +12,35 @@ class Entity: public IGUID{
 	public:
 		Transform m_transform;
 		constant cc;
+		bool enabled;
+		bool updated;
 
 	protected:
 		std::vector<Component*> components;
 		
-
 	public:
 		inline std::vector<Component*> GetComponents() { return std::vector<Component*>(components); }
 		inline constant GetConstant() { return cc; }
 
-	#pragma region component handling
 	public:
-		inline Entity(): IGUID("Entity"), m_transform(this){}
+		inline Entity(std::string name = "Entity") : IGUID(name), m_transform(this), enabled(true) {}
 		inline void Release() {
 			for(auto c : components)
 				c->Release();
 		}
-		
+
+		inline void SetActive(bool value) {
+			if(enabled == value)
+				return;
+
+			enabled = value;
+			auto children = ParentingManager::get().GetChildren(this);
+			for (auto i : children) {
+				((Entity*)i)->SetActive(value);
+			}
+		}
+
+	#pragma region component handling	
 		template <typename T> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
 			AddComponent()
@@ -60,9 +72,9 @@ class Entity: public IGUID{
 		{
 			std::erase_if(components, [](Component* c) {
 				return typeid(*c) == typeid(T);
-				});
+			});
 		}
-		#pragma endregion
+	#pragma endregion
 
 	#pragma region parenting
 	public:

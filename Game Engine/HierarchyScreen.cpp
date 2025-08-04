@@ -23,19 +23,23 @@ void HierarchyScreen::draw()
 	ImGui::End();
 }
 
-void HierarchyScreen::drawParents(GameObject* parent)
+void HierarchyScreen::drawParents(Entity* parent)
 {
 	
 	auto root_objects = ParentingManager::get().GetChildren(parent);
 	
 	for (auto i : root_objects) {
 		const char* p_name = i->m_name.c_str();
+
+		bool enabled = ((Entity*)i)->updated;
+		ImGui::Checkbox("", &enabled);
+		ImGui::SameLine();
 		if (ImGui::Button(p_name)) {
 			auto inspector = (InspectorScreen*)m_screen->Retrieve("inspector");
-			inspector->currTrackedObject = (GameObject*)i;
+			inspector->currTrackedObject = (Entity*)i;
 		}
 		ImGui::Indent();
-		this->drawParents((GameObject*) i);
+		this->drawParents((Entity*) i);
 		ImGui::Unindent();
 	}
 	

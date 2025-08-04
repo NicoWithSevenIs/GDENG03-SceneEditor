@@ -53,6 +53,9 @@ void InspectorScreen::drawInspector()
 	ImGui::Text("Rotation");
 	this->drawRotFields();
 
+	if (ImGui::Checkbox("Enabled", &this->enabled)) {
+		this->currTrackedObject->enabled = this->enabled;
+	}
 }
 
 void InspectorScreen::drawTranslateFields()
@@ -150,6 +153,7 @@ void InspectorScreen::getTrackedTransform()
 		this->m_rot_z = this->currTrackedObject->m_transform.m_rotation.m_z;
 
 		this->m_tracked_name = this->currTrackedObject->m_name.c_str();
+		this->enabled =  this->currTrackedObject->enabled;
 	}
 	else {
 		std::string name = "NONE";
@@ -172,6 +176,7 @@ void InspectorScreen::applyChanges()
 	this->currTrackedObject->m_transform.m_rotation.m_x = this->m_rot_x;
 	this->currTrackedObject->m_transform.m_rotation.m_y = this->m_rot_y;
 	this->currTrackedObject->m_transform.m_rotation.m_z = this->m_rot_z;
+
 
 }
 

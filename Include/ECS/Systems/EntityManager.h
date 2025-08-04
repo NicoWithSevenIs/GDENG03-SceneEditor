@@ -20,12 +20,18 @@ private:
 
 public:
 	static void Initialize();
-	static void Update(Matrix4x4 view_mat, Matrix4x4 proj_mat);
-	static void Draw();
+	static void Update(Matrix4x4 view_mat, Matrix4x4 proj_mat, Entity* children = nullptr);
+	static void Draw(Entity* children = nullptr);
 	static void AddObject(Entity* object, Entity* parent = nullptr);
 	static void Release();
 
 	static void DoOnAll(std::function<void(Entity*)> callback);
 	static std::vector<Entity*> get_all();
+
+	inline static void ResetUpdatedFlags() {
+		for (auto obj : get().m_object_list) {
+			obj->updated = false;
+		}
+	}
 };
 
