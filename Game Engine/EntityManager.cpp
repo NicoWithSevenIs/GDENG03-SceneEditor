@@ -1,15 +1,32 @@
 #include "ECS/Systems/EntityManager.h"
-#include ""
+#include "Utilities.h"
+
+#include "ECS/Components/CubeRenderer.h"
 void EntityManager::Initialize()
 {
+	Entity *e = new Entity();
+	e->AddComponent<CubeRenderer>();
+	AddObject(e);
 }
 
 void EntityManager::Update(Matrix4x4 view_mat, Matrix4x4 proj_mat)
 {
+	for (auto e : get().m_object_list) {
+		e->Update(view_mat, proj_mat);
+		auto scripts = Utilities::Where<Component*>(e->GetComponents(), [](Component* c) {return c->Type == ComponentType::SCRIPT; });
+		for (auto s : scripts)
+			s->Update(e->cc);
+	}
 }
 
 void EntityManager::Draw()
 {
+
+	for (auto e : get().m_object_list) {
+		auto renderers = Utilities::Where<Component*>(e->GetComponents(), [](Component* c) {return c->Type == ComponentType::RENDERER; });
+		for(auto r: renderers)
+			r->Update(e->cc);
+	}
 
 }
 
