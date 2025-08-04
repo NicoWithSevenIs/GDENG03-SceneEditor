@@ -148,6 +148,7 @@
     <ClCompile Include="Game Engine\Cube.cpp" />
     <ClCompile Include="Game Engine\DeviceContext.cpp" />
     <ClCompile Include="Game Engine\EngineTime.cpp" />
+    <ClCompile Include="Game Engine\EntityManager.cpp" />
     <ClCompile Include="Game Engine\GameObjectManager.cpp" />
     <ClCompile Include="Game Engine\GraphicsEngine.cpp" />
     <ClCompile Include="Game Engine\HierarchyScreen.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Include\ECS\Components\Component.h" />
     <ClInclude Include="Include\ECS\Components\CubeRenderer.h" />
     <ClInclude Include="Include\ECS\Entities\Entity.h" />
+    <ClInclude Include="Include\ECS\Systems\EntityManager.h" />
     <ClInclude Include="Include\Game Engine\EngineTime.h" />
     <ClInclude Include="Include\GameObject\Cube.h" />
     <ClInclude Include="Include\GameObject\GameObject.h" />
@@ -225,6 +227,7 @@
     <ClInclude Include="Include\UI\ReparentPromptScreen.h" />
     <ClInclude Include="Include\UI\UIManager.h" />
     <ClInclude Include="Include\UI\UIScreen.h" />
+    <ClInclude Include="Include\Utilities.h" />
     <ClInclude Include="Include\Window\AppWindow.h" />
     <ClInclude Include="Include\Window\Window.h" />
   </ItemGroup>

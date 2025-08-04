@@ -14,6 +14,7 @@
 
 #include "Game Engine/EngineTime.h"
 #include "GameObject/ParentingManager.h"
+#include "ECS/Systems/EntityManager.h"
 
 AppWindow::AppWindow()
 {
@@ -22,11 +23,6 @@ AppWindow::AppWindow()
 AppWindow::~AppWindow()
 {
 }
-
-#include "ECS/Entities/Entity.h"
-#include "ECS/Components/CubeRenderer.h"
-
-Entity* e;
 
 void AppWindow::OnCreate()
 {
@@ -50,11 +46,10 @@ void AppWindow::OnCreate()
 	UIManager::initialize(this->m_hwnd, GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
 	GameObjectManager::Initialize();
 
-	e = new Entity();
-	e->AddComponent<CubeRenderer>();
+	EntityManager::Initialize();
 }
 
-float dt = 0;
+
 void AppWindow::OnUpdate()
 {
 	Window::OnUpdate();
@@ -71,26 +66,13 @@ void AppWindow::OnUpdate()
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-
 	pc->Update();
 
 	GameObjectManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
 	GameObjectManager::Draw();
 
-	dt += EngineTime::deltaTime() * 0.1f;
-	e->m_transform.m_translation = Vector3D(dt,0,0);
-
-	constant cc;
-	cc.m_angle = EngineTime::deltaTime();
-	cc.m_view = pc->GetViewMatrix();
-	cc.m_proj = pc->GetProjectionMatrix();
-	cc.isRandom = true;
-	cc.hasTex = false;
-	cc.m_world = e->m_transform.GetTransformationMatrix();
-	cc.m_color = Vector3D(1,1,1);
-
-	e->GetComponents()[0]->Update(cc);
-
+	EntityManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
+	EntityManager::Draw();
 
 	UIManager::draw();
 	this->m_swap_chain->present(true);

@@ -6,13 +6,14 @@
 #include "Game Engine/EngineTime.h"
 #include "Math/Constant.h"
 #include "Math/Transform.h"
+#include "GameObject/ParentingManager.h"
 class Entity: public IGUID{
 
 	public:
 		Transform m_transform;
 		constant cc;
 
-	private:
+	protected:
 		std::vector<Component*> components;
 		
 
@@ -20,9 +21,13 @@ class Entity: public IGUID{
 		inline std::vector<Component*> GetComponents() { return std::vector<Component*>(components); }
 		inline constant GetConstant() { return cc; }
 
+	#pragma region component handling
 	public:
 		inline Entity(): IGUID("Entity"), m_transform(this){}
-
+		inline void Release() {
+			for(auto c : components)
+				c->Release();
+		}
 		
 		template <typename T> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
@@ -34,6 +39,7 @@ class Entity: public IGUID{
 			}
 			T* component = new T();
 			components.push_back(component);
+			component->owner = this;
 			return component;
 		}
 
@@ -56,5 +62,76 @@ class Entity: public IGUID{
 				return typeid(*c) == typeid(T);
 				});
 		}
+		#pragma endregion
 
+	#pragma region parenting
+	public:
+		inline virtual void Update(Matrix4x4 view_matrix, Matrix4x4 projection_matrix) {
+			cc.m_world = this->m_transform.GetTransformationMatrix();
+			auto parent = (Entity*)ParentingManager::get().GetParent(this);
+			auto child = this;
+
+			while (parent != nullptr) {
+				cc.m_world *= parent->m_transform.GetTransformationMatrix();
+				child = parent;
+				parent = parent = (Entity*)ParentingManager::get().GetParent(child);
+			}
+
+			cc.hasTex = false;
+			cc.isRandom = true;
+			cc.m_angle = EngineTime::deltaTime();
+			cc.m_proj = projection_matrix;
+			cc.m_view = view_matrix;
+			cc.m_color = Vector3D();
+		}
+
+		inline void OnUnparent() override {
+
+			auto descendant = this;
+			auto ancestry = (Entity*)ParentingManager::get().GetParent(descendant);
+			Matrix4x4 ancestry_matrix = m_transform.GetTransformationMatrix();
+
+			while (ancestry != nullptr) {
+				ancestry_matrix *= ancestry->m_transform.GetTransformationMatrix();
+				descendant = ancestry;
+				ancestry = (Entity*)ParentingManager::get().GetParent(descendant);
+			}
+
+			auto mat = ancestry_matrix.m_mat;
+
+			m_transform.m_translation = Vector3D(mat[3][0], mat[3][1], mat[3][2]);
+
+			auto row_1 = Vector3D(mat[0][0], mat[0][1], mat[0][2]);
+			auto row_2 = Vector3D(mat[1][0], mat[1][1], mat[1][2]);
+			auto row_3 = Vector3D(mat[2][0], mat[2][1], mat[2][2]);
+
+			auto scale = Vector3D(
+				Vector3D::magnitude(row_1),
+				Vector3D::magnitude(row_2),
+				Vector3D::magnitude(row_3)
+			);
+
+			m_transform.m_scale = scale;
+
+			float pitch, yaw, roll;
+
+			auto parent = (Entity*)ParentingManager::get().GetParent(this);
+			Entity* child = this;
+
+			pitch = m_transform.m_rotation.m_x;
+			yaw = m_transform.m_rotation.m_y;
+			roll = m_transform.m_rotation.m_z;
+
+			while (parent != nullptr) {
+				pitch += parent->m_transform.m_rotation.m_x;
+				yaw += parent->m_transform.m_rotation.m_y;
+				roll += parent->m_transform.m_rotation.m_z;
+
+				child = parent;
+				parent = parent = (Entity*)ParentingManager::get().GetParent(child);
+			}
+			m_transform.m_rotation = Vector3D(pitch, yaw, roll);
+		}
+
+	#pragma endregion
 };
