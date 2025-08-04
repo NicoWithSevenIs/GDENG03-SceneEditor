@@ -54,7 +54,7 @@ void AppWindow::OnCreate()
 	e->AddComponent<CubeRenderer>();
 }
 
-float dt = 0;
+float dt = 1;
 void AppWindow::OnUpdate()
 {
 	Window::OnUpdate();
@@ -78,7 +78,7 @@ void AppWindow::OnUpdate()
 	GameObjectManager::Draw();
 
 	dt += EngineTime::deltaTime() * 0.1f;
-	e->m_transform.m_translation = Vector3D(dt,0,0);
+	e->m_transform.m_scale = Vector3D(dt,1,1);
 
 	constant cc;
 	cc.m_angle = EngineTime::deltaTime();

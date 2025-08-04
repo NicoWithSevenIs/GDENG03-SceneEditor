@@ -34,6 +34,7 @@ class Entity: public IGUID{
 			}
 			T* component = new T();
 			components.push_back(component);
+			component->owner = this;
 			return component;
 		}
 
