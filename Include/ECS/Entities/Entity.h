@@ -1,11 +1,13 @@
 #pragma once
 #include <vector>
+#include <json/json.h>
 
 #include "ECS/Components/Component.h"
 #include "GameObject/IGUID.h"
 #include "Game Engine/EngineTime.h"
 #include "Math/Constant.h"
 #include "Math/Transform.h"
+
 class Entity: public IGUID{
 
 	public:
@@ -57,5 +59,9 @@ class Entity: public IGUID{
 				return typeid(*c) == typeid(T);
 				});
 		}
+
+		// JSON Serialization methods
+		Json::Value SerializeToJson() const;
+		void DeserializeFromJson(const Json::Value& json);
 
 };
