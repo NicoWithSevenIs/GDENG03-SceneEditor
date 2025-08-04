@@ -22,7 +22,10 @@ class Entity: public IGUID{
 
 	public:
 		inline Entity(): IGUID("Entity"), m_transform(this){}
-
+		inline void Release() {
+			for(auto c : components)
+				c->Release();
+		}
 		
 		template <typename T> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
