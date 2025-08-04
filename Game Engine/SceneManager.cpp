@@ -1,5 +1,6 @@
 #include "Scene Saving/SceneManager.hpp"
 #include "GameObject/GameObjectManager.h"
+#include "Constants/AppConstants.h"
 #include <fstream>
 #include <iostream>
 #include <filesystem>
@@ -19,6 +20,18 @@ void SceneManager::CreateNewScene(const std::string& name) {
     std::cout << "Created new scene: " << name << std::endl;
 }
 
+std::string SceneManager::GetSaveFilePath(const std::string& filename) {
+    if (!std::filesystem::exists(AppConstants::SCENE_SAVE_DIRECTORY)) {
+        std::filesystem::create_directories(AppConstants::SCENE_SAVE_DIRECTORY);
+    }
+    
+    if (filename.find(AppConstants::SCENE_SAVE_DIRECTORY) != std::string::npos) {
+        return filename;
+    }
+    
+    return AppConstants::SCENE_SAVE_DIRECTORY + "/" + filename;
+}
+
 bool SceneManager::SaveScene(const std::string& filepath) {
     if (!get().m_currentScene) {
         std::cerr << "No current scene to save!" << std::endl;
@@ -27,15 +40,16 @@ bool SceneManager::SaveScene(const std::string& filepath) {
 
     CaptureCurrentGameState();
 
+    std::string fullPath = get().GetSaveFilePath(filepath);
     Json::Value sceneJson = get().m_currentScene->SerializeToJson();
 
-    if (get().WriteJsonToFile(sceneJson, filepath)) {
-        get().m_currentScenePath = filepath;
-        std::cout << "Scene saved successfully to: " << filepath << std::endl;
+    if (get().WriteJsonToFile(sceneJson, fullPath)) {
+        get().m_currentScenePath = fullPath;
+        std::cout << "Scene saved successfully to: " << fullPath << std::endl;
         return true;
     }
     else {
-        std::cerr << "Failed to save scene to: " << filepath << std::endl;
+        std::cerr << "Failed to save scene to: " << fullPath << std::endl;
         return false;
     }
 }
@@ -50,24 +64,32 @@ bool SceneManager::SaveCurrentScene() {
 }
 
 bool SceneManager::LoadScene(const std::string& filepath) {
+    std::string fullPath = filepath;
+    
     if (!std::filesystem::exists(filepath)) {
+        fullPath = get().GetSaveFilePath(filepath);
+    }
+    
+    if (!std::filesystem::exists(fullPath)) {
         std::cerr << "Scene file does not exist: " << filepath << std::endl;
         return false;
     }
 
-    Json::Value sceneJson = get().ReadJsonFromFile(filepath);
+    Json::Value sceneJson = get().ReadJsonFromFile(fullPath);
     if (sceneJson.isNull()) {
-        std::cerr << "Failed to read scene file: " << filepath << std::endl;
+        std::cerr << "Failed to read scene file: " << fullPath << std::endl;
         return false;
     }
 
+    GameObjectManager::Release();
+
     get().m_currentScene = std::make_unique<Scene>();
     get().m_currentScene->DeserializeFromJson(sceneJson);
-    get().m_currentScenePath = filepath;
+    get().m_currentScenePath = fullPath;
 
     get().m_currentScene->LoadIntoScene();
 
-    std::cout << "Scene loaded successfully from: " << filepath << std::endl;
+    std::cout << "Scene loaded successfully from: " << fullPath << std::endl;
     return true;
 }
 

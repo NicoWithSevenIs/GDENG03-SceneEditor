@@ -204,6 +204,7 @@
     <ClInclude Include="IMGUI\imstb_truetype.h" />
     <ClInclude Include="Include\Cameras\Camera.h" />
     <ClInclude Include="Include\Cameras\PerspectiveCamera.h" />
+    <ClInclude Include="Include\Constants\AppConstants.h" />
     <ClInclude Include="Include\ECS\Components\Component.h" />
     <ClInclude Include="Include\ECS\Components\CubeRenderer.h" />
     <ClInclude Include="Include\ECS\Entities\Entity.h" />

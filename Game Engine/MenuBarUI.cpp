@@ -3,6 +3,7 @@
 #include "UI/UIManager.h"
 #include "Scene Saving/SceneManager.hpp"
 #include "Scene Saving/SceneTest.h"
+#include "Constants/AppConstants.h"
 #include <filesystem>
 
 MenuBarUI::MenuBarUI(float width, float height) {
@@ -196,11 +197,19 @@ void MenuBarUI::ShowLoadDialog() {
 
 	ImGui::Text("Suggested files:");
 	try {
-		for (const auto& entry : std::filesystem::directory_iterator(".")) {
-			if (entry.is_regular_file() && entry.path().extension() == ".json") {
-				std::string filename = entry.path().filename().string();
-				if (ImGui::Selectable(filename.c_str())) {
-					strcpy_s(scene_path_input, filename.c_str());
+		std::vector<std::string> directories = { ".", AppConstants::SCENE_SAVE_DIRECTORY };
+		
+		for (const auto& dir : directories) {
+			if (std::filesystem::exists(dir)) {
+				for (const auto& entry : std::filesystem::directory_iterator(dir)) {
+					if (entry.is_regular_file() && entry.path().extension() == ".json") {
+						std::string filename = entry.path().filename().string();
+						std::string displayName = (dir == ".") ? filename : AppConstants::SCENE_SAVE_DIRECTORY + "/" + filename;
+						
+						if (ImGui::Selectable(displayName.c_str())) {
+							strcpy_s(scene_path_input, filename.c_str());
+						}
+					}
 				}
 			}
 		}

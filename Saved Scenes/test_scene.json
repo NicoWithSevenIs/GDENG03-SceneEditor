@@ -1,0 +1,107 @@
+{
+  "entities" : [],
+  "gameobjects" : 
+  [
+    {
+      "color" : 
+      {
+        "x" : 1.0,
+        "y" : 0.0,
+        "z" : 0.0
+      },
+      "isRainbow" : true,
+      "name" : "TestCube1",
+      "parent" : null,
+      "transform" : 
+      {
+        "position" : 
+        {
+          "x" : 1.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "rotation" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "scale" : 
+        {
+          "x" : 1.0,
+          "y" : 1.0,
+          "z" : 1.0
+        }
+      },
+      "type" : "Cube"
+    },
+    {
+      "color" : 
+      {
+        "x" : 0.0,
+        "y" : 1.0,
+        "z" : 0.0
+      },
+      "isRainbow" : true,
+      "name" : "TestCube2",
+      "parent" : null,
+      "transform" : 
+      {
+        "position" : 
+        {
+          "x" : -1.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "rotation" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "scale" : 
+        {
+          "x" : 1.0,
+          "y" : 1.0,
+          "z" : 1.0
+        }
+      },
+      "type" : "Cube"
+    },
+    {
+      "color" : 
+      {
+        "x" : 0.0,
+        "y" : 0.0,
+        "z" : 1.0
+      },
+      "isRainbow" : true,
+      "name" : "TestQuad1",
+      "parent" : null,
+      "transform" : 
+      {
+        "position" : 
+        {
+          "x" : 0.0,
+          "y" : 1.0,
+          "z" : 0.0
+        },
+        "rotation" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "scale" : 
+        {
+          "x" : 2.0,
+          "y" : 2.0,
+          "z" : 1.0
+        }
+      },
+      "type" : "Quad"
+    }
+  ],
+  "scene_name" : "Test Scene",
+  "version" : "1.0"
+}

@@ -20,6 +20,7 @@ namespace DX3D {
     private:
         bool WriteJsonToFile(const Json::Value& json, const std::string& filepath);
         Json::Value ReadJsonFromFile(const std::string& filepath);
+        std::string GetSaveFilePath(const std::string& filename);
 
     public:
         static void CreateNewScene(const std::string& name = "NewScene");

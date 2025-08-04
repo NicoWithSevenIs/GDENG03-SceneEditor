@@ -1,5 +1,7 @@
 #include "Scene Saving/Scene.hpp"
 #include "GameObject/GameObject.h"
+#include "GameObject/Cube.h"
+#include "GameObject/Quad.h"
 #include "GameObject/GameObjectManager.h"
 #include "GameObject/ParentingManager.h"
 #include "ECS/Entities/Entity.h"
@@ -8,6 +10,7 @@
 #include "Math/Transform.h"
 #include <iostream>
 #include <algorithm>
+#include <typeinfo>
 
 using namespace DX3D;
 
@@ -24,22 +27,13 @@ void Scene::CaptureCurrentScene() {
     Clear();
 
     std::vector<GameObject*> gameObjects = GameObjectManager::get_all();
-    for (GameObject* obj : gameObjects) {
-        m_gameObjects.push_back(obj);
-    }
-
-    std::cout << "Captured " << m_gameObjects.size() << " GameObjects" << std::endl;
+    std::cout << "Captured " << gameObjects.size() << " GameObjects" << std::endl;
 }
 
 void Scene::LoadIntoScene() {
-    GameObjectManager::Release();
-
-    for (GameObject* obj : m_gameObjects) {
-        GameObject* parent = static_cast<GameObject*>(ParentingManager::get().GetParent(obj));
-        GameObjectManager::AddObject(obj, parent);
-    }
-
-    std::cout << "Loaded " << m_gameObjects.size() << " GameObjects into scene" << std::endl;
+    
+    std::vector<GameObject*> loadedObjects = GameObjectManager::get_all();
+    std::cout << "Scene loaded with " << loadedObjects.size() << " GameObjects" << std::endl;
 }
 
 void Scene::Clear() {
@@ -53,7 +47,8 @@ Json::Value Scene::SerializeToJson() {
     root["version"] = "1.0";
 
     Json::Value gameObjectsArray(Json::arrayValue);
-    for (GameObject* obj : m_gameObjects) {
+    std::vector<GameObject*> currentObjects = GameObjectManager::get_all();
+    for (GameObject* obj : currentObjects) {
         gameObjectsArray.append(SerializeGameObject(obj));
     }
     root["gameobjects"] = gameObjectsArray;
@@ -104,7 +99,15 @@ Json::Value Scene::SerializeGameObject(GameObject* gameObject) {
         obj["parent"] = Json::nullValue;
     }
 
-    obj["type"] = "GameObject";
+    if (dynamic_cast<Cube*>(gameObject)) {
+        obj["type"] = "Cube";
+    }
+    else if (dynamic_cast<Quad*>(gameObject)) {
+        obj["type"] = "Quad";
+    }
+    else {
+        obj["type"] = "GameObject";
+    }
 
     return obj;
 }
@@ -144,13 +147,24 @@ Json::Value Scene::SerializeVector3D(const Vector3D& vector) {
 
 void Scene::DeserializeGameObject(const Json::Value& json) {
     std::string name = json["name"].asString();
-    std::string type = json.get("type", "Cube").asString();
+    std::string type = json.get("type", "GameObject").asString();
 
     if (type == "Cube") {
         GameObjectManager::MakeCube(name);
     }
     else if (type == "Quad") {
         GameObjectManager::MakeQuad(name);
+    }
+    else if (type == "GameObject") {
+        if (name.find("Quad") != std::string::npos) {
+            GameObjectManager::MakeQuad(name);
+        } else {
+            GameObjectManager::MakeCube(name);
+        }
+    }
+    else {
+        std::cout << "Unknown object type: " << type << ", defaulting to Cube" << std::endl;
+        GameObjectManager::MakeCube(name);
     }
 
     std::vector<GameObject*> allObjects = GameObjectManager::get_all();
@@ -185,7 +199,10 @@ void Scene::DeserializeGameObject(const Json::Value& json) {
             createdObject->isRainbow = json["isRainbow"].asBool();
         }
 
-        m_gameObjects.push_back(createdObject);
+        std::cout << "Loaded GameObject: " << name << " (type: " << type << ")" << std::endl;
+    }
+    else {
+        std::cerr << "Failed to find created object: " << name << std::endl;
     }
 }
 

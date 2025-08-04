@@ -10,7 +10,7 @@
         "z" : 1.0
       },
       "isRainbow" : true,
-      "name" : "asdasd",
+      "name" : "CUBE A",
       "parent" : null,
       "transform" : 
       {
@@ -33,7 +33,7 @@
           "z" : 1.0
         }
       },
-      "type" : "GameObject"
+      "type" : "Cube"
     },
     {
       "color" : 
@@ -43,8 +43,8 @@
         "z" : 1.0
       },
       "isRainbow" : true,
-      "name" : "sdfdsfs",
-      "parent" : null,
+      "name" : "CUBE B",
+      "parent" : "CUBE A",
       "transform" : 
       {
         "position" : 
@@ -66,9 +66,42 @@
           "z" : 1.0
         }
       },
-      "type" : "GameObject"
+      "type" : "Cube"
+    },
+    {
+      "color" : 
+      {
+        "x" : 1.0,
+        "y" : 0.0,
+        "z" : 1.0
+      },
+      "isRainbow" : true,
+      "name" : "CUBE C",
+      "parent" : "CUBE B",
+      "transform" : 
+      {
+        "position" : 
+        {
+          "x" : 1.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "rotation" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "scale" : 
+        {
+          "x" : 1.0,
+          "y" : 1.0,
+          "z" : 1.0
+        }
+      },
+      "type" : "Cube"
     }
   ],
-  "scene_name" : "2 Cubes",
+  "scene_name" : "3 Cubes",
   "version" : "1.0"
 }
