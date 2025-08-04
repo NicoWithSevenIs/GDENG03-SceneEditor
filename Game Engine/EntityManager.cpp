@@ -4,9 +4,6 @@
 #include "ECS/Components/CubeRenderer.h"
 void EntityManager::Initialize()
 {
-	Entity *e = new Entity();
-	e->AddComponent<CubeRenderer>();
-	AddObject(e);
 }
 
 void EntityManager::Update(Matrix4x4 view_mat, Matrix4x4 proj_mat, Entity* children)
@@ -67,4 +64,9 @@ void EntityManager::DoOnAll(std::function<void(Entity*)> callback)
 std::vector<Entity*> EntityManager::get_all()
 {
 	return std::vector<Entity*>(get().m_object_list);
+}
+
+void EntityManager::ReplaceHierarchy(std::vector<Entity*> entities)
+{
+	get().m_object_list = entities;
 }

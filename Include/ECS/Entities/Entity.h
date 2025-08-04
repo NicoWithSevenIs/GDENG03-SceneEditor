@@ -40,6 +40,21 @@ class Entity: public IGUID{
 			}
 		}
 
+		inline Entity* CreateSnapshot() {
+			
+			Entity* copy = new Entity(m_name);
+			for (auto c : components) {
+				auto snapshot = c->CreateSnapshot();
+				snapshot->owner = copy;
+				copy->components.push_back(snapshot);
+			}
+			copy->m_transform.m_translation = m_transform.m_translation;
+			copy->m_transform.m_scale = m_transform.m_scale;
+			copy->m_transform.m_rotation = m_transform.m_rotation;
+
+			return copy;
+		}
+
 	#pragma region component handling	
 		template <typename T> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
@@ -146,4 +161,7 @@ class Entity: public IGUID{
 		}
 
 	#pragma endregion
+
+
+
 };

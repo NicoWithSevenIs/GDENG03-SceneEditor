@@ -187,6 +187,7 @@
     <ClInclude Include="Include\ECS\Components\CubeRenderer.h" />
     <ClInclude Include="Include\ECS\Entities\Entity.h" />
     <ClInclude Include="Include\ECS\Systems\EntityManager.h" />
+    <ClInclude Include="Include\ECS\Systems\TimelineManager.h" />
     <ClInclude Include="Include\Game Engine\EngineTime.h" />
     <ClInclude Include="Include\GameObject\IGUID.h" />
     <ClInclude Include="Include\GameObject\ParentingManager.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Include\Rendering\Texture.h" />
     <ClInclude Include="Include\Rendering\VertexBuffer.h" />
     <ClInclude Include="Include\Rendering\VertexShader.h" />
+    <ClInclude Include="Include\Snapshot\SceneSnapshot.h" />
     <ClInclude Include="Include\tiny_obj_loader.h" />
     <ClInclude Include="Include\UI\HierarchyScreen.h" />
     <ClInclude Include="Include\UI\InspectorScreen.h" />

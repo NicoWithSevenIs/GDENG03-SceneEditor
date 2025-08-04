@@ -33,5 +33,7 @@ public:
 			obj->updated = false;
 		}
 	}
+
+	static void ReplaceHierarchy(std::vector<Entity*> entities);
 };
 

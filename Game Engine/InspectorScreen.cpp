@@ -1,5 +1,5 @@
 #include "UI/InspectorScreen.h"
-
+#include "ECS/Systems/TimelineManager.h"
 InspectorScreen::InspectorScreen(float width, float height)
 {
 	this->width = width;
@@ -27,11 +27,13 @@ void InspectorScreen::draw()
 		}
 		if (prompt.selection != nullptr) {
 			ParentingManager::get().SetParent(currTrackedObject, prompt.selection);
+			TimelineManager::get().SetDirty();
 			prompt.invoker = nullptr;
 			prompt.selection = nullptr;
 		}
 		if (ParentingManager::get().hasChild(currTrackedObject) && ImGui::Button("Unparent")) {
 			ParentingManager::get().Unparent(currTrackedObject);
+			TimelineManager::get().SetDirty();
 		}
 	}
 
@@ -177,7 +179,7 @@ void InspectorScreen::applyChanges()
 	this->currTrackedObject->m_transform.m_rotation.m_y = this->m_rot_y;
 	this->currTrackedObject->m_transform.m_rotation.m_z = this->m_rot_z;
 
-
+	TimelineManager::get().SetDirty();
 }
 
 

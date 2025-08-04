@@ -15,6 +15,9 @@
 #include "Game Engine/EngineTime.h"
 #include "GameObject/ParentingManager.h"
 #include "ECS/Systems/EntityManager.h"
+#include "ECS/Systems/TimelineManager.h"
+
+#include "ECS/Components/CubeRenderer.h"
 
 AppWindow::AppWindow()
 {
@@ -45,6 +48,7 @@ void AppWindow::OnCreate()
 
 	UIManager::initialize(this->m_hwnd, GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
 	EntityManager::Initialize();
+	TimelineManager::get().CreateSnapshot();
 }
 
 
@@ -64,6 +68,8 @@ void AppWindow::OnUpdate()
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
+	
+
 	pc->Update();
 
 	EntityManager::ResetUpdatedFlags();
@@ -71,9 +77,16 @@ void AppWindow::OnUpdate()
 	EntityManager::Draw();
 
 	UIManager::draw();
+
 	this->m_swap_chain->present(true);
 
+	if (TimelineManager::get().IsDirty()) {
+		TimelineManager::get().CreateSnapshot();
+	}
+
 }
+
+
 
 void AppWindow::OnDestroy()
 {
@@ -101,6 +114,9 @@ void AppWindow::OnKillFocus()
 void AppWindow::onKeyDown(int key)
 {
 	pc->OnKeyDown(key);
+
+	if(key == VK_LCONTROL)
+		is_ctrl_held = true;
 	
 }
 
@@ -114,6 +130,19 @@ void AppWindow::onKeyUp(int key)
 
 	if (key == '2') {
 		toggle_camera_movement = true;
+	}
+
+	if (key == VK_LCONTROL)
+		is_ctrl_held = false;
+
+	if (is_ctrl_held && key == 'Z') {
+		std::cout << "Undo" << std::endl;
+		TimelineManager::get().Undo();
+	}
+
+	if (is_ctrl_held && key == 'Y') {
+		std::cout << "Redo" << std::endl;
+		TimelineManager::get().Redo();
 	}
 }
 

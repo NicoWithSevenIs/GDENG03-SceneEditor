@@ -28,6 +28,7 @@ class AppWindow : public Window, public InputListener {
 		PerspectiveCamera* pc;
 
 		bool toggle_camera_movement = true;
+		bool is_ctrl_held = false;
 
 	public:
 		AppWindow();

@@ -2,6 +2,7 @@
 #include "ECS/Systems/EntityManager.h"
 #include "UI/UIManager.h"
 #include "ECS/Components/CubeRenderer.h"
+#include "ECS/Systems/TimelineManager.h"
 MenuBarUI::MenuBarUI(float width, float height)
 {
 	this->width = width;
@@ -23,6 +24,7 @@ void MenuBarUI::draw()
 					auto e = new Entity(prompt_input);
 					e->AddComponent<CubeRenderer>();
 					EntityManager::AddObject(e);
+					TimelineManager::get().SetDirty();
 				};
 
 			}
