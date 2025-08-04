@@ -47,6 +47,7 @@ void MenuBarUI::draw()
 			}
 			ImGui::EndMenu();
 		}
+		ImGui::EndMainMenuBar();
 	}
 
 }

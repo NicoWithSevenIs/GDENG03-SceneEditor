@@ -53,8 +53,8 @@ bool Window::init()
 	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 	wc.hInstance = NULL;
-	wc.lpszClassName = L"MyWindowClass";
-	wc.lpszMenuName = L"";
+	wc.lpszClassName = "MyWindowClass";
+	wc.lpszMenuName = "";
 	wc.style = NULL;
 	wc.lpfnWndProc = &WndProc;
 
@@ -64,7 +64,7 @@ bool Window::init()
 	if (!window)
 		window = this;
 
-	this->m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"MyWindowClass", L"DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 769,
+	this->m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, "MyWindowClass", "DirectX Application", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 769,
 		NULL, NULL, NULL, NULL);
 
 	if (!this->m_hwnd)
