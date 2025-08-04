@@ -7,7 +7,10 @@
 #include "Math/Constant.h"
 #include "Math/Transform.h"
 #include "GameObject/ParentingManager.h"
-class Entity: public IGUID{
+#include "ECS/Components/Component.h"
+
+namespace SceneEditor {
+	class Entity : public IGUID {
 
 	public:
 		Transform m_transform;
@@ -15,20 +18,21 @@ class Entity: public IGUID{
 
 	protected:
 		std::vector<Component*> components;
-		
+
 
 	public:
-		inline std::vector<Component*> GetComponents() { return std::vector<Component*>(components); }
+		//inline std::vector<Component*> GetComponents() { return std::vector<Component*>(components); }
+		inline std::vector<Component*> GetComponents() { return components; }
 		inline constant GetConstant() { return cc; }
 
-	#pragma region component handling
+#pragma region component handling
 	public:
-		inline Entity(): IGUID("Entity"), m_transform(this){}
+		inline Entity() : IGUID("Entity"), m_transform(this) {}
 		inline void Release() {
-			for(auto c : components)
+			for (auto c : components)
 				c->Release();
 		}
-		
+
 		template <typename T> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
 			AddComponent()
@@ -62,9 +66,9 @@ class Entity: public IGUID{
 				return typeid(*c) == typeid(T);
 				});
 		}
-		#pragma endregion
+#pragma endregion
 
-	#pragma region parenting
+#pragma region parenting
 	public:
 		inline virtual void Update(Matrix4x4 view_matrix, Matrix4x4 projection_matrix) {
 			cc.m_world = this->m_transform.GetTransformationMatrix();
@@ -133,5 +137,6 @@ class Entity: public IGUID{
 			m_transform.m_rotation = Vector3D(pitch, yaw, roll);
 		}
 
-	#pragma endregion
-};
+#pragma endregion
+	};
+}

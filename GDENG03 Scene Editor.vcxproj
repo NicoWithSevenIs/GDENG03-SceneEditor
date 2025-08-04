@@ -175,6 +175,8 @@
     <ClCompile Include="IMGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game Engine\PhysicsSystem.cpp" />
+    <ClCompile Include="Game Engine\PhysicsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IMGUI\imconfig.h" />
@@ -230,6 +232,8 @@
     <ClInclude Include="Include\Utilities.h" />
     <ClInclude Include="Include\Window\AppWindow.h" />
     <ClInclude Include="Include\Window\Window.h" />
+    <ClInclude Include="Include\ECS\Systems\PhysicsSystem.h" />
+    <ClInclude Include="Include\ECS\Components\PhysicsComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

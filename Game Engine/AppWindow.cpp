@@ -15,6 +15,7 @@
 #include "Game Engine/EngineTime.h"
 #include "GameObject/ParentingManager.h"
 #include "ECS/Systems/EntityManager.h"
+#include "ECS/Systems/PhysicsSystem.h"
 
 AppWindow::AppWindow()
 {
@@ -46,7 +47,9 @@ void AppWindow::OnCreate()
 	UIManager::initialize(this->m_hwnd, GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
 	GameObjectManager::Initialize();
 
-	EntityManager::Initialize();
+	SceneEditor::EntityManager::Initialize();
+
+	PhysicsSystem::Initialize();
 }
 
 
@@ -71,8 +74,8 @@ void AppWindow::OnUpdate()
 	GameObjectManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
 	GameObjectManager::Draw();
 
-	EntityManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
-	EntityManager::Draw();
+	SceneEditor::EntityManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
+	SceneEditor::EntityManager::Draw();
 
 	UIManager::draw();
 	this->m_swap_chain->present(true);

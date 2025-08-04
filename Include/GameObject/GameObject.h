@@ -26,6 +26,8 @@
 
 #include "Math/Constant.h"
 
+using namespace SceneEditor;
+
 class GameObject: public IGUID
 {
 	public:

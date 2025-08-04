@@ -13,19 +13,22 @@
 #include <vector>
 #include <unordered_map>
 
-class EntityManager : public Singleton<EntityManager>
-{
-private:
-	std::vector<Entity*> m_object_list;
+namespace SceneEditor {
+	class EntityManager : public Singleton<EntityManager>
+	{
+	private:
+		std::vector <SceneEditor::Entity* > m_object_list;
 
-public:
-	static void Initialize();
-	static void Update(Matrix4x4 view_mat, Matrix4x4 proj_mat);
-	static void Draw();
-	static void AddObject(Entity* object, Entity* parent = nullptr);
-	static void Release();
+	public:
+		static void Initialize();
+		static void Update(Matrix4x4 view_mat, Matrix4x4 proj_mat);
+		static void Draw();
+		static void AddObject(SceneEditor::Entity* object, SceneEditor::Entity* parent = nullptr);
+		static void Release();
 
-	static void DoOnAll(std::function<void(Entity*)> callback);
-	static std::vector<Entity*> get_all();
-};
+		static void DoOnAll(std::function<void(SceneEditor::Entity*)> callback);
+		static std::vector<SceneEditor::Entity*> get_all();
+	};
+
+}
 

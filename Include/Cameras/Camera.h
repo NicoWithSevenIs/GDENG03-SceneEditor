@@ -4,7 +4,7 @@
 #include "Math/Transform.h"
 #include "GameObject/IGUID.h"
 
-
+using namespace SceneEditor;
 class Camera: public IGUID {
 
 	public:

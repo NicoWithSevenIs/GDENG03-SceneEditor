@@ -1,17 +1,31 @@
 #include "ECS/Systems/EntityManager.h"
+//#include "ECS/Systems/PhysicsSystem.h"
 #include "Utilities.h"
 
 #include "ECS/Components/CubeRenderer.h"
-void EntityManager::Initialize()
+//#include "ECS/Systems/PhysicsSystem.h"
+//class PhysicsSystem;
+
+
+namespace SE = SceneEditor;
+
+void SE::EntityManager::Initialize()
 {
-	Entity *e = new Entity();
+	SceneEditor::Entity *e = new SceneEditor::Entity();
 	e->AddComponent<CubeRenderer>();
+	//e->AddComponent<>
+	//Phy
+	
 	AddObject(e);
 }
 
-void EntityManager::Update(Matrix4x4 view_mat, Matrix4x4 proj_mat)
+void SE::EntityManager::Update(Matrix4x4 view_mat, Matrix4x4 proj_mat)
 {
 	for (auto e : get().m_object_list) {
+		//auto physics = Utilities::Where<Component*>(e->GetComponents(), [](Component* c) {return c->Type == ComponentType::PHYSICS; });
+		//for (auto p : physics)
+		//	p->Update(e->cc);
+
 		e->Update(view_mat, proj_mat);
 		auto scripts = Utilities::Where<Component*>(e->GetComponents(), [](Component* c) {return c->Type == ComponentType::SCRIPT; });
 		for (auto s : scripts)
@@ -19,7 +33,7 @@ void EntityManager::Update(Matrix4x4 view_mat, Matrix4x4 proj_mat)
 	}
 }
 
-void EntityManager::Draw()
+void SE::EntityManager::Draw()
 {
 
 	for (auto e : get().m_object_list) {
@@ -30,7 +44,7 @@ void EntityManager::Draw()
 
 }
 
-void EntityManager::AddObject(Entity* object, Entity* parent)
+void SE::EntityManager::AddObject(SceneEditor::Entity* object, SceneEditor::Entity* parent)
 {
 	for (auto i : get().m_object_list) {
 		if (object->m_name == i->m_name)
@@ -41,19 +55,19 @@ void EntityManager::AddObject(Entity* object, Entity* parent)
 	ParentingManager::get().AddObject(object, parent);
 }
 
-void EntityManager::Release()
+void SE::EntityManager::Release()
 {
 	for (auto e : get().m_object_list)
 		e->Release();
 }
 
-void EntityManager::DoOnAll(std::function<void(Entity*)> callback)
+void SE::EntityManager::DoOnAll(std::function<void(SceneEditor::Entity*)> callback)
 {
 	for (auto e : get().m_object_list)
 		callback(e);
 }
 
-std::vector<Entity*> EntityManager::get_all()
+std::vector<SE::Entity*> SE::EntityManager::get_all()
 {
-	return std::vector<Entity*>(get().m_object_list);
+	return std::vector<SE::Entity*>(get().m_object_list);
 }

@@ -6,8 +6,9 @@
 
 #include "GameObject/IGUID.h"
 
-class Transform
-{
+namespace SceneEditor {
+	class Transform
+	{
 	public:
 		Vector3D m_translation;
 		Vector3D m_scale;
@@ -21,15 +22,15 @@ class Transform
 
 
 	public:
-		Transform(IGUID* guid): m_translation(Vector3D()), m_scale(Vector3D(1,1,1)), m_rotation(Vector3D()), m_guid(guid) {}
+		Transform(IGUID* guid) : m_translation(Vector3D()), m_scale(Vector3D(1, 1, 1)), m_rotation(Vector3D()), m_guid(guid) {}
 
-		IGUID* Parent() {return m_guid;}
+		IGUID* Parent() { return m_guid; }
 
 		void BuildTransform() {
 
 			Matrix4x4 m;
 			m.SetIdentity();
-	
+
 			Matrix4x4 sm;
 			sm.SetScale(m_scale);
 			m *= sm;
@@ -54,13 +55,13 @@ class Transform
 			temp *= rm;
 
 			m *= temp;
-		
+
 
 			Matrix4x4 tm;
 			tm.SetTranslation(m_translation);
 			m *= tm;
-	
-		
+
+
 			this->m_transformation_matrix = m;
 
 		}
@@ -109,5 +110,7 @@ class Transform
 			return m;
 		}
 
-};
+	};
+
+}
 
