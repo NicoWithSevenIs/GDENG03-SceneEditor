@@ -1,4 +1,6 @@
 #pragma once
+
+#include <filesystem>
 #include "ECS/Components/Component.h"
 
 #include "Rendering/GraphicsEngine.h"
@@ -56,6 +58,8 @@ class SphereRenderer : public Component {
 		
 	private:
 		void MakeSphere(vertex* list, unsigned int* index_list);
+	public:
+		void TextureChange(std::string texture_path);
 		
 
 };

@@ -5,6 +5,7 @@
 #include "Settings.h"
 #include "ECS/Systems/SceneStateManager.h"
 #include "../Include/ECS/Components/CubeRenderer.h"
+#include "../Include/ECS/Components/SphereRenderer.h"
 
 InspectorScreen::InspectorScreen(float width, float height)
 {
@@ -236,6 +237,9 @@ void InspectorScreen::changeTextures(std::string tex_name)
 	if (this->currTrackedObject != nullptr) {
 		if (this->currTrackedObject->GetComponent<CubeRenderer>() != nullptr) {
 			this->currTrackedObject->GetComponent<CubeRenderer>()->TextureChange(tex_name);
+		}
+		if (this->currTrackedObject->GetComponent<SphereRenderer>() != nullptr) {
+			this->currTrackedObject->GetComponent<SphereRenderer>()->TextureChange(tex_name);
 		}
 	}
 }

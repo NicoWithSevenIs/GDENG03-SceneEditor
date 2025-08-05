@@ -117,3 +117,14 @@ void SphereRenderer::MakeSphere(vertex* list, unsigned int* index_list)
 		}
 	}
 }
+
+void SphereRenderer::TextureChange(std::string texture_path)
+{
+	if (std::filesystem::exists(texture_path)) {
+		Texture* newTexture = new Texture();
+		newTexture->load(texture_path);
+		m_tex = newTexture;
+		this->owner->cc.hasTex = true;
+	}
+	
+}
