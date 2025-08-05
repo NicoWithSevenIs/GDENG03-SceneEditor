@@ -117,6 +117,10 @@ void AppWindow::onKeyDown(int key)
 
 	if(key == VK_LCONTROL)
 		is_ctrl_held = true;
+
+	if (key == VK_LMENU) {
+		InputSystem::get()->cursorShow = true;
+	}
 	
 }
 
@@ -134,6 +138,10 @@ void AppWindow::onKeyUp(int key)
 
 	if (key == VK_LCONTROL)
 		is_ctrl_held = false;
+
+	if (key == VK_LMENU) {
+		InputSystem::get()->cursorShow = false;
+	}
 
 	if (is_ctrl_held && key == 'Z') {
 		std::cout << "Undo" << std::endl;
