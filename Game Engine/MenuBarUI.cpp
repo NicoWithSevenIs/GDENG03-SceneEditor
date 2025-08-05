@@ -1,5 +1,6 @@
+#include "ECS/Systems/PhysicsSystem.h"
 #include "UI/MenuBarUI.h"
-#include "ECS/Systems/EntityManager.h"
+//#include "ECS/Systems/EntityManager.h"
 #include "UI/UIManager.h"
 #include "UI/DebugWindow.h"
 #include "ECS/Components/CubeRenderer.h"
@@ -8,6 +9,7 @@
 #include "ECS/Components/CylinderRenderer.h"
 #include "ECS/Components/MeshRenderer.h"
 #include "ECS/Systems/TimelineManager.h"
+
 MenuBarUI::MenuBarUI(float width, float height)
 {
 	this->width = width;
@@ -29,6 +31,9 @@ void MenuBarUI::draw()
 					auto e = new Entity(prompt_input);
 					e->cc.hasTex = false;
 					e->AddComponent<CubeRenderer>();
+					PhysicsComponent* p6Component = e->AddComponent<PhysicsComponent>(reactphysics3d::BodyType::DYNAMIC);
+					//e->AddComponent<PhysicsComponent>();
+					PhysicsSystem::AddPhysicsComponent(p6Component);
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
 				};

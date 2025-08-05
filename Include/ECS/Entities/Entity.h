@@ -56,16 +56,18 @@ class Entity: public IGUID{
 		}
 
 	#pragma region component handling	
-		template <typename T> inline
+		template <typename T, typename... Args> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
-			AddComponent()
+			AddComponent(Args&&... args)
 		{
 			for (auto c : components) {
 				if (typeid(*c) == typeid(T))
 					return nullptr;
 			}
-			T* component = new T(this);
+			T* component = new T(std::forward<Args>(args)...);
+			component->owner = this;
 			components.push_back(component);
+			component->Init();
 			return component;
 		}
 

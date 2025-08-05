@@ -1,3 +1,5 @@
+//#define NOMINMAX
+#include "ECS/Systems/PhysicsSystem.h"		
 #include "Window/AppWindow.h"
 #include <Windows.h>
 
@@ -13,6 +15,7 @@
 #include <corecrt_math_defines.h>
 
 #include "Game Engine/EngineTime.h"
+//#include "ECS/Systems/PhysicsSystem.h"
 #include "GameObject/ParentingManager.h"
 #include "ECS/Systems/EntityManager.h"
 #include "ECS/Systems/TimelineManager.h"
@@ -55,6 +58,7 @@ void AppWindow::OnCreate()
 	UIManager::initialize(this->m_hwnd, GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
 	EntityManager::Initialize();
 	TimelineManager::get().CreateSnapshot();
+	PhysicsSystem::Initialize();
 
 	//Setting Callbacks
 	InitializeSceneStateCallbacks();
@@ -89,6 +93,7 @@ void AppWindow::InitializeSceneStateCallbacks()
 	};
 
 	SceneStateManager::get().UpdateCallbacks[SceneState::PLAY] = [this]() {
+		PhysicsSystem::UpdateAllPhysicsComponents();
 		player_camera->Update();
 		EntityManager::ResetUpdatedFlags();
 		EntityManager::Update(player_camera->GetViewMatrix(), player_camera->GetProjectionMatrix());
@@ -117,7 +122,6 @@ void AppWindow::OnUpdate()
 	float height = rc.bottom - rc.top;
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
-
 
 	SceneStateManager::get().Update();
 	UIManager::draw();

@@ -23,5 +23,6 @@ class Component
 
 		virtual void Update(constant c) = 0;
 		virtual void Release() = 0;
+		virtual void Init() {}
 };
 
