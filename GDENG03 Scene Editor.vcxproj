@@ -176,9 +176,6 @@
     <ClCompile Include="Include\ECS\Components\MeshRenderer.cpp" />
     <ClCompile Include="Include\ECS\Components\SphereRenderer.cpp" />
     <ClCompile Include="Game Engine\SceneStateUI.cpp" />
-    <ClCompile Include="Include\ECS\Components\CylinderRenderer.cpp" />
-    <ClCompile Include="Include\ECS\Components\MeshRenderer.cpp" />
-    <ClCompile Include="Include\ECS\Components\SphereRenderer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
