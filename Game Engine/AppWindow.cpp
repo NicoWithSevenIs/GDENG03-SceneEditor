@@ -19,6 +19,8 @@
 
 #include "ECS/Components/CubeRenderer.h"
 #include "ECS/Systems/SceneStateManager.h"
+#include "UI/UIManager.h"
+#include "UI/DebugWindow.h"
 
 AppWindow::AppWindow()
 {
@@ -63,6 +65,10 @@ void AppWindow::OnCreate()
 			player_camera->m_transform.m_rotation = Vector3D();
 		}
 	};
+
+	// Test the debug console
+	std::cout << "GDENG03 Scene Editor initialized successfully!" << std::endl;
+	std::cout << "Use Window menu -> Debug Console or press 'L' key to open debug window" << std::endl;
 
 }
 
@@ -185,13 +191,21 @@ void AppWindow::onKeyUp(int key)
 	}
 
 	if (is_ctrl_held && key == 'Z') {
-		std::cout << "Undo" << std::endl;
+		std::cout << "[INFO] Undo operation performed" << std::endl;
 		TimelineManager::get().Undo();
 	}
 
 	if (is_ctrl_held && key == 'Y') {
-		std::cout << "Redo" << std::endl;
+		std::cout << "[INFO] Redo operation performed" << std::endl;
 		TimelineManager::get().Redo();
+	}
+
+	// Toggle debug console with L key
+	if (key == 'L') {
+		auto debug_window = (DebugWindow*)UIManager::get().Retrieve("debug");
+		if (debug_window) {
+			debug_window->isOpen = !debug_window->isOpen;
+		}
 	}
 }
 

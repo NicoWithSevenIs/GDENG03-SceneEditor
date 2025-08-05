@@ -50,9 +50,11 @@ class SphereRenderer : public Component {
 			this->m_cb->release();
 			delete this;
 		}
-	private:
+		
 		void Load();
 		void Draw();
+		
+	private:
 		void MakeSphere(vertex* list, unsigned int* index_list);
 		
 
