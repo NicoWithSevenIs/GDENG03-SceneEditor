@@ -2,6 +2,7 @@
 #include "Utilities.h"
 
 #include "ECS/Components/CubeRenderer.h"
+#include "ECS/Systems/SceneStateManager.h"
 void EntityManager::Initialize()
 {
 }
@@ -14,9 +15,14 @@ void EntityManager::Update(Matrix4x4 view_mat, Matrix4x4 proj_mat, Entity* child
 		auto e = (Entity*)entity;
 		if (!e->enabled) continue;
 		e->Update(view_mat, proj_mat);
-		auto scripts = Utilities::Where<Component*>(e->GetComponents(), [](Component* c) {return c->Type == ComponentType::SCRIPT; });
-		for (auto s : scripts)
-			s->Update(e->cc);
+
+		if (SceneStateManager::get().CurrentState() != SceneState::EDIT) {
+			auto updatables = Utilities::Where<Component*>(e->GetComponents(), 
+				[](Component* c) {return c->Type == ComponentType::SCRIPT || c->Type == ComponentType::PHYSICS; });
+			for (auto u : updatables)
+				u->Update(e->cc);
+		}
+		
 		e->updated = true;
 		Update(view_mat, proj_mat, e);
 	}

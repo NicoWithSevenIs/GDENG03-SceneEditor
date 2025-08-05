@@ -10,6 +10,7 @@
 #include "UI/HierarchyScreen.h"
 #include "UI/InspectorScreen.h"
 #include "UI/MenuBarUI.h"
+#include "UI/SceneStateUI.h"
 
 class UIManager : public Singleton<UIManager>, public IMediator<UIScreen>
 {
