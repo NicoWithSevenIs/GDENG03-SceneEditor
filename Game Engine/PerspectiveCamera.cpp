@@ -25,7 +25,7 @@ void PerspectiveCamera::Update()
 }
 
 void PerspectiveCamera::OnKeyDown(int key)
-{
+{   //this will be processed via keyboard press or input.//
 	switch (key) {
 		case 'W': dir = 1.f; break; //FORWARD CAMERA MOVEMENT
 		case 'S': dir = -1.f;  break; //BACKWARD CAMERA MOVEMENT
@@ -58,6 +58,7 @@ void PerspectiveCamera::OnKeyUp(int key)
 
 void PerspectiveCamera::OnMouseMove(float x, float y)
 {
+	//this will be processed via mouse movement.//
 	//MOUSE CAMERA MOVEMENT
 	xRot -= y * EngineTime::deltaTime() * 0.1f;
 	yRot -= x * EngineTime::deltaTime() * 0.1f;
