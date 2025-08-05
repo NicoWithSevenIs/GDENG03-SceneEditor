@@ -32,6 +32,9 @@ class CubeRenderer : public Component {
 			m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 			Draw();
 		}
+		inline Component* CreateSnapshot() override {
+			return new CubeRenderer();
+		}
 		inline void Release() override {
 			this->m_ib->release();
 			this->m_vb->release();

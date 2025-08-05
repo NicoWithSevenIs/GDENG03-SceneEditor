@@ -7,7 +7,7 @@
 #include "UI/UIScreen.h"
 #include "UI/ReparentPromptScreen.h"
 
-#include "GameObject/GameObject.h"
+#include "ECS/Entities/Entity.h"
 #include "GameObject/ParentingManager.h"
 
 
@@ -34,7 +34,7 @@ class InspectorScreen : public UIScreen
 		IGUID* getParentGUID(std::string name);
 
 	public:
-		GameObject* currTrackedObject;
+		Entity* currTrackedObject;
 		ReparentPromptScreen prompt;
 
 	public:
@@ -50,6 +50,8 @@ class InspectorScreen : public UIScreen
 		float m_rot_y = 0.0f;
 		float m_rot_z = 0.0f;
 
-		std::string m_tracked_name;
+		bool enabled = true;
+
+		std::string m_tracked_name = "";
 };
 

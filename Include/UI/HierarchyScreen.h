@@ -4,8 +4,8 @@
 #include "unordered_map"
 #include "string"
 
-#include "GameObject/GameObject.h"
-#include "GameObject/GameObjectManager.h"
+#include "ECS/Entities/Entity.h"
+#include "ECS/Systems/EntityManager.h"
 #include "UI/UIScreen.h"
 
 #include <vector>
@@ -21,9 +21,7 @@ class HierarchyScreen : public UIScreen
 		virtual void draw() override;
 	
 	private:
-		void drawParents(GameObject* parent);
+		void drawParents(Entity* parent);
 
-	private:
-		std::vector<GameObject*> rendered;
 };
 

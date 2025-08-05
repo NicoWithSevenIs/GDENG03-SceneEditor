@@ -1,5 +1,6 @@
 #include "UI/InspectorScreen.h"
-
+#include "ECS/Systems/TimelineManager.h"
+#include "Utilities.h"
 InspectorScreen::InspectorScreen(float width, float height)
 {
 	this->width = width;
@@ -27,11 +28,13 @@ void InspectorScreen::draw()
 		}
 		if (prompt.selection != nullptr) {
 			ParentingManager::get().SetParent(currTrackedObject, prompt.selection);
+			TimelineManager::get().SetDirty();
 			prompt.invoker = nullptr;
 			prompt.selection = nullptr;
 		}
 		if (ParentingManager::get().hasChild(currTrackedObject) && ImGui::Button("Unparent")) {
 			ParentingManager::get().Unparent(currTrackedObject);
+			TimelineManager::get().SetDirty();
 		}
 	}
 
@@ -53,6 +56,10 @@ void InspectorScreen::drawInspector()
 	ImGui::Text("Rotation");
 	this->drawRotFields();
 
+	if (ImGui::Checkbox("Enabled", &this->enabled)) {
+		this->currTrackedObject->enabled = this->enabled;
+		TimelineManager::get().SetDirty();
+	}
 }
 
 void InspectorScreen::drawTranslateFields()
@@ -136,6 +143,10 @@ void InspectorScreen::drawRotFields()
 
 void InspectorScreen::getTrackedTransform()
 {
+	if(this->m_tracked_name == "")
+		return;
+
+	this->currTrackedObject = Utilities::Select<Entity*>(EntityManager::get_all(), [this](Entity* e){ return e->m_name == this->m_tracked_name;});
 	if (this->currTrackedObject != nullptr) {
 		this->m_translate_x = this->currTrackedObject->m_transform.m_translation.m_x;
 		this->m_translate_y = this->currTrackedObject->m_transform.m_translation.m_y;
@@ -150,11 +161,9 @@ void InspectorScreen::getTrackedTransform()
 		this->m_rot_z = this->currTrackedObject->m_transform.m_rotation.m_z;
 
 		this->m_tracked_name = this->currTrackedObject->m_name.c_str();
+		this->enabled =  this->currTrackedObject->enabled;
 	}
-	else {
-		std::string name = "NONE";
-		this->m_tracked_name = name;
-	}
+
 }
 
 void InspectorScreen::applyChanges()
@@ -173,6 +182,7 @@ void InspectorScreen::applyChanges()
 	this->currTrackedObject->m_transform.m_rotation.m_y = this->m_rot_y;
 	this->currTrackedObject->m_transform.m_rotation.m_z = this->m_rot_z;
 
+	TimelineManager::get().SetDirty();
 }
 
 

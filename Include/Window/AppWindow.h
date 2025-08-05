@@ -14,10 +14,6 @@
 #include "Rendering/IndexBuffer.h"
 #include "Input/InputListener.h"
 
-#include "GameObject/GameObjectManager.h"
-#include "GameObject/Cube.h"
-#include "GameObject/Quad.h"
-
 #include "Cameras/PerspectiveCamera.h"
 
 #include "UI/UIManager.h"
@@ -27,11 +23,10 @@
 
 class AppWindow : public Window, public InputListener {
 
-private:
 	SwapChain* m_swap_chain;
 	PerspectiveCamera* pc;
-
 	bool toggle_camera_movement = true;
+	bool is_ctrl_held = false;
 
 public:
 	AppWindow();
