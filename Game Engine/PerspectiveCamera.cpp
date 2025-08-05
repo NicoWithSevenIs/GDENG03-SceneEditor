@@ -27,17 +27,20 @@ void PerspectiveCamera::Update()
 void PerspectiveCamera::OnKeyDown(int key)
 {
 	switch (key) {
-		case 'W': dir = 1.f; break;
-		case 'S': dir = -1.f;  break;
+		case 'W': dir = 1.f; break; //FORWARD CAMERA MOVEMENT
+		case 'S': dir = -1.f;  break; //BACKWARD CAMERA MOVEMENT
 
-		case 'A': r = -1.f; break;
-		case 'D': r = 1.f;  break;
+		case 'A': r = -1.f; break; //LEFT CAMERA MOVEMENT
+		case 'D': r = 1.f;  break; // RIGHT CAMERA MOVEMENT
 
-		case 'Q': up = -1.f; break;
-		case 'E':  up = 1.f;  break;
+		case 'Q': up = -1.f; break; //DOWNWARD MOVEMENT
+		case 'E':  up = 1.f;  break; //UPWARD MOVEMENT
 
-		case 'P': xRot -= EngineTime::deltaTime() * 0.5f; break;
-		case 'O':  up = 1.f;  break;
+		case 'B': xRot -= EngineTime::deltaTime() * 0.5f; break; //ROTATE DOWN
+		case 'V': xRot += EngineTime::deltaTime() * 0.5f; break; //ROTATE UP
+
+		case 'M': yRot -= EngineTime::deltaTime() * 0.5f; break; //ROTATE LEFT
+		case 'N': yRot += EngineTime::deltaTime() * 0.5f; break; //ROTATE RIGHT
 	}
 }
 
@@ -55,6 +58,7 @@ void PerspectiveCamera::OnKeyUp(int key)
 
 void PerspectiveCamera::OnMouseMove(float x, float y)
 {
+	//MOUSE CAMERA MOVEMENT
 	xRot -= y * EngineTime::deltaTime() * 0.1f;
 	yRot -= x * EngineTime::deltaTime() * 0.1f;
 }
