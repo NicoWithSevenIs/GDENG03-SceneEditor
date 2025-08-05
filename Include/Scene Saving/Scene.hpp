@@ -7,6 +7,7 @@ class GameObject;
 class Entity;
 class Transform;
 class Vector3D;
+class Component;
 
 namespace DX3D {
     class Scene {
@@ -27,10 +28,13 @@ namespace DX3D {
         Json::Value SerializeEntity(Entity* entity);
         Json::Value SerializeTransform(const Transform& transform);
         Json::Value SerializeVector3D(const Vector3D& vector);
+        Json::Value SerializeComponent(Component* component);
 
         void DeserializeGameObject(const Json::Value& json);
         void DeserializeEntity(const Json::Value& json);
+        void DeserializeComponent(const Json::Value& json, Entity* entity);
         void RestoreParentRelationship(const Json::Value& json);
+        void RestoreEntityParentRelationship(const Json::Value& json);
         Vector3D DeserializeVector3D(const Json::Value& json);
 
     public:

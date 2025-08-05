@@ -1,23 +1,22 @@
 {
-  "entities" : [],
-  "gameobjects" : 
+  "entities" : 
   [
     {
-      "color" : 
-      {
-        "x" : 1.0,
-        "y" : 0.0,
-        "z" : 1.0
-      },
-      "isRainbow" : true,
-      "name" : "CUBE A",
+      "components" : 
+      [
+        {
+          "type" : "CubeRenderer"
+        }
+      ],
+      "enabled" : true,
+      "name" : "A",
       "parent" : null,
       "transform" : 
       {
         "position" : 
         {
           "x" : 0.0,
-          "y" : 3.0,
+          "y" : 0.0,
           "z" : 0.0
         },
         "rotation" : 
@@ -32,19 +31,18 @@
           "y" : 1.0,
           "z" : 1.0
         }
-      },
-      "type" : "Cube"
+      }
     },
     {
-      "color" : 
-      {
-        "x" : 1.0,
-        "y" : 0.0,
-        "z" : 1.0
-      },
-      "isRainbow" : true,
-      "name" : "CUBE B",
-      "parent" : "CUBE A",
+      "components" : 
+      [
+        {
+          "type" : "CubeRenderer"
+        }
+      ],
+      "enabled" : true,
+      "name" : "B",
+      "parent" : "A",
       "transform" : 
       {
         "position" : 
@@ -65,25 +63,24 @@
           "y" : 1.0,
           "z" : 1.0
         }
-      },
-      "type" : "Cube"
+      }
     },
     {
-      "color" : 
-      {
-        "x" : 1.0,
-        "y" : 0.0,
-        "z" : 1.0
-      },
-      "isRainbow" : true,
-      "name" : "CUBE C",
-      "parent" : "CUBE B",
+      "components" : 
+      [
+        {
+          "type" : "CubeRenderer"
+        }
+      ],
+      "enabled" : true,
+      "name" : "C",
+      "parent" : "B",
       "transform" : 
       {
         "position" : 
         {
-          "x" : 1.0,
-          "y" : 0.0,
+          "x" : 0.0,
+          "y" : 1.0,
           "z" : 0.0
         },
         "rotation" : 
@@ -98,10 +95,10 @@
           "y" : 1.0,
           "z" : 1.0
         }
-      },
-      "type" : "Cube"
+      }
     }
   ],
-  "scene_name" : "3 Cubes",
+  "gameobjects" : [],
+  "scene_name" : "ABC",
   "version" : "1.0"
 }

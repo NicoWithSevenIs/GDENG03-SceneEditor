@@ -6,6 +6,8 @@
 #include "GameObject/ParentingManager.h"
 #include "ECS/Entities/Entity.h"
 #include "ECS/Components/Component.h"
+#include "ECS/Components/CubeRenderer.h"
+#include "ECS/Systems/EntityManager.h"
 #include "Math/Vector3D.h"
 #include "Math/Transform.h"
 #include <iostream>
@@ -26,14 +28,23 @@ Scene::~Scene() {
 void Scene::CaptureCurrentScene() {
     Clear();
 
+    // Capture GameObjects
     std::vector<GameObject*> gameObjects = GameObjectManager::get_all();
     std::cout << "Captured " << gameObjects.size() << " GameObjects" << std::endl;
+
+    // Capture ECS Entities
+    std::vector<Entity*> entities = EntityManager::get_all();
+    for (Entity* entity : entities) {
+        m_entities.push_back(entity);
+    }
+    std::cout << "Captured " << entities.size() << " ECS Entities" << std::endl;
 }
 
 void Scene::LoadIntoScene() {
-    
     std::vector<GameObject*> loadedObjects = GameObjectManager::get_all();
-    std::cout << "Scene loaded with " << loadedObjects.size() << " GameObjects" << std::endl;
+    std::vector<Entity*> loadedEntities = EntityManager::get_all();
+    std::cout << "Scene loaded with " << loadedObjects.size() << " GameObjects and " 
+              << loadedEntities.size() << " ECS Entities" << std::endl;
 }
 
 void Scene::Clear() {
@@ -46,6 +57,7 @@ Json::Value Scene::SerializeToJson() {
     root["scene_name"] = m_sceneName;
     root["version"] = "1.0";
 
+    // Serialize GameObjects
     Json::Value gameObjectsArray(Json::arrayValue);
     std::vector<GameObject*> currentObjects = GameObjectManager::get_all();
     for (GameObject* obj : currentObjects) {
@@ -53,8 +65,10 @@ Json::Value Scene::SerializeToJson() {
     }
     root["gameobjects"] = gameObjectsArray;
 
+    // Serialize ECS Entities
     Json::Value entitiesArray(Json::arrayValue);
-    for (Entity* entity : m_entities) {
+    std::vector<Entity*> currentEntities = EntityManager::get_all();
+    for (Entity* entity : currentEntities) {
         entitiesArray.append(SerializeEntity(entity));
     }
     root["entities"] = entitiesArray;
@@ -84,8 +98,14 @@ void Scene::DeserializeFromJson(const Json::Value& json) {
 
     if (json.isMember("entities")) {
         const Json::Value& entities = json["entities"];
+        // First pass: Create all entities
         for (const Json::Value& entityJson : entities) {
             DeserializeEntity(entityJson);
+        }
+        
+        // Second pass: Restore entity parent relationships
+        for (const Json::Value& entityJson : entities) {
+            RestoreEntityParentRelationship(entityJson);
         }
     }
 }
@@ -121,14 +141,24 @@ Json::Value Scene::SerializeGameObject(GameObject* gameObject) {
 Json::Value Scene::SerializeEntity(Entity* entity) {
     Json::Value obj;
     obj["name"] = entity->m_name;
+    obj["enabled"] = entity->enabled;
+    
+    // Transform data
     obj["transform"] = SerializeTransform(entity->m_transform);
+    
+    // Parent information
+    Entity* parent = static_cast<Entity*>(ParentingManager::get().GetParent(entity));
+    if (parent != nullptr) {
+        obj["parent"] = parent->m_name;
+    } else {
+        obj["parent"] = Json::nullValue;
+    }
 
+    // Components
     Json::Value componentsArray(Json::arrayValue);
     std::vector<Component*> components = entity->GetComponents();
     for (Component* component : components) {
-        Json::Value compObj;
-        compObj["type"] = static_cast<int>(component->Type);
-        componentsArray.append(compObj);
+        componentsArray.append(SerializeComponent(component));
     }
     obj["components"] = componentsArray;
 
@@ -149,6 +179,23 @@ Json::Value Scene::SerializeVector3D(const Vector3D& vector) {
     vecObj["y"] = vector.m_y;
     vecObj["z"] = vector.m_z;
     return vecObj;
+}
+
+Json::Value Scene::SerializeComponent(Component* component) {
+    Json::Value compObj;
+    
+    // Check component type and serialize accordingly
+    if (CubeRenderer* cubeRenderer = dynamic_cast<CubeRenderer*>(component)) {
+        compObj["type"] = "CubeRenderer";
+        // Add any CubeRenderer-specific properties here
+        // For now, just store the type as CubeRenderer may not have additional serializable data
+    }
+    // Add other component types as needed
+    else {
+        compObj["type"] = "Unknown";
+    }
+    
+    return compObj;
 }
 
 void Scene::DeserializeGameObject(const Json::Value& json) {
@@ -217,6 +264,11 @@ void Scene::DeserializeEntity(const Json::Value& json) {
     Entity* entity = new Entity();
     entity->m_name = name;
 
+    // Restore enabled state
+    if (json.isMember("enabled")) {
+        entity->enabled = json["enabled"].asBool();
+    }
+
     if (json.isMember("transform")) {
         const Json::Value& transformJson = json["transform"];
 
@@ -231,13 +283,18 @@ void Scene::DeserializeEntity(const Json::Value& json) {
         }
     }
 
+    // Deserialize components
     if (json.isMember("components")) {
         const Json::Value& components = json["components"];
         for (const Json::Value& compJson : components) {
+            DeserializeComponent(compJson, entity);
         }
     }
 
-    m_entities.push_back(entity);
+    // Register entity with EntityManager
+    EntityManager::AddObject(entity);
+    
+    std::cout << "Loaded Entity: " << name << std::endl;
 }
 
 void Scene::RestoreParentRelationship(const Json::Value& json) {
@@ -272,6 +329,24 @@ void Scene::RestoreParentRelationship(const Json::Value& json) {
     }
 }
 
+void Scene::DeserializeComponent(const Json::Value& json, Entity* entity) {
+    if (!json.isMember("type")) {
+        return;
+    }
+    
+    std::string componentType = json["type"].asString();
+    
+    if (componentType == "CubeRenderer") {
+        // Create and add CubeRenderer component
+        entity->AddComponent<CubeRenderer>();
+        std::cout << "Added CubeRenderer component to entity: " << entity->m_name << std::endl;
+    }
+    // Add other component types as needed
+    else {
+        std::cout << "Unknown component type: " << componentType << std::endl;
+    }
+}
+
 Vector3D Scene::DeserializeVector3D(const Json::Value& json) {
     Vector3D vector;
     vector.m_x = json.get("x", 0.0f).asFloat();
@@ -299,6 +374,43 @@ void Scene::RemoveEntity(Entity* entity) {
     auto it = std::find(m_entities.begin(), m_entities.end(), entity);
     if (it != m_entities.end()) {
         m_entities.erase(it);
+    }
+}
+
+void Scene::RestoreEntityParentRelationship(const Json::Value& json) {
+    std::string childName = json["name"].asString();
+    
+    if (json.isMember("parent") && !json["parent"].isNull()) {
+        std::string parentName = json["parent"].asString();
+        
+        // Find the child and parent entities in EntityManager
+        std::vector<Entity*> allEntities = EntityManager::get_all();
+        Entity* childEntity = nullptr;
+        Entity* parentEntity = nullptr;
+        
+        for (Entity* entity : allEntities) {
+            if (entity->m_name == childName) {
+                childEntity = entity;
+            }
+            if (entity->m_name == parentName) {
+                parentEntity = entity;
+            }
+            
+            if (childEntity && parentEntity) {
+                break;
+            }
+        }
+        
+        // Establish the parent-child relationship if both entities exist
+        if (childEntity && parentEntity) {
+            // Use ParentingManager to establish relationship
+            ParentingManager::get().AddObject(childEntity, parentEntity);
+            std::cout << "Restored entity parent relationship: " << childName << " -> " << parentName << std::endl;
+        }
+        else {
+            std::cerr << "Failed to restore entity parent relationship for " << childName 
+                      << " (parent: " << parentName << ")" << std::endl;
+        }
     }
 }
 

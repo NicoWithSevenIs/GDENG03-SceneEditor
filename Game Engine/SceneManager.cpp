@@ -1,5 +1,6 @@
 #include "Scene Saving/SceneManager.hpp"
 #include "GameObject/GameObjectManager.h"
+#include "ECS/Systems/EntityManager.h"
 #include "Constants/AppConstants.h"
 #include <fstream>
 #include <iostream>
@@ -82,6 +83,9 @@ bool SceneManager::LoadScene(const std::string& filepath) {
     }
 
     GameObjectManager::Release();
+    
+    // Clear EntityManager as well
+    EntityManager::Release();
 
     get().m_currentScene = std::make_unique<Scene>();
     get().m_currentScene->DeserializeFromJson(sceneJson);
@@ -98,6 +102,10 @@ void SceneManager::ClearCurrentScene() {
         get().m_currentScene->Clear();
     }
     GameObjectManager::Release();
+    
+    // Clear EntityManager as well
+    EntityManager::Release();
+    
     std::cout << "Current scene cleared" << std::endl;
 }
 
