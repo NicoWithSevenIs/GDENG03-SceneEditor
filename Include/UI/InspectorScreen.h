@@ -23,6 +23,7 @@ class InspectorScreen : public UIScreen
 		void drawTranslateFields();
 		void drawScaleFields();
 		void drawRotFields();
+		void drawPhysicsComponent();
 
 		void getTrackedTransform();
 		void applyChanges();
@@ -51,6 +52,8 @@ class InspectorScreen : public UIScreen
 		float m_rot_z = 0.0f;
 
 		bool enabled = true;
+		bool hasRB = false;
+		int rbItem = 0;
 
 		std::string m_tracked_name = "";
 };

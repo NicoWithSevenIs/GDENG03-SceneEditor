@@ -25,9 +25,6 @@ void MenuBarUI::draw()
 					if(prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
 					e->AddComponent<CubeRenderer>();
-					PhysicsComponent* p6Component = e->AddComponent<PhysicsComponent>(reactphysics3d::BodyType::DYNAMIC);
-					//e->AddComponent<PhysicsComponent>();
-					PhysicsSystem::AddPhysicsComponent(p6Component);
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
 				};
