@@ -25,11 +25,11 @@ std::string SceneManager::GetSaveFilePath(const std::string& filename) {
     if (!std::filesystem::exists(AppConstants::SCENE_SAVE_DIRECTORY)) {
         std::filesystem::create_directories(AppConstants::SCENE_SAVE_DIRECTORY);
     }
-    
+
     if (filename.find(AppConstants::SCENE_SAVE_DIRECTORY) != std::string::npos) {
         return filename;
     }
-    
+
     return AppConstants::SCENE_SAVE_DIRECTORY + "/" + filename;
 }
 
@@ -66,11 +66,11 @@ bool SceneManager::SaveCurrentScene() {
 
 bool SceneManager::LoadScene(const std::string& filepath) {
     std::string fullPath = filepath;
-    
+
     if (!std::filesystem::exists(filepath)) {
         fullPath = get().GetSaveFilePath(filepath);
     }
-    
+
     if (!std::filesystem::exists(fullPath)) {
         std::cerr << "Scene file does not exist: " << filepath << std::endl;
         return false;
@@ -83,7 +83,7 @@ bool SceneManager::LoadScene(const std::string& filepath) {
     }
 
     GameObjectManager::Release();
-    
+
     // Clear EntityManager as well
     EntityManager::Release();
 
@@ -102,10 +102,10 @@ void SceneManager::ClearCurrentScene() {
         get().m_currentScene->Clear();
     }
     GameObjectManager::Release();
-    
+
     // Clear EntityManager as well
     EntityManager::Release();
-    
+
     std::cout << "Current scene cleared" << std::endl;
 }
 
