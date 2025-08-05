@@ -26,6 +26,7 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if(prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
+					e->cc.hasTex = false;
 					e->AddComponent<CubeRenderer>();
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
@@ -36,6 +37,7 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
+					e->cc.hasTex = true;
 					e->AddComponent<QuadRenderer>();
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
@@ -45,6 +47,7 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
+					e->cc.hasTex = true;
 					e->AddComponent<SphereRenderer>();
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
@@ -54,6 +57,7 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
+					e->cc.hasTex = true;
 					e->AddComponent<MeshRenderer>();
 					e->GetComponent<MeshRenderer>()->Load("Assets/Meshes/bunny.obj", "");
 					EntityManager::AddObject(e);
@@ -64,6 +68,7 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
+					e->cc.hasTex = true;
 					e->AddComponent<MeshRenderer>();
 					e->GetComponent<MeshRenderer>()->Load("Assets/Meshes/armadillo.obj", "");
 					EntityManager::AddObject(e);
@@ -74,6 +79,7 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
+					e->cc.hasTex = true;
 					e->AddComponent<MeshRenderer>();
 					e->GetComponent<MeshRenderer>()->Load("Assets/Meshes/lucy.obj", "");
 					EntityManager::AddObject(e);
@@ -84,6 +90,7 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
+					e->cc.hasTex = true;
 					e->AddComponent<MeshRenderer>();
 					e->GetComponent<MeshRenderer>()->Load("Assets/Meshes/teapot.obj","Assets/Textures/brick.png");
 					EntityManager::AddObject(e);

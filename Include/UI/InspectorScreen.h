@@ -23,7 +23,8 @@ class InspectorScreen : public UIScreen
 		void drawTranslateFields();
 		void drawScaleFields();
 		void drawRotFields();
-
+		void showTextureOptions();
+		void changeTextures(std::string tex_name);
 		void getTrackedTransform();
 		void applyChanges();
 		//void applyChanges(std::string key);

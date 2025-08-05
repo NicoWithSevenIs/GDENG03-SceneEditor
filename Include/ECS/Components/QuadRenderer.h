@@ -104,7 +104,7 @@ private:
 		GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(this->m_vs);
 		GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(this->m_ps);
 
-		if (this->isTextured) {
+		if (this->owner->cc.hasTex) {
 			GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(m_vs, m_tex);
 			GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(m_ps, m_tex);
 		}

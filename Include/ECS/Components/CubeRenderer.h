@@ -9,8 +9,9 @@
 #include "Rendering/PixelShader.h"
 #include "Rendering/ConstantBuffer.h"
 
-
 #include "Game Engine/EngineTime.h"
+
+#include "filesystem"
 
 class CubeRenderer : public Component {
 
@@ -172,7 +173,7 @@ class CubeRenderer : public Component {
 			GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(this->m_vs);
 			GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(this->m_ps);
 
-			if (this->isTextured) {
+			if (this->owner->cc.hasTex) {
 				GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(m_vs, m_tex);
 				GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(m_ps, m_tex);
 			}
@@ -180,6 +181,15 @@ class CubeRenderer : public Component {
 			GraphicsEngine::get()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 			GraphicsEngine::get()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
 			GraphicsEngine::get()->getImmediateDeviceContext()->drawIndexedList(m_ib->getSizeIndexList(), 0, 0);
+		}
+	public:
+		inline void TextureChange(std::string texture_path) {
+			if (std::filesystem::exists(texture_path)) {
+				Texture* newTexture = new Texture();
+				newTexture->load(texture_path);
+				m_tex = newTexture;
+				this->owner->cc.hasTex = true;
+			}
 		}
 
 };

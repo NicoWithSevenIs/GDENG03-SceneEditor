@@ -3,6 +3,8 @@
 #include "Utilities.h"
 #include "Settings.h"
 #include "ECS/Systems/SceneStateManager.h"
+#include "../Include/ECS/Components/CubeRenderer.h"
+
 InspectorScreen::InspectorScreen(float width, float height)
 {
 	this->width = width;
@@ -42,6 +44,7 @@ void InspectorScreen::draw()
 			ParentingManager::get().Unparent(currTrackedObject);
 			TimelineManager::get().SetDirty();
 		}
+		this->showTextureOptions();
 	}
 
 	ImGui::End();
@@ -145,6 +148,37 @@ void InspectorScreen::drawRotFields()
 		this->applyChanges();
 	}
 	ImGui::PopItemWidth();
+}
+
+void InspectorScreen::showTextureOptions()
+{
+	if (ImGui::BeginMenu("Change Texture")) {
+		if (ImGui::MenuItem("Brick")) {
+			this->changeTextures("Assets/Textures/brick.png");
+		}
+		if (ImGui::MenuItem("Wood")) {
+			this->changeTextures("Assets/Textures/wood.jpg");
+		}
+		if (ImGui::MenuItem("Grass")) {
+			this->changeTextures("Assets/Textures/grass.jpg");
+		}
+		if (ImGui::MenuItem("Stars")) {
+			this->changeTextures("Assets/Textures/stars_map.jpg");
+		}
+		if (ImGui::MenuItem("Ground")) {
+			this->changeTextures("Assets/Textures/ground.jpg");
+		}
+		ImGui::EndMenu();
+	}
+}
+
+void InspectorScreen::changeTextures(std::string tex_name)
+{
+	if (this->currTrackedObject != nullptr) {
+		if (this->currTrackedObject->GetComponent<CubeRenderer>() != nullptr) {
+			this->currTrackedObject->GetComponent<CubeRenderer>()->TextureChange(tex_name);
+		}
+	}
 }
 
 void InspectorScreen::getTrackedTransform()
