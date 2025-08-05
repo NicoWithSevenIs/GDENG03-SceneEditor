@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Interfaces/Singleton.h"
+#include "Interfaces/IDirtyHandler.h"
 #include "Snapshot/SceneSnapshot.h"
 #include <deque>
 
@@ -8,12 +9,12 @@
 #include "GameObject/ParentingManager.h"
 #include <iostream>
 #include <algorithm>
-class TimelineManager : public Singleton<TimelineManager> {
+class TimelineManager : public Singleton<TimelineManager>, public IDirtyHandler {
 
 	private:
 		std::deque<SceneSnapshot*> timeline;
 		int cursor = -1;
-		bool isDirty = false;
+
 	public: 
 		const int LIMIT = 6;
 		
@@ -49,6 +50,11 @@ class TimelineManager : public Singleton<TimelineManager> {
 			std::cout << "Created Snapshot!" << std::endl;
 		}
 
+		inline void RefreshScene() {
+			ParentingManager::get().ReplaceHierarchy(timeline[cursor]->m_hierarchy);
+			EntityManager::ReplaceHierarchy(timeline[cursor]->m_entities);
+		}
+
 		inline void Undo() {
 			SetSnapshot(max(0, cursor - 1));
 			PrintTimeline();
@@ -59,15 +65,18 @@ class TimelineManager : public Singleton<TimelineManager> {
 			PrintTimeline();
 		}
 
-		inline void SetDirty() { isDirty = true;}
-		inline bool IsDirty() { return isDirty;}
+		inline void CloneScene() {
+			auto snapshot = new SceneSnapshot(EntityManager::get_all(), ParentingManager::get().GetAncestry());
+			ParentingManager::get().ReplaceHierarchy(snapshot->m_hierarchy);
+			EntityManager::ReplaceHierarchy(snapshot->m_entities);
+		}
+
 
 	private:
 		inline void SetSnapshot(int cursor_pos) {
 			if (cursor != cursor_pos) {
 				cursor = cursor_pos;
-				ParentingManager::get().ReplaceHierarchy(timeline[cursor]->m_hierarchy);
-				EntityManager::ReplaceHierarchy(timeline[cursor]->m_entities);
+				RefreshScene();
 			}
 		}
 

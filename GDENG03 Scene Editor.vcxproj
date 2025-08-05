@@ -169,6 +169,7 @@
     <ClCompile Include="Game Engine\InputSystem.cpp" />
     <ClCompile Include="Game Engine\InspectorScreen.cpp" />
     <ClCompile Include="Game Engine\MenuBarUI.cpp" />
+    <ClCompile Include="Game Engine\Mesh.cpp" />
     <ClCompile Include="Game Engine\ParentingManager.cpp" />
     <ClCompile Include="Game Engine\PerspectiveCamera.cpp" />
     <ClCompile Include="Game Engine\PixelShader.cpp" />
@@ -176,6 +177,7 @@
     <ClCompile Include="Game Engine\ReparentPromptScreen.cpp" />
     <ClCompile Include="Game Engine\Scene.cpp" />
     <ClCompile Include="Game Engine\SceneManager.cpp" />
+    <ClCompile Include="Game Engine\SceneStateManager.cpp" />
     <ClCompile Include="Game Engine\SwapChain.cpp" />
     <ClCompile Include="Game Engine\Texture.cpp" />
     <ClCompile Include="Game Engine\UIManager.cpp" />
@@ -188,6 +190,7 @@
     <ClCompile Include="IMGUI\imgui_impl_dx11.cpp" />
     <ClCompile Include="IMGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Game Engine\SceneStateUI.cpp" />
     <ClCompile Include="JsonCpp\src\json_reader.cpp" />
     <ClCompile Include="JsonCpp\src\json_value.cpp" />
     <ClCompile Include="JsonCpp\src\json_writer.cpp" />
@@ -209,12 +212,14 @@
     <ClInclude Include="Include\ECS\Components\CubeRenderer.h" />
     <ClInclude Include="Include\ECS\Entities\Entity.h" />
     <ClInclude Include="Include\ECS\Systems\EntityManager.h" />
+    <ClInclude Include="Include\ECS\Systems\SceneStateManager.h" />
     <ClInclude Include="Include\ECS\Systems\TimelineManager.h" />
     <ClInclude Include="Include\Game Engine\EngineTime.h" />
     <ClInclude Include="Include\GameObject\IGUID.h" />
     <ClInclude Include="Include\GameObject\ParentingManager.h" />
     <ClInclude Include="Include\Input\InputListener.h" />
     <ClInclude Include="Include\Input\InputSystem.h" />
+    <ClInclude Include="Include\Interfaces\IDirtyHandler.h" />
     <ClInclude Include="Include\Interfaces\IMediator.h" />
     <ClInclude Include="Include\Interfaces\Singleton.h" />
     <ClInclude Include="Include\Math\Constant.h" />
@@ -234,6 +239,7 @@
     <ClInclude Include="Include\Rendering\Texture.h" />
     <ClInclude Include="Include\Rendering\VertexBuffer.h" />
     <ClInclude Include="Include\Rendering\VertexShader.h" />
+    <ClInclude Include="Include\Settings.h" />
     <ClInclude Include="Include\Snapshot\SceneSnapshot.h" />
     <ClInclude Include="Include\Scene Saving\Scene.hpp" />
     <ClInclude Include="Include\Scene Saving\SceneManager.hpp" />
@@ -242,6 +248,7 @@
     <ClInclude Include="Include\UI\InspectorScreen.h" />
     <ClInclude Include="Include\UI\MenuBarUI.h" />
     <ClInclude Include="Include\UI\ReparentPromptScreen.h" />
+    <ClInclude Include="Include\UI\SceneStateUI.h" />
     <ClInclude Include="Include\UI\UIManager.h" />
     <ClInclude Include="Include\UI\UIScreen.h" />
     <ClInclude Include="Include\Utilities.h" />

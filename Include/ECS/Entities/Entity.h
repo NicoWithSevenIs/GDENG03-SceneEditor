@@ -27,7 +27,8 @@ public:
 	inline Entity(std::string name = "Entity") : IGUID(name), m_transform(this), enabled(true) {}
 	inline void Release() {
 		for (auto c : components)
-			c->Release();
+			if(c)
+				c->Release();
 	}
 
 	inline void SetActive(bool value) {
@@ -160,9 +161,6 @@ public:
 
 #pragma endregion
 
-
-	// JSON Serialization methods
 	Json::Value SerializeToJson() const;
 	void DeserializeFromJson(const Json::Value& json);
-
 };

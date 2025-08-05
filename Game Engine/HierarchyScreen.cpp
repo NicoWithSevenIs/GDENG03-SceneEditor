@@ -1,6 +1,7 @@
 #include "UI/HierarchyScreen.h"
 #include "UI/InspectorScreen.h"
-
+#include "Settings.h"
+#include "ECS/Systems/SceneStateManager.h"
 HierarchyScreen::HierarchyScreen(float width, float height)
 {
 	this->width = width;
@@ -14,6 +15,10 @@ HierarchyScreen::~HierarchyScreen()
 
 void HierarchyScreen::draw()
 {
+
+	if (!Settings::ShowEditorInterfaceInPlayMode && SceneStateManager::get().CurrentState() == SceneState::PLAY)
+		return;
+
 	ImGui::SetNextWindowSize(ImVec2(200, height));
 	ImGui::SetNextWindowPos(ImVec2(0, 20));
 	ImGui::Begin("Hierarchy");

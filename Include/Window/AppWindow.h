@@ -32,10 +32,11 @@ public:
 	AppWindow();
 	~AppWindow();
 
-	// Inherited via Window
-	void OnCreate() override;
-	void OnUpdate() override;
-	void OnDestroy() override;
+		// Inherited via Window
+		void OnCreate() override;
+		void InitializeSceneStateCallbacks();
+		void OnUpdate() override;
+		void OnDestroy() override;
 
 	void OnFocus() override;
 	void OnKillFocus() override;
