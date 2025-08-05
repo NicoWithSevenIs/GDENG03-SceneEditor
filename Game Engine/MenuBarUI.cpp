@@ -131,6 +131,16 @@ void MenuBarUI::draw()
 			}
 			ImGui::EndMenu();
 		}
+
+		if (ImGui::BeginMenu("Edit")) {
+			if (ImGui::MenuItem("Undo")) {
+				TimelineManager::get().Undo();
+			}
+			if (ImGui::MenuItem("Redo")) {
+				TimelineManager::get().Redo();
+			}
+			ImGui::EndMenu();
+		}
 		ImGui::EndMainMenuBar();
 	}
 

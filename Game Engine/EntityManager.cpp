@@ -57,8 +57,12 @@ void EntityManager::AddObject(Entity* object, Entity* parent)
 
 void EntityManager::Release()
 {
-	for (auto e : get().m_object_list)
+	for (auto e : get().m_object_list) {
 		e->Release();
+		delete e;
+	}
+	get().m_object_list.clear();
+	ParentingManager::get().Release();
 }
 
 void EntityManager::DoOnAll(std::function<void(Entity*)> callback)

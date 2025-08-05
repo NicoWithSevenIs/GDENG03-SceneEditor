@@ -35,13 +35,11 @@ void InputSystem::Update()
 		first = false;
 	}
 
-	if (cursorShow) {
-		this->ShowCursor(true);
-	}
-	else {
-		this->ShowCursor(false);
-		mousePos = Point(0, 0);
-	}
+	this->ShowCursor(true);
+	//else {
+	//	this->ShowCursor(false);
+	//	mousePos = Point(0, 0);
+	//}
 
 	if (current_mouse_pos.x != m_old_mouse_pos.m_x || current_mouse_pos.y != m_old_mouse_pos.m_y) {
 
