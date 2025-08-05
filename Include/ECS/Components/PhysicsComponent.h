@@ -9,14 +9,15 @@ class PhysicsSystem;
 class PhysicsComponent : public Component
 {
 	public:
-		PhysicsComponent();
+		PhysicsComponent(reactphysics3d::BodyType type);
 	
 		void Update(constant cc) override;
 		void Release() override;
+		Component* CreateSnapshot() override;
 		
 		reactphysics3d::RigidBody* GetRigidBody();
 		void SetBodyType(reactphysics3d::BodyType type);
-		void Init();
+		void Init() override;
 	private:
 		reactphysics3d::Quaternion EulerToQuaternion(Vector3D euler);
 		Vector3D QuaternionToEuler(reactphysics3d::Quaternion q);

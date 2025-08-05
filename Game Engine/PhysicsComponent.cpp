@@ -3,16 +3,20 @@
 #include "Game Engine/EngineTime.h"
 #include "ECS/Systems/PhysicsSystem.h"
 
-PhysicsComponent::PhysicsComponent() : Component(ComponentType::PHYSICS)
+PhysicsComponent::PhysicsComponent(reactphysics3d::BodyType type) : Component(ComponentType::PHYSICS)
 { 
     this->bodyType = reactphysics3d::BodyType::DYNAMIC;
     this->rigidBody = nullptr;
 	PhysicsSystem::AddPhysicsComponent(this);
-    Init();
+   // Init();
 }
 
 void PhysicsComponent::Update(constant cc)
 {
+    if (!this->rigidBody) {
+        std::cout << "rb null" << std::endl;
+    }
+
     if (this->rigidBody->getType() == reactphysics3d::BodyType::DYNAMIC) {
         reactphysics3d::Transform transform = this->rigidBody->getTransform();
         reactphysics3d::Vector3 position = transform.getPosition();
@@ -25,6 +29,16 @@ void PhysicsComponent::Update(constant cc)
 void PhysicsComponent::Release()
 {
 	PhysicsSystem::RemovePhysicsComponent(this);
+}
+
+Component* PhysicsComponent::CreateSnapshot()
+{
+    //return new PhysicsComponent(this->bodyType);
+    //auto* clone = new PhysicsComponent(this->bodyType);
+    //clone->rigidBody = PhysicsSystem::CreateRigidBody(this->owner->m_transform); // or similar
+    //return clone;
+    Init();
+    return this;
 }
 
 void PhysicsComponent::Init()
@@ -49,6 +63,8 @@ void PhysicsComponent::Init()
         this->rigidBody->updateMassPropertiesFromColliders();
         this->rigidBody->setMass(this->mass);
     }
+
+    std::cout << "rigid body created: " << this->rigidBody << std::endl;
 }
 
 reactphysics3d::RigidBody* PhysicsComponent::GetRigidBody()
