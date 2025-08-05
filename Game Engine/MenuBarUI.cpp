@@ -43,7 +43,7 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
-					e->cc.hasTex = true;
+					e->cc.hasTex = false;
 					e->AddComponent<QuadRenderer>();
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
@@ -53,11 +53,21 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
-					e->cc.hasTex = true;
+					e->cc.hasTex = false;
 					e->AddComponent<SphereRenderer>();
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
 				};
+			}
+			if (ImGui::MenuItem("Create Cylinder")) {
+				doOnPrompt = [this]() {
+					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
+					auto e = new Entity(prompt_input);
+					e->cc.hasTex = false;
+					e->AddComponent<CylinderRenderer>();
+					EntityManager::AddObject(e);
+					TimelineManager::get().SetDirty();
+					};
 			}
 			if (ImGui::MenuItem("Create Bunny")) {
 				doOnPrompt = [this]() {

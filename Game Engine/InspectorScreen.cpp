@@ -168,6 +168,10 @@ void InspectorScreen::showTextureOptions()
 		if (ImGui::MenuItem("Ground")) {
 			this->changeTextures("Assets/Textures/ground.jpg");
 		}
+		if (ImGui::MenuItem("None")) {
+			//this->changeTextures("Assets/Textures/ground.jpg");
+			this->currTrackedObject->cc.hasTex = false;
+		}
 		ImGui::EndMenu();
 	}
 }
