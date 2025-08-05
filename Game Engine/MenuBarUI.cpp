@@ -5,6 +5,7 @@
 #include "ECS/Components/QuadRenderer.h"
 #include "ECS/Components/SphereRenderer.h"
 #include "ECS/Components/CylinderRenderer.h"
+#include "ECS/Components/MeshRenderer.h"
 #include "ECS/Systems/TimelineManager.h"
 MenuBarUI::MenuBarUI(float width, float height)
 {
@@ -49,11 +50,42 @@ void MenuBarUI::draw()
 					TimelineManager::get().SetDirty();
 				};
 			}
-			if (ImGui::MenuItem("Create Cylinder")) {
+			if (ImGui::MenuItem("Create Bunny")) {
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
-					e->AddComponent<CylinderRenderer>();
+					e->AddComponent<MeshRenderer>();
+					e->GetComponent<MeshRenderer>()->Load("Assets/Meshes/bunny.obj", "");
+					EntityManager::AddObject(e);
+					TimelineManager::get().SetDirty();
+					};
+			}
+			if (ImGui::MenuItem("Create Armadillo")) {
+				doOnPrompt = [this]() {
+					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
+					auto e = new Entity(prompt_input);
+					e->AddComponent<MeshRenderer>();
+					e->GetComponent<MeshRenderer>()->Load("Assets/Meshes/armadillo.obj", "");
+					EntityManager::AddObject(e);
+					TimelineManager::get().SetDirty();
+					};
+			}
+			if (ImGui::MenuItem("Create Lucy")) {
+				doOnPrompt = [this]() {
+					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
+					auto e = new Entity(prompt_input);
+					e->AddComponent<MeshRenderer>();
+					e->GetComponent<MeshRenderer>()->Load("Assets/Meshes/lucy.obj", "");
+					EntityManager::AddObject(e);
+					TimelineManager::get().SetDirty();
+					};
+			}
+			if (ImGui::MenuItem("Create Teapot")) {
+				doOnPrompt = [this]() {
+					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
+					auto e = new Entity(prompt_input);
+					e->AddComponent<MeshRenderer>();
+					e->GetComponent<MeshRenderer>()->Load("Assets/Meshes/teapot.obj","Assets/Textures/brick.png");
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
 					};

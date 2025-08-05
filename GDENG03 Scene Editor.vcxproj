@@ -171,6 +171,7 @@
     <ClCompile Include="IMGUI\imgui_impl_dx11.cpp" />
     <ClCompile Include="IMGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Include\ECS\Components\MeshRenderer.cpp" />
     <ClCompile Include="Include\ECS\Components\SphereRenderer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -188,6 +189,7 @@
     <ClInclude Include="Include\Cameras\PerspectiveCamera.h" />
     <ClInclude Include="Include\ECS\Components\Component.h" />
     <ClInclude Include="Include\ECS\Components\CubeRenderer.h" />
+    <ClInclude Include="Include\ECS\Components\MeshRenderer.h" />
     <ClInclude Include="Include\ECS\Components\QuadRenderer.h" />
     <ClInclude Include="Include\ECS\Components\SphereRenderer.h" />
     <ClInclude Include="Include\ECS\Entities\Entity.h" />
