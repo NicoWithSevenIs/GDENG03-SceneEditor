@@ -61,33 +61,3 @@ PhysicsCommon* PhysicsSystem::GetPhysicsCommon()
 {
     return get().physicsCommon;
 }
-
-//Quaternion PhysicsSystem::EulerToQuaternion(Vector3D euler)
-//{
-//    double cy = cos(euler.m_x * 0.5);
-//    double sy = sin(euler.m_x * 0.5);
-//    double cp = cos(euler.m_y * 0.5);
-//    double sp = sin(euler.m_y * 0.5);
-//    double cr = cos(euler.m_z * 0.5);
-//    double sr = sin(euler.m_z * 0.5);
-//
-//    Quaternion q;
-//    q.w = cr * cp * cy + sr * sp * sy;
-//    q.x = sr * cp * cy - cr * sp * sy;
-//    q.y = cr * sp * cy + sr * cp * sy;
-//    q.z = cr * cp * sy - sr * sp * cy;
-//
-//    return q;
-//}
-//
-//Vector3D PhysicsSystem::QuaternionToEuler(Quaternion q)
-//{
-//    double w = q.w; double x = q.x;  double y = q.y;  double z = q.z;
-//    double roll = atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y));
-//    //double temp = 2 * (w * y - z * x);
-//    double pitch = std::asin(std::clamp(2 * (w * y - z * x), -1.0, 1.0));
-//    //double pitch = asin(2 * (w * y - z * x));
-//    double yaw = atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z));
-//
-//    //value = std::max(-1.0, std::min(1.0, value));
-//}

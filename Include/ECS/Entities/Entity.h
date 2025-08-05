@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <utility>
 
 #include "ECS/Components/Component.h"
 #include "GameObject/IGUID.h"
@@ -33,17 +34,18 @@ namespace SceneEditor {
 				c->Release();
 		}
 
-		template <typename T> inline
+		template <typename T, typename... Args> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
-			AddComponent()
+			AddComponent(Args&&... args)
 		{
 			for (auto c : components) {
 				if (typeid(*c) == typeid(T))
 					return nullptr;
 			}
-			T* component = new T();
+			T* component = new T(std::forward<Args>(args)...);
 			components.push_back(component);
 			component->owner = this;
+			component->Init();
 			return component;
 		}
 

@@ -48,8 +48,8 @@ void AppWindow::OnCreate()
 	GameObjectManager::Initialize();
 
 	SceneEditor::EntityManager::Initialize();
-
 	PhysicsSystem::Initialize();
+
 }
 
 
@@ -70,6 +70,8 @@ void AppWindow::OnUpdate()
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	pc->Update();
+	PhysicsSystem::UpdateAllPhysicsComponents();
+
 
 	GameObjectManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
 	GameObjectManager::Draw();

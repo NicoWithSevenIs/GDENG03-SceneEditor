@@ -8,22 +8,22 @@ using namespace reactphysics3d;
 class PhysicsComponent : public SceneEditor::Component
 {
 	public:
-		PhysicsComponent();
+		PhysicsComponent(BodyType type);
 	
 		void Update(constant cc) override;
-		//void Perform(float deltaTime);
 		void Release() override;
-		RigidBody* getRigidBody();
+		void Init() override;
+		RigidBody* GetRigidBody();
+		void SetBodyType(BodyType type);
 
 	private:
 		Quaternion EulerToQuaternion(Vector3D euler);
 		Vector3D QuaternionToEuler(Quaternion q);
-		auto ConvertPosition(auto pos);
-		//auto Position(auto pos);
 	
 	private:
 		float mass = 1000.0f;
 		RigidBody* rigidBody;
+		BodyType bodyType = BodyType::STATIC;
 	
 };
 
