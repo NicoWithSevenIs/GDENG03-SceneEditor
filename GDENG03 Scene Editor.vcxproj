@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\ECS\Components\CylinderRenderer.cpp" />
     <ClCompile Include="Game Engine\AppWindow.cpp" />
     <ClCompile Include="Game Engine\ConstantBuffer.cpp" />
     <ClCompile Include="Game Engine\DeviceContext.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\ECS\Components\CylinderRenderer.h" />
     <ClInclude Include="IMGUI\imconfig.h" />
     <ClInclude Include="IMGUI\imgui.h" />
     <ClInclude Include="IMGUI\imgui_impl_dx11.h" />

@@ -64,9 +64,8 @@ class Entity: public IGUID{
 				if (typeid(*c) == typeid(T))
 					return nullptr;
 			}
-			T* component = new T();
+			T* component = new T(this);
 			components.push_back(component);
-			component->owner = this;
 			return component;
 		}
 

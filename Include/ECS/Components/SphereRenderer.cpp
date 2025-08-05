@@ -69,6 +69,8 @@ void SphereRenderer::Draw()
 
 void SphereRenderer::MakeSphere(vertex* list, unsigned int* index_list)
 {
+
+
 	float radius = 1.0f;
 	float pi = 3.14;
 	Vector3D center = this->owner->m_transform.m_translation;

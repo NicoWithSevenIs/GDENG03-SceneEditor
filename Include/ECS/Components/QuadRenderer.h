@@ -32,6 +32,9 @@ public:
 	inline QuadRenderer() : Component(ComponentType::RENDERER) {
 		Load();
 	}
+	inline QuadRenderer(Entity* newOwner) : Component(ComponentType::RENDERER, newOwner) {
+		Load();
+	}
 	inline void Update(constant cc) override {
 		m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 		Draw();

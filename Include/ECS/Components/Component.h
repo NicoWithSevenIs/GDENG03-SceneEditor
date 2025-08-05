@@ -16,6 +16,7 @@ class Component
 	public:
 		const ComponentType Type;
 		inline Component(ComponentType type) : Type(type) {}
+		inline Component(ComponentType type, Entity* newOwner) : Type(type), owner(newOwner){}
 
 		inline virtual Component* CreateSnapshot() = 0;
 

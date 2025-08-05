@@ -32,6 +32,9 @@ class CubeRenderer : public Component {
 		inline CubeRenderer() : Component(ComponentType::RENDERER) {
 			Load();
 		}
+		inline CubeRenderer(Entity* newOwner) : Component(ComponentType::RENDERER, newOwner) {
+			Load();
+		}
 		inline void Update(constant cc) override {
 			m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
 			Draw();
@@ -49,6 +52,13 @@ class CubeRenderer : public Component {
 		}
 	private:
 		inline void Load() {
+
+			if (this->owner == nullptr) {
+				std::cout << "owner is null" << std::endl;
+			}
+			else {
+				std::cout << "owner is not null" << std::endl;
+			}
 
 			auto  getRandom = [](int cap) {
 				Vector3D r;

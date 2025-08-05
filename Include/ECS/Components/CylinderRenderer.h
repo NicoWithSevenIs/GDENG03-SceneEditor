@@ -12,7 +12,7 @@
 
 #include "Game Engine/EngineTime.h"
 
-class SphereRenderer : public Component {
+class CylinderRenderer : public Component {
 
 	private:
 		IndexBuffer* m_ib;
@@ -23,16 +23,17 @@ class SphereRenderer : public Component {
 
 		Texture* m_tex;
 
+		float height = 5.0f;
 		std::vector<vertex> cube_list;
 		std::vector<unsigned int> index_list;
 	public:
 		bool isTextured = false;
 
 	public:
-		inline SphereRenderer() : Component(ComponentType::RENDERER) {
+		inline CylinderRenderer() : Component(ComponentType::RENDERER) {
 			Load();
 		}
-		inline SphereRenderer(Entity* newOwner) : Component(ComponentType::RENDERER, newOwner) {
+		inline CylinderRenderer(Entity* newOwner) : Component(ComponentType::RENDERER, newOwner) {
 			Load();
 		}
 		inline void Update(constant cc) override {
@@ -40,7 +41,7 @@ class SphereRenderer : public Component {
 			Draw();
 		}
 		inline Component* CreateSnapshot() override {
-			return new SphereRenderer();
+			return new CylinderRenderer(this->owner);
 		}
 		inline void Release() override {
 			this->m_ib->release();
@@ -53,7 +54,7 @@ class SphereRenderer : public Component {
 	private:
 		void Load();
 		void Draw();
-		void MakeSphere(vertex* list, unsigned int* index_list);
-		
+		void MakeCylinder(vertex* list, unsigned int* index_list);
+
 
 };
