@@ -1,3 +1,5 @@
+#define NOMINMAX
+
 #include "Window/AppWindow.h"
 #include <Windows.h>
 

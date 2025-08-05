@@ -8,6 +8,15 @@
 #include "GameObject/ParentingManager.h"
 #include <iostream>
 #include <algorithm>
+
+#ifdef min
+#undef min
+#endif
+
+#ifdef max
+#undef max
+#endif
+
 class TimelineManager : public Singleton<TimelineManager> {
 
 	private:
@@ -50,12 +59,13 @@ class TimelineManager : public Singleton<TimelineManager> {
 		}
 
 		inline void Undo() {
-			SetSnapshot(max(0, cursor - 1));
+			SetSnapshot(std::max(0, cursor - 1));
 			PrintTimeline();
 		}
 
 		inline void Redo() {
-			SetSnapshot(min(timeline.size()-1, cursor + 1));
+		//	SetSnapshot(std::min(timeline.size()-1, cursor + 1));
+			SetSnapshot(std::min(static_cast<int>(timeline.size() - 1), cursor + 1));
 			PrintTimeline();
 		}
 
