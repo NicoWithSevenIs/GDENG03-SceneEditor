@@ -1,6 +1,6 @@
-# GDENG03-SceneEditor
+# GDENG03-SceneEditor 
 
-Group Members:
+Group 7 Members:
 Legaspi, Andrea Maxene
 Ong, Lance Jervic
 Tolentino, John Enrico
