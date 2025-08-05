@@ -21,9 +21,12 @@ class Component
 public:
 	SceneEditor::Entity* owner;
 
-public:
-	const ComponentType Type;
-	inline Component(ComponentType type) : Type(type) {}
+	public:
+		const ComponentType Type;
+		inline Component(ComponentType type) : Type(type) {}
+		inline Component(ComponentType type, Entity* newOwner) : Type(type), owner(newOwner){}
+
+		inline virtual Component* CreateSnapshot() = 0;
 
 	virtual void Update(constant c) = 0;
 	virtual void Release() = 0;

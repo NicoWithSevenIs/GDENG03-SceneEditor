@@ -16,25 +16,54 @@ namespace SceneEditor {
 	public:
 		Transform m_transform;
 		constant cc;
+		bool enabled;
+		bool updated;
 
 	protected:
 		std::vector<Component*> components;
-
+		
 
 	public:
 		//inline std::vector<Component*> GetComponents() { return std::vector<Component*>(components); }
 		inline std::vector<Component*> GetComponents() { return components; }
 		inline constant GetConstant() { return cc; }
 
-#pragma region component handling
+	#pragma region component handling
 	public:
-		inline Entity() : IGUID("Entity"), m_transform(this) {}
+		inline Entity(std::string name = "Entity") : IGUID(name), m_transform(this), enabled(true) {}
 		inline void Release() {
-			for (auto c : components)
+			for(auto c : components)
 				c->Release();
 		}
 
-		template <typename T, typename... Args> inline
+		inline void SetActive(bool value) {
+			if(enabled == value)
+				return;
+
+			enabled = value;
+			auto children = ParentingManager::get().GetChildren(this);
+			for (auto i : children) {
+				((Entity*)i)->SetActive(value);
+			}
+		}
+
+		inline Entity* CreateSnapshot() {
+			
+			Entity* copy = new Entity(m_name);
+			for (auto c : components) {
+				auto snapshot = c->CreateSnapshot();
+				snapshot->owner = copy;
+				copy->components.push_back(snapshot);
+			}
+			copy->m_transform.m_translation = m_transform.m_translation;
+			copy->m_transform.m_scale = m_transform.m_scale;
+			copy->m_transform.m_rotation = m_transform.m_rotation;
+
+			return copy;
+		}
+
+	#pragma region component handling	
+		template <typename T> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
 			AddComponent(Args&&... args)
 		{
@@ -42,10 +71,9 @@ namespace SceneEditor {
 				if (typeid(*c) == typeid(T))
 					return nullptr;
 			}
-			T* component = new T(std::forward<Args>(args)...);
+			T* component = new T(this);
 			components.push_back(component);
 			component->owner = this;
-			component->Init();
 			return component;
 		}
 
@@ -66,9 +94,9 @@ namespace SceneEditor {
 		{
 			std::erase_if(components, [](Component* c) {
 				return typeid(*c) == typeid(T);
-				});
+			});
 		}
-#pragma endregion
+	#pragma endregion
 
 #pragma region parenting
 	public:
@@ -83,7 +111,7 @@ namespace SceneEditor {
 				parent = parent = (Entity*)ParentingManager::get().GetParent(child);
 			}
 
-			cc.hasTex = false;
+			cc.hasTex = true;
 			cc.isRandom = true;
 			cc.m_angle = EngineTime::deltaTime();
 			cc.m_proj = projection_matrix;
@@ -139,6 +167,8 @@ namespace SceneEditor {
 			m_transform.m_rotation = Vector3D(pitch, yaw, roll);
 		}
 
-#pragma endregion
-	};
-}
+	#pragma endregion
+
+
+
+};

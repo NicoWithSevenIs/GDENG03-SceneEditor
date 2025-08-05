@@ -15,6 +15,7 @@
 #include "Game Engine/EngineTime.h"
 #include "GameObject/ParentingManager.h"
 #include "ECS/Systems/EntityManager.h"
+#include "ECS/Systems/TimelineManager.h"
 #include "ECS/Systems/PhysicsSystem.h"
 
 AppWindow::AppWindow()
@@ -49,7 +50,7 @@ void AppWindow::OnCreate()
 
 	SceneEditor::EntityManager::Initialize();
 	PhysicsSystem::Initialize();
-
+	TimelineManager::get().CreateSnapshot();
 }
 
 
@@ -69,27 +70,34 @@ void AppWindow::OnUpdate()
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
+	
+
 	pc->Update();
 	PhysicsSystem::UpdateAllPhysicsComponents();
 
 
-	GameObjectManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
-	GameObjectManager::Draw();
-
-	SceneEditor::EntityManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
-	SceneEditor::EntityManager::Draw();
+	EntityManager::ResetUpdatedFlags();
+	EntityManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
+	EntityManager::Draw();
 
 	UIManager::draw();
+
 	this->m_swap_chain->present(true);
 
+	if (TimelineManager::get().IsDirty()) {
+		TimelineManager::get().CreateSnapshot();
+	}
+
 }
+
+
 
 void AppWindow::OnDestroy()
 {
 	Window::OnDestroy();
 	this->m_swap_chain->release();
 
-	GameObjectManager::Release();
+	EntityManager::Release();
 
 	GraphicsEngine::get()->release();
 }
@@ -110,6 +118,9 @@ void AppWindow::OnKillFocus()
 void AppWindow::onKeyDown(int key)
 {
 	pc->OnKeyDown(key);
+
+	if(key == VK_LCONTROL)
+		is_ctrl_held = true;
 	
 }
 
@@ -123,6 +134,19 @@ void AppWindow::onKeyUp(int key)
 
 	if (key == '2') {
 		toggle_camera_movement = true;
+	}
+
+	if (key == VK_LCONTROL)
+		is_ctrl_held = false;
+
+	if (is_ctrl_held && key == 'Z') {
+		std::cout << "Undo" << std::endl;
+		TimelineManager::get().Undo();
+	}
+
+	if (is_ctrl_held && key == 'Y') {
+		std::cout << "Redo" << std::endl;
+		TimelineManager::get().Redo();
 	}
 }
 

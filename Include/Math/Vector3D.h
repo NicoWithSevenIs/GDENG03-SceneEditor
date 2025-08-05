@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Vector2D.h"
 #include <cmath>
 
 class Vector3D {
@@ -100,6 +100,6 @@ class Vector3D {
 
 struct vertex {
 	Vector3D position;
+	Vector2D m_texcoord;
 	Vector3D color;
-	Vector3D color1;
 };

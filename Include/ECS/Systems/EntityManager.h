@@ -26,9 +26,17 @@ namespace SceneEditor {
 		static void AddObject(SceneEditor::Entity* object, SceneEditor::Entity* parent = nullptr);
 		static void Release();
 
-		static void DoOnAll(std::function<void(SceneEditor::Entity*)> callback);
-		static std::vector<SceneEditor::Entity*> get_all();
-	};
+	static void DoOnAll(std::function<void(Entity*)> callback);
+	static std::vector<Entity*> get_all();
+
+	inline static void ResetUpdatedFlags() {
+		for (auto obj : get().m_object_list) {
+			obj->updated = false;
+		}
+	}
+
+	static void ReplaceHierarchy(std::vector<Entity*> entities);
+};
 
 }
 

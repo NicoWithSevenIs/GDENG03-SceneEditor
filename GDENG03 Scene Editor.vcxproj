@@ -143,24 +143,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\ECS\Components\CylinderRenderer.cpp" />
     <ClCompile Include="Game Engine\AppWindow.cpp" />
     <ClCompile Include="Game Engine\ConstantBuffer.cpp" />
-    <ClCompile Include="Game Engine\Cube.cpp" />
     <ClCompile Include="Game Engine\DeviceContext.cpp" />
     <ClCompile Include="Game Engine\EngineTime.cpp" />
     <ClCompile Include="Game Engine\EntityManager.cpp" />
-    <ClCompile Include="Game Engine\GameObjectManager.cpp" />
     <ClCompile Include="Game Engine\GraphicsEngine.cpp" />
     <ClCompile Include="Game Engine\HierarchyScreen.cpp" />
     <ClCompile Include="Game Engine\IndexBuffer.cpp" />
     <ClCompile Include="Game Engine\InputSystem.cpp" />
     <ClCompile Include="Game Engine\InspectorScreen.cpp" />
     <ClCompile Include="Game Engine\MenuBarUI.cpp" />
-    <ClCompile Include="Game Engine\Mesh.cpp" />
     <ClCompile Include="Game Engine\ParentingManager.cpp" />
     <ClCompile Include="Game Engine\PerspectiveCamera.cpp" />
     <ClCompile Include="Game Engine\PixelShader.cpp" />
-    <ClCompile Include="Game Engine\Quad.cpp" />
     <ClCompile Include="Game Engine\ReparentPromptScreen.cpp" />
     <ClCompile Include="Game Engine\SwapChain.cpp" />
     <ClCompile Include="Game Engine\Texture.cpp" />
@@ -174,11 +171,13 @@
     <ClCompile Include="IMGUI\imgui_impl_dx11.cpp" />
     <ClCompile Include="IMGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Include\ECS\Components\SphereRenderer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game Engine\PhysicsSystem.cpp" />
     <ClCompile Include="Game Engine\PhysicsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\ECS\Components\CylinderRenderer.h" />
     <ClInclude Include="IMGUI\imconfig.h" />
     <ClInclude Include="IMGUI\imgui.h" />
     <ClInclude Include="IMGUI\imgui_impl_dx11.h" />
@@ -191,15 +190,14 @@
     <ClInclude Include="Include\Cameras\PerspectiveCamera.h" />
     <ClInclude Include="Include\ECS\Components\Component.h" />
     <ClInclude Include="Include\ECS\Components\CubeRenderer.h" />
+    <ClInclude Include="Include\ECS\Components\QuadRenderer.h" />
+    <ClInclude Include="Include\ECS\Components\SphereRenderer.h" />
     <ClInclude Include="Include\ECS\Entities\Entity.h" />
     <ClInclude Include="Include\ECS\Systems\EntityManager.h" />
+    <ClInclude Include="Include\ECS\Systems\TimelineManager.h" />
     <ClInclude Include="Include\Game Engine\EngineTime.h" />
-    <ClInclude Include="Include\GameObject\Cube.h" />
-    <ClInclude Include="Include\GameObject\GameObject.h" />
-    <ClInclude Include="Include\GameObject\GameObjectManager.h" />
     <ClInclude Include="Include\GameObject\IGUID.h" />
     <ClInclude Include="Include\GameObject\ParentingManager.h" />
-    <ClInclude Include="Include\GameObject\Quad.h" />
     <ClInclude Include="Include\Input\InputListener.h" />
     <ClInclude Include="Include\Input\InputSystem.h" />
     <ClInclude Include="Include\Interfaces\IMediator.h" />
@@ -215,13 +213,13 @@
     <ClInclude Include="Include\Rendering\DeviceContext.h" />
     <ClInclude Include="Include\Rendering\GraphicsEngine.h" />
     <ClInclude Include="Include\Rendering\IndexBuffer.h" />
-    <ClInclude Include="Include\Rendering\Mesh.h" />
     <ClInclude Include="Include\Rendering\MeshVertex.h" />
     <ClInclude Include="Include\Rendering\PixelShader.h" />
     <ClInclude Include="Include\Rendering\SwapChain.h" />
     <ClInclude Include="Include\Rendering\Texture.h" />
     <ClInclude Include="Include\Rendering\VertexBuffer.h" />
     <ClInclude Include="Include\Rendering\VertexShader.h" />
+    <ClInclude Include="Include\Snapshot\SceneSnapshot.h" />
     <ClInclude Include="Include\tiny_obj_loader.h" />
     <ClInclude Include="Include\UI\HierarchyScreen.h" />
     <ClInclude Include="Include\UI\InspectorScreen.h" />
