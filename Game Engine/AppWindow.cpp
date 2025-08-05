@@ -68,7 +68,7 @@ void AppWindow::OnCreate()
 
 	// Test the debug console
 	std::cout << "GDENG03 Scene Editor initialized successfully!" << std::endl;
-	std::cout << "Press F12 to toggle debug console" << std::endl;
+	std::cout << "Use Window menu -> Debug Console or press 'L' key to open debug window" << std::endl;
 
 }
 
@@ -200,8 +200,8 @@ void AppWindow::onKeyUp(int key)
 		TimelineManager::get().Redo();
 	}
 
-	// Toggle debug console with F12 or Ctrl+`
-	if (key == VK_F12 || (is_ctrl_held && key == VK_OEM_3)) {
+	// Toggle debug console with L key
+	if (key == 'L') {
 		auto debug_window = (DebugWindow*)UIManager::get().Retrieve("debug");
 		if (debug_window) {
 			debug_window->isOpen = !debug_window->isOpen;

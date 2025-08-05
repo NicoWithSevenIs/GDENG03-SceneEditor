@@ -8,7 +8,6 @@
 #include <iostream>
 #include <streambuf>
 
-// Custom streambuf to redirect cout to our debug window
 class DebugStreambuf : public std::streambuf {
 public:
     DebugStreambuf();
@@ -23,13 +22,12 @@ private:
     std::streambuf* m_originalCout;
     static std::vector<std::string>* s_logMessages;
     static std::mutex* s_logMutex;
-    
+
 public:
     static void SetLogStorage(std::vector<std::string>* messages, std::mutex* mutex);
 };
 
-class DebugWindow : public UIScreen
-{
+class DebugWindow : public UIScreen {
 private:
     std::vector<std::string> m_logMessages;
     std::mutex m_logMutex;
@@ -39,7 +37,6 @@ private:
     DebugStreambuf* m_debugStreambuf;
     std::streambuf* m_originalCout;
 
-    // Filter options
     bool m_showInfo;
     bool m_showWarnings;
     bool m_showErrors;
@@ -49,17 +46,14 @@ public:
     ~DebugWindow();
 
     void draw() override;
-    
-    // Manual logging methods
+
     void AddLog(const std::string& message);
     void AddInfo(const std::string& message);
     void AddWarning(const std::string& message);
     void AddError(const std::string& message);
-    
-    // Clear the log
+
     void Clear();
-    
-    // Enable/disable cout redirection
+
     void EnableCoutRedirection();
     void DisableCoutRedirection();
 
