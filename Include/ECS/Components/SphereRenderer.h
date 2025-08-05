@@ -40,7 +40,7 @@ class SphereRenderer : public Component {
 			Draw();
 		}
 		inline Component* CreateSnapshot() override {
-			return new SphereRenderer();
+			return new SphereRenderer(this->owner);
 		}
 		inline void Release() override {
 			this->m_ib->release();

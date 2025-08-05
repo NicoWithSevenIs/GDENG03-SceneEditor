@@ -69,8 +69,6 @@ void SphereRenderer::Draw()
 
 void SphereRenderer::MakeSphere(vertex* list, unsigned int* index_list)
 {
-
-
 	float radius = 1.0f;
 	float pi = 3.14;
 	Vector3D center = this->owner->m_transform.m_translation;
@@ -89,7 +87,7 @@ void SphereRenderer::MakeSphere(vertex* list, unsigned int* index_list)
 			float y = radius * cos(stack_angle);
 			float z = radius * sin(stack_angle) * sin(slice_angle);
 
-			Vector3D pos = Vector3D(x, y, z);
+			Vector3D pos = center + Vector3D(x, y, z);
 			Vector3D color1 = Vector3D(1, 0, 1);
 
 			float u = (float)j / slices;
@@ -108,12 +106,12 @@ void SphereRenderer::MakeSphere(vertex* list, unsigned int* index_list)
 			int bot_left = top_left + (slices + 1);
 
 			index_list[index + 0] = top_left;
-			index_list[index + 1] = bot_left;
-			index_list[index + 2] = top_left + 1;
+			index_list[index + 1] = top_left + 1;
+			index_list[index + 2] = bot_left;
 
 			index_list[index + 3] = bot_left;
-			index_list[index + 4] = bot_left + 1;
-			index_list[index + 5] = top_left + 1;
+			index_list[index + 4] = top_left + 1;
+			index_list[index + 5] = bot_left + 1;
 
 			index = index + 6;
 		}
