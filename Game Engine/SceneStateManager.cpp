@@ -59,6 +59,9 @@ void SceneStateManager::SwitchState(SceneState state)
 	}
 
 	current_state = state;
+	for (auto callback : OnStateChanged) {
+		callback(state);
+	}
 }
 
 void SceneStateManager::FrameStep()

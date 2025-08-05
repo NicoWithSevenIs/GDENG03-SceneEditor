@@ -15,6 +15,7 @@ class SceneStateManager: public Singleton<SceneStateManager> {
 
 	public:
 		std::unordered_map<SceneState, std::function<void()>> UpdateCallbacks;
+		std::vector<std::function<void(SceneState)>> OnStateChanged;
 
 	private:
 		SceneState current_state;
