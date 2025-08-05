@@ -44,12 +44,12 @@ class CubeRenderer : public Component {
 			return new CubeRenderer();
 		}
 		inline void Release() override {
-			this->m_ib->release();
-			this->m_vb->release();
-			this->m_vs->release();
-			this->m_ps->release();
-			this->m_cb->release();
-			delete this;
+			//this->m_ib->release();
+			//this->m_vb->release();
+			//this->m_vs->release();
+			//this->m_ps->release();
+			//this->m_cb->release();
+			//delete this;
 		}
 	private:
 		inline void Load() {
