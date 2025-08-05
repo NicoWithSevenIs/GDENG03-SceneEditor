@@ -104,7 +104,7 @@ class Entity: public IGUID{
 				parent = parent = (Entity*)ParentingManager::get().GetParent(child);
 			}
 
-			cc.hasTex = false;
+			cc.hasTex = true;
 			cc.isRandom = true;
 			cc.m_angle = EngineTime::deltaTime();
 			cc.m_proj = projection_matrix;

@@ -251,6 +251,9 @@
     <ClInclude Include="Include\Snapshot\SceneSnapshot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\ECS\Components\QuadRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl" />

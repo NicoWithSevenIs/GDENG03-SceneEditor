@@ -185,6 +185,7 @@
     <ClInclude Include="Include\Cameras\PerspectiveCamera.h" />
     <ClInclude Include="Include\ECS\Components\Component.h" />
     <ClInclude Include="Include\ECS\Components\CubeRenderer.h" />
+    <ClInclude Include="Include\ECS\Components\QuadRenderer.h" />
     <ClInclude Include="Include\ECS\Entities\Entity.h" />
     <ClInclude Include="Include\ECS\Systems\EntityManager.h" />
     <ClInclude Include="Include\ECS\Systems\TimelineManager.h" />

@@ -2,6 +2,7 @@
 #include "ECS/Systems/EntityManager.h"
 #include "UI/UIManager.h"
 #include "ECS/Components/CubeRenderer.h"
+#include "ECS/Components/QuadRenderer.h"
 #include "ECS/Systems/TimelineManager.h"
 MenuBarUI::MenuBarUI(float width, float height)
 {
@@ -30,7 +31,11 @@ void MenuBarUI::draw()
 			}
 			if (ImGui::MenuItem("Create Quad")) {
 				doOnPrompt = [this]() {
-					
+					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
+					auto e = new Entity(prompt_input);
+					e->AddComponent<QuadRenderer>();
+					EntityManager::AddObject(e);
+					TimelineManager::get().SetDirty();
 				};
 			}
 			ImGui::EndMenu();
