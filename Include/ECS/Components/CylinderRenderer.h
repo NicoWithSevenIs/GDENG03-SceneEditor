@@ -31,10 +31,10 @@ class CylinderRenderer : public Component {
 
 	public:
 		inline CylinderRenderer() : Component(ComponentType::RENDERER) {
-			Load();
+			//Load();
 		}
 		inline CylinderRenderer(Entity* newOwner) : Component(ComponentType::RENDERER, newOwner) {
-			Load();
+			//Load();
 		}
 		inline void Update(constant cc) override {
 			m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
@@ -51,7 +51,7 @@ class CylinderRenderer : public Component {
 			this->m_cb->release();
 			delete this;
 		}
-	private:
+	public:
 		void Load();
 		void Draw();
 		void MakeCylinder(vertex* list, unsigned int* index_list);

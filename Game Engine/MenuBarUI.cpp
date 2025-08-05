@@ -55,6 +55,7 @@ void MenuBarUI::draw()
 					auto e = new Entity(prompt_input);
 					e->cc.hasTex = false;
 					e->AddComponent<SphereRenderer>();
+					e->GetComponent<SphereRenderer>()->Load();
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
 				};
@@ -65,6 +66,7 @@ void MenuBarUI::draw()
 					auto e = new Entity(prompt_input);
 					e->cc.hasTex = false;
 					e->AddComponent<CylinderRenderer>();
+					e->GetComponent<CylinderRenderer>()->Load();
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
 					};

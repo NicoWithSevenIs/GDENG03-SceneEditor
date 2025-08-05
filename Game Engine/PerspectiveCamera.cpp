@@ -35,6 +35,9 @@ void PerspectiveCamera::OnKeyDown(int key)
 
 		case 'Q': up = -1.f; break;
 		case 'E':  up = 1.f;  break;
+
+		case 'P': xRot -= EngineTime::deltaTime() * 0.5f; break;
+		case 'O':  up = 1.f;  break;
 	}
 }
 

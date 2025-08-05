@@ -30,10 +30,10 @@ class SphereRenderer : public Component {
 
 	public:
 		inline SphereRenderer() : Component(ComponentType::RENDERER) {
-			Load();
+			//Load();
 		}
 		inline SphereRenderer(Entity* newOwner) : Component(ComponentType::RENDERER, newOwner) {
-			Load();
+			//Load();
 		}
 		inline void Update(constant cc) override {
 			m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
