@@ -26,7 +26,7 @@ private:
 	std::vector<vertex> strip_list;
 	std::vector<unsigned int> index_list;
 public:
-	bool isFlat = false;
+	bool isTextured = false;
 
 public:
 	inline QuadRenderer() : Component(ComponentType::RENDERER) {
@@ -84,6 +84,7 @@ private:
 		m_tex = new Texture();
 		if (!texture_path.empty()) {
 			cc.hasTex = m_tex->load(texture_path);
+			isTextured = cc.hasTex;
 			std::cout << "Has Tex Bool: " << cc.hasTex << std::endl;
 		}
 		else {
@@ -100,7 +101,7 @@ private:
 		GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(this->m_vs);
 		GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(this->m_ps);
 
-		if (!this->isFlat) {
+		if (this->isTextured) {
 			GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(m_vs, m_tex);
 			GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(m_ps, m_tex);
 		}

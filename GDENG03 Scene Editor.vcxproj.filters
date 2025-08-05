@@ -99,6 +99,9 @@
     <ClCompile Include="Game Engine\EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Include\ECS\Components\SphereRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Cameras\Camera.h">
@@ -252,6 +255,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\ECS\Components\QuadRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ECS\Components\SphereRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

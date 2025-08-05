@@ -26,7 +26,7 @@ class CubeRenderer : public Component {
 		std::vector<vertex> cube_list;
 		std::vector<unsigned int> index_list;
 	public:
-		bool isFlat = false;
+		bool isTextured = false;
 
 	public:
 		inline CubeRenderer() : Component(ComponentType::RENDERER) {
@@ -145,8 +145,8 @@ class CubeRenderer : public Component {
 			m_tex = new Texture();
 			if (!texture_path.empty()) {
 				cc.hasTex = m_tex->load(texture_path);
-				this->isFlat = cc.hasTex;
-				std::cout << "isFlat: " << isFlat << std::endl;
+				this->isTextured = cc.hasTex;
+				std::cout << "isFlat: " << isTextured << std::endl;
 			}
 			else {
 				cc.hasTex = false;
@@ -162,7 +162,7 @@ class CubeRenderer : public Component {
 			GraphicsEngine::get()->getImmediateDeviceContext()->setVertexShader(this->m_vs);
 			GraphicsEngine::get()->getImmediateDeviceContext()->setPixelShader(this->m_ps);
 
-			if (!this->isFlat) {
+			if (this->isTextured) {
 				GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(m_vs, m_tex);
 				GraphicsEngine::get()->getImmediateDeviceContext()->setTexture(m_ps, m_tex);
 			}
