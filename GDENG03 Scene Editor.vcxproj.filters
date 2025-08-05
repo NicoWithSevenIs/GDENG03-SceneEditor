@@ -266,6 +266,9 @@
     <ClInclude Include="Include\Interfaces\IDirtyHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Settings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl" />

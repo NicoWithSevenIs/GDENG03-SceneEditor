@@ -216,6 +216,7 @@
     <ClInclude Include="Include\Rendering\Texture.h" />
     <ClInclude Include="Include\Rendering\VertexBuffer.h" />
     <ClInclude Include="Include\Rendering\VertexShader.h" />
+    <ClInclude Include="Include\Settings.h" />
     <ClInclude Include="Include\Snapshot\SceneSnapshot.h" />
     <ClInclude Include="Include\tiny_obj_loader.h" />
     <ClInclude Include="Include\UI\HierarchyScreen.h" />

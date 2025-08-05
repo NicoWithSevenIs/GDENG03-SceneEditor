@@ -36,6 +36,7 @@ class AppWindow : public Window, public InputListener {
 
 		// Inherited via Window
 		void OnCreate() override;
+		void InitializeSceneStateCallbacks();
 		void OnUpdate() override;
 		void OnDestroy() override;
 
