@@ -25,7 +25,8 @@ class AppWindow : public Window, public InputListener {
 	
 	private:
 		SwapChain* m_swap_chain;
-		PerspectiveCamera* pc;
+		PerspectiveCamera* editor_camera;
+		PerspectiveCamera* player_camera;
 
 		bool toggle_camera_movement = true;
 		bool is_ctrl_held = false;
@@ -36,6 +37,7 @@ class AppWindow : public Window, public InputListener {
 
 		// Inherited via Window
 		void OnCreate() override;
+		void InitializeSceneStateCallbacks();
 		void OnUpdate() override;
 		void OnDestroy() override;
 

@@ -1,6 +1,8 @@
 #include "UI/InspectorScreen.h"
 #include "ECS/Systems/TimelineManager.h"
 #include "Utilities.h"
+#include "Settings.h"
+#include "ECS/Systems/SceneStateManager.h"
 InspectorScreen::InspectorScreen(float width, float height)
 {
 	this->width = width;
@@ -14,6 +16,10 @@ InspectorScreen::~InspectorScreen()
 
 void InspectorScreen::draw()
 {
+
+	if(!Settings::ShowEditorInterfaceInPlayMode && SceneStateManager::get().CurrentState() == SceneState::PLAY)
+		return;
+
 	this->getTrackedTransform();
 
 	float windowWidth = 300;

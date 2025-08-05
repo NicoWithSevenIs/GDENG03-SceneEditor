@@ -18,6 +18,7 @@
 #include "ECS/Systems/TimelineManager.h"
 
 #include "ECS/Components/CubeRenderer.h"
+#include "ECS/Systems/SceneStateManager.h"
 
 AppWindow::AppWindow()
 {
@@ -43,12 +44,55 @@ void AppWindow::OnCreate()
 
 	this->m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
 	
-	pc = new PerspectiveCamera(1.57f, width/height);
-	pc->m_transform.m_translation = Vector3D(0, 2, -3);
+	editor_camera = new PerspectiveCamera(1.57f, width/height);
+	editor_camera->m_transform.m_translation = Vector3D(0, 2, -3);
+
+	player_camera = new PerspectiveCamera(1.57f, width / height);
+
 
 	UIManager::initialize(this->m_hwnd, GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
 	EntityManager::Initialize();
 	TimelineManager::get().CreateSnapshot();
+
+	//Setting Callbacks
+	InitializeSceneStateCallbacks();
+
+	auto InitializePlayModeCamera = [this](SceneState state) {
+		if (state == SceneState::PLAY) {
+			player_camera->m_transform.m_translation = Vector3D();
+			player_camera->m_transform.m_rotation = Vector3D();
+		}
+	};
+
+}
+
+void AppWindow::InitializeSceneStateCallbacks()
+{
+	SceneStateManager::get().UpdateCallbacks[SceneState::EDIT] = [this]() {
+		editor_camera->Update();
+
+		EntityManager::ResetUpdatedFlags();
+		EntityManager::Update(editor_camera->GetViewMatrix(), editor_camera->GetProjectionMatrix());
+		EntityManager::Draw();
+
+		UIManager::draw();
+
+		if (TimelineManager::get().IsDirty()) {
+			TimelineManager::get().CreateSnapshot();
+		}
+	};
+
+	SceneStateManager::get().UpdateCallbacks[SceneState::PLAY] = [this]() {
+		player_camera->Update();
+		EntityManager::ResetUpdatedFlags();
+		EntityManager::Update(player_camera->GetViewMatrix(), player_camera->GetProjectionMatrix());
+		EntityManager::Draw();
+	};
+
+	SceneStateManager::get().UpdateCallbacks[SceneState::PAUSED] = [this]() {
+		EntityManager::Draw();
+	};
+
 }
 
 
@@ -68,22 +112,10 @@ void AppWindow::OnUpdate()
 
 	GraphicsEngine::get()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
-	
 
-	pc->Update();
-
-	EntityManager::ResetUpdatedFlags();
-	EntityManager::Update(pc->GetViewMatrix(), pc->GetProjectionMatrix());
-	EntityManager::Draw();
-
+	SceneStateManager::get().Update();
 	UIManager::draw();
-
 	this->m_swap_chain->present(true);
-
-	if (TimelineManager::get().IsDirty()) {
-		TimelineManager::get().CreateSnapshot();
-	}
-
 }
 
 
@@ -113,7 +145,10 @@ void AppWindow::OnKillFocus()
 
 void AppWindow::onKeyDown(int key)
 {
-	pc->OnKeyDown(key);
+	switch (SceneStateManager::get().CurrentState()) {
+	case SceneState::EDIT: 	editor_camera->OnKeyDown(key);  break;
+	case SceneState::PLAY:  player_camera->OnKeyDown(key); break;
+	}
 
 	if(key == VK_LCONTROL)
 		is_ctrl_held = true;
@@ -126,7 +161,12 @@ void AppWindow::onKeyDown(int key)
 
 void AppWindow::onKeyUp(int key)
 {
-	pc->OnKeyUp(key);
+
+	switch (SceneStateManager::get().CurrentState()) {
+		case SceneState::EDIT: 	editor_camera->OnKeyUp(key);  break;
+		case SceneState::PLAY:  player_camera->OnKeyUp(key); break;
+	}
+
 
 	if (key == '1') {
 		toggle_camera_movement = false;
@@ -135,6 +175,7 @@ void AppWindow::onKeyUp(int key)
 	if (key == '2') {
 		toggle_camera_movement = true;
 	}
+
 
 	if (key == VK_LCONTROL)
 		is_ctrl_held = false;
@@ -158,7 +199,10 @@ void AppWindow::onMouseMove(const Point& delta_mouse_point,
 	const Point& mouse_pos)
 {
 	if(toggle_camera_movement)
-		pc->OnMouseMove(delta_mouse_point.m_x, delta_mouse_point.m_y);
+		switch (SceneStateManager::get().CurrentState()) {
+			case SceneState::EDIT: 	editor_camera->OnMouseMove(delta_mouse_point.m_x, delta_mouse_point.m_y);  break;
+			case SceneState::PLAY:  player_camera->OnMouseMove(delta_mouse_point.m_x, delta_mouse_point.m_y); break;
+		}
 }
 
 void AppWindow::onLeftMouseDown(const Point& delta_mouse_point)

@@ -99,10 +99,10 @@
     <ClCompile Include="Game Engine\EntityManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\ECS\Components\SphereRenderer.cpp">
+    <ClCompile Include="Game Engine\SceneStateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Include\ECS\Components\CylinderRenderer.cpp">
+    <ClCompile Include="Game Engine\SceneStateUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,13 +257,16 @@
     <ClInclude Include="Include\Snapshot\SceneSnapshot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ECS\Components\QuadRenderer.h">
+    <ClInclude Include="Include\ECS\Systems\SceneStateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ECS\Components\SphereRenderer.h">
+    <ClInclude Include="Include\UI\SceneStateUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ECS\Components\CylinderRenderer.h">
+    <ClInclude Include="Include\Interfaces\IDirtyHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

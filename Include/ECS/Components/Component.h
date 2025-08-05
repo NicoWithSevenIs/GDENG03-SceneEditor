@@ -3,7 +3,8 @@
 
 enum class ComponentType {
 	SCRIPT,
-	RENDERER
+	RENDERER,
+	PHYSICS
 };
 
 class Entity;
