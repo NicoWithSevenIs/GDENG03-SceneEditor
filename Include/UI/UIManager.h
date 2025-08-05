@@ -11,6 +11,7 @@
 #include "UI/InspectorScreen.h"
 #include "UI/MenuBarUI.h"
 #include "UI/SceneStateUI.h"
+#include "UI/DebugWindow.h"
 
 class UIManager : public Singleton<UIManager>, public IMediator<UIScreen>
 {
