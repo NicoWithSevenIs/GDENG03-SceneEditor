@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="Game Engine\AppWindow.cpp" />
     <ClCompile Include="Game Engine\ConstantBuffer.cpp" />
+    <ClCompile Include="Game Engine\DebugWindow.cpp" />
     <ClCompile Include="Game Engine\DeviceContext.cpp" />
     <ClCompile Include="Game Engine\EngineTime.cpp" />
     <ClCompile Include="Game Engine\EntityManager.cpp" />
@@ -171,6 +172,9 @@
     <ClCompile Include="IMGUI\imgui_impl_dx11.cpp" />
     <ClCompile Include="IMGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Include\ECS\Components\CylinderRenderer.cpp" />
+    <ClCompile Include="Include\ECS\Components\MeshRenderer.cpp" />
+    <ClCompile Include="Include\ECS\Components\SphereRenderer.cpp" />
     <ClCompile Include="Game Engine\SceneStateUI.cpp" />
     <ClCompile Include="Include\ECS\Components\CylinderRenderer.cpp" />
     <ClCompile Include="Include\ECS\Components\MeshRenderer.cpp" />
@@ -226,6 +230,7 @@
     <ClInclude Include="Include\Settings.h" />
     <ClInclude Include="Include\Snapshot\SceneSnapshot.h" />
     <ClInclude Include="Include\tiny_obj_loader.h" />
+    <ClInclude Include="Include\UI\DebugWindow.h" />
     <ClInclude Include="Include\UI\HierarchyScreen.h" />
     <ClInclude Include="Include\UI\InspectorScreen.h" />
     <ClInclude Include="Include\UI\MenuBarUI.h" />

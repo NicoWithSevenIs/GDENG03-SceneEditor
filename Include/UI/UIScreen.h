@@ -12,7 +12,7 @@ class UIScreen
 	public:
 		virtual void draw() = 0;
 
-	protected:
+	public:
 		bool isOpen;
 		float height;
 		float width;

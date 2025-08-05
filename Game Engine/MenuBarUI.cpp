@@ -1,6 +1,7 @@
 #include "UI/MenuBarUI.h"
 #include "ECS/Systems/EntityManager.h"
 #include "UI/UIManager.h"
+#include "UI/DebugWindow.h"
 #include "ECS/Components/CubeRenderer.h"
 #include "ECS/Components/QuadRenderer.h"
 #include "ECS/Components/SphereRenderer.h"
@@ -116,6 +117,16 @@ void MenuBarUI::draw()
 			}
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Window")) {
+			if (ImGui::MenuItem("Debug Console")) {
+				auto debug_window = (DebugWindow*)m_screen->Retrieve("debug");
+				if (debug_window) {
+					debug_window->isOpen = !debug_window->isOpen;
+				}
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
 	}
 
 }
