@@ -7,11 +7,15 @@ class MenuBarUI: public UIScreen
 		std::function<void()> doOnPrompt = nullptr;
 		char prompt_input[128];
 
+		float cubeSpawnHeight = 1.5f;
+		float cubeSpawnArea = 1.0f;
 
 	public:
 		MenuBarUI(float width, float height);
 		void draw() override;
 		void ShowPrompt();
+		void Spawn100Cubes();
+
 
 };
 

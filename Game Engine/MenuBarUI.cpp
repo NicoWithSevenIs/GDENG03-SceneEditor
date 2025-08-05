@@ -9,6 +9,8 @@
 #include "ECS/Components/CylinderRenderer.h"
 #include "ECS/Components/MeshRenderer.h"
 #include "ECS/Systems/TimelineManager.h"
+#include <random>
+#include <sstream>
 
 MenuBarUI::MenuBarUI(float width, float height)
 {
@@ -132,6 +134,9 @@ void MenuBarUI::draw()
 				EntityManager::get().DoOnAll(reset_transforms);
 
 			}
+			if (ImGui::MenuItem("Spawn 100 Cubes")) {
+				Spawn100Cubes();
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Window")) {
@@ -176,4 +181,39 @@ void MenuBarUI::ShowPrompt()
 	ImGui::End();
 
 
+}
+
+void MenuBarUI::Spawn100Cubes()
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<float> dis(-cubeSpawnArea, cubeSpawnArea);
+
+	std::cout << "[INFO] Spawning 100 cubes at height " << cubeSpawnHeight
+		<< " within area " << cubeSpawnArea << "x" << cubeSpawnArea << std::endl;
+
+	for (int i = 0; i < 100; i++) {
+		std::stringstream ss;
+		ss << "SpawnedCube_" << i;
+
+		auto cube = new Entity(ss.str());
+		cube->cc.hasTex = false;
+		
+		cube->AddComponent<CubeRenderer>();
+
+		if (cube->GetComponent<PhysicsComponent>() == nullptr) {
+			PhysicsComponent* p6component = cube->AddComponent<PhysicsComponent>(reactphysics3d::BodyType::DYNAMIC);
+			PhysicsSystem::AddPhysicsComponent(p6component);
+		}
+
+		float randomX = dis(gen);
+		float randomZ = dis(gen);
+		cube->m_transform.m_translation = Vector3D(randomX, cubeSpawnHeight, randomZ);
+
+		EntityManager::AddObject(cube);
+	}
+
+	TimelineManager::get().SetDirty();
+
+	std::cout << "[INFO] Successfully spawned 100 cubes!" << std::endl;
 }
