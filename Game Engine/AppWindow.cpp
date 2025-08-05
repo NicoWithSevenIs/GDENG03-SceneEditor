@@ -205,7 +205,7 @@ void AppWindow::onKeyUp(int key)
 	}
 
 	// Toggle debug console with L key
-	if (key == 'L') {
+	if (key == VK_RMENU) {
 		auto debug_window = (DebugWindow*)UIManager::get().Retrieve("debug");
 		if (debug_window) {
 			debug_window->isOpen = !debug_window->isOpen;
