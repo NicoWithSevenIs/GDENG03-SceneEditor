@@ -16,7 +16,7 @@
 #include "GameObject/ParentingManager.h"
 #include "ECS/Systems/EntityManager.h"
 #include "ECS/Systems/TimelineManager.h"
-#include "ECS/Systems/PhysicsSystem.h"
+//#include "ECS/Systems/PhysicsSystem.h"
 
 AppWindow::AppWindow()
 {
@@ -46,10 +46,10 @@ void AppWindow::OnCreate()
 	pc->m_transform.m_translation = Vector3D(0, 2, -3);
 
 	UIManager::initialize(this->m_hwnd, GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
-	GameObjectManager::Initialize();
+	//GameObjectManager::Initialize();
 
 	SceneEditor::EntityManager::Initialize();
-	PhysicsSystem::Initialize();
+	//PhysicsSystem::Initialize();
 	TimelineManager::get().CreateSnapshot();
 }
 
@@ -73,7 +73,7 @@ void AppWindow::OnUpdate()
 	
 
 	pc->Update();
-	PhysicsSystem::UpdateAllPhysicsComponents();
+	//PhysicsSystem::UpdateAllPhysicsComponents();
 
 
 	EntityManager::ResetUpdatedFlags();
@@ -104,13 +104,13 @@ void AppWindow::OnDestroy()
 
 void AppWindow::OnFocus()
 {
-	std::cout << "Gained Focus\n";
+	//std::cout << "Gained Focus\n";
 	InputSystem::get()->AddListener(this);
 }
 
 void AppWindow::OnKillFocus()
 {
-	std::cout << "Lost Focus\n";
+	//std::cout << "Lost Focus\n";
 	InputSystem::get()->RemoveListener(this);
 	InputSystem::get()->first = true;
 }
@@ -140,12 +140,12 @@ void AppWindow::onKeyUp(int key)
 		is_ctrl_held = false;
 
 	if (is_ctrl_held && key == 'Z') {
-		std::cout << "Undo" << std::endl;
+	//	std::cout << "Undo" << std::endl;
 		TimelineManager::get().Undo();
 	}
 
 	if (is_ctrl_held && key == 'Y') {
-		std::cout << "Redo" << std::endl;
+	//	std::cout << "Redo" << std::endl;
 		TimelineManager::get().Redo();
 	}
 }

@@ -62,8 +62,8 @@ namespace SceneEditor {
 			return copy;
 		}
 
-	#pragma region component handling	
-		template <typename T> inline
+#pragma region component handling	
+		template <typename T, typename... Args> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
 			AddComponent(Args&&... args)
 		{
