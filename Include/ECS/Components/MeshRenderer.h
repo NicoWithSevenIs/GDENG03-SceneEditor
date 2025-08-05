@@ -29,6 +29,9 @@ class MeshRenderer : public Component
 		ConstantBuffer* m_cb;
 		Texture* m_tex;
 
+		std::string model_path;
+		std::string tex_path;
+
 	public:
 		bool isTextured = false;
 	public:
@@ -43,15 +46,17 @@ class MeshRenderer : public Component
 			Draw();
 		}
 		inline Component* CreateSnapshot() override {
-			return new MeshRenderer(this->owner);
+			MeshRenderer* newMesh = new MeshRenderer(this->owner);
+			newMesh->Load(model_path, tex_path);
+			return newMesh;
 		}
 		inline void Release() override {
-			this->m_ib->release();
-			this->m_vb->release();
-			this->m_vs->release();
-			this->m_ps->release();
-			this->m_cb->release();
-			delete this;
+			//this->m_ib->release();
+			//this->m_vb->release();
+			//this->m_vs->release();
+			//this->m_ps->release();
+			//this->m_cb->release();
+			//delete this;
 		}
 
 		void Load(std::string model_path, std::string tex_path);

@@ -4,6 +4,8 @@ void MeshRenderer::Load(std::string model_path, std::string tex_path)
 {
 	std::cout << "Model Path Out IF: " << model_path << std::endl;
 	std::cout << "Texture Path Out IF: " << tex_path << std::endl;
+	this->model_path = model_path;
+	this->tex_path = tex_path;
 
 	tinyobj::attrib_t attribs;
 	std::vector<tinyobj::shape_t> shapes;

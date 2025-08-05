@@ -108,7 +108,7 @@ void MenuBarUI::draw()
 				doOnPrompt = [this]() {
 					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
 					auto e = new Entity(prompt_input);
-					e->cc.hasTex = true;
+					e->cc.hasTex = false;
 					e->AddComponent<MeshRenderer>();
 					e->GetComponent<MeshRenderer>()->Load("Assets/Meshes/teapot.obj","Assets/Textures/brick.png");
 					EntityManager::AddObject(e);
