@@ -16,7 +16,7 @@ class InputSystem {
 
 	public:
 		bool first = true;
-		bool cursorShow = false;
+		bool cursorShow = true;
 
 	public:
 		InputSystem();
