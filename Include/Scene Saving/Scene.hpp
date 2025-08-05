@@ -30,6 +30,7 @@ namespace DX3D {
 
         void DeserializeGameObject(const Json::Value& json);
         void DeserializeEntity(const Json::Value& json);
+        void RestoreParentRelationship(const Json::Value& json);
         Vector3D DeserializeVector3D(const Json::Value& json);
 
     public:

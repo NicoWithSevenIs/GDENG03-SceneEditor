@@ -71,8 +71,14 @@ void Scene::DeserializeFromJson(const Json::Value& json) {
 
     if (json.isMember("gameobjects")) {
         const Json::Value& gameObjects = json["gameobjects"];
+        // First pass: Create all objects
         for (const Json::Value& objJson : gameObjects) {
             DeserializeGameObject(objJson);
+        }
+        
+        // Second pass: Restore parent relationships
+        for (const Json::Value& objJson : gameObjects) {
+            RestoreParentRelationship(objJson);
         }
     }
 
@@ -234,6 +240,37 @@ void Scene::DeserializeEntity(const Json::Value& json) {
     m_entities.push_back(entity);
 }
 
+void Scene::RestoreParentRelationship(const Json::Value& json) {
+    std::string childName = json["name"].asString();
+    
+    if (json.isMember("parent") && !json["parent"].isNull()) {
+        std::string parentName = json["parent"].asString();
+        
+        // Find the child and parent objects in GameObjectManager
+        std::vector<GameObject*> allObjects = GameObjectManager::get_all();
+        GameObject* childObject = nullptr;
+        GameObject* parentObject = nullptr;
+        
+        for (GameObject* obj : allObjects) {
+            if (obj->m_name == childName) {
+                childObject = obj;
+            }
+            if (obj->m_name == parentName) {
+                parentObject = obj;
+            }
+        }
+        
+        // Establish the parent-child relationship if both objects exist
+        if (childObject && parentObject) {
+            ParentingManager::get().AddObject(childObject, parentObject);
+            std::cout << "Restored parent relationship: " << childName << " -> " << parentName << std::endl;
+        }
+        else {
+            std::cerr << "Failed to restore parent relationship for " << childName 
+                      << " (parent: " << parentName << ")" << std::endl;
+        }
+    }
+}
 
 Vector3D Scene::DeserializeVector3D(const Json::Value& json) {
     Vector3D vector;
