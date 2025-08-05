@@ -31,9 +31,9 @@ void MenuBarUI::draw()
 					auto e = new Entity(prompt_input);
 					e->cc.hasTex = false;
 					e->AddComponent<CubeRenderer>();
-					PhysicsComponent* p6Component = e->AddComponent<PhysicsComponent>(reactphysics3d::BodyType::DYNAMIC);
-					//e->AddComponent<PhysicsComponent>();
-					PhysicsSystem::AddPhysicsComponent(p6Component);
+					//PhysicsComponent* p6Component = e->AddComponent<PhysicsComponent>(reactphysics3d::BodyType::DYNAMIC);
+					////e->AddComponent<PhysicsComponent>();
+					//PhysicsSystem::AddPhysicsComponent(p6Component);
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
 				};

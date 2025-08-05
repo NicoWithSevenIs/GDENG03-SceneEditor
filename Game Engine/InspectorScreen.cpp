@@ -1,3 +1,4 @@
+#include "ECS/Systems/PhysicsSystem.h"
 #include "UI/InspectorScreen.h"
 #include "ECS/Systems/TimelineManager.h"
 #include "Utilities.h"
@@ -45,6 +46,16 @@ void InspectorScreen::draw()
 			TimelineManager::get().SetDirty();
 		}
 		this->showTextureOptions();
+
+		if (!hasRB) {
+			ImGui::Separator();
+			if (ImGui::Button("Add RigidBody")) {
+				this->hasRB = true;
+			}
+		}
+		else {
+			this->drawPhysicsComponent();
+		}
 	}
 
 	ImGui::End();
@@ -150,8 +161,52 @@ void InspectorScreen::drawRotFields()
 	ImGui::PopItemWidth();
 }
 
+void InspectorScreen::drawPhysicsComponent()
+{
+	if (this->currTrackedObject->GetComponent<PhysicsComponent>() == nullptr) {
+		PhysicsComponent* p6component = this->currTrackedObject->AddComponent<PhysicsComponent>(reactphysics3d::BodyType::STATIC);
+		PhysicsSystem::AddPhysicsComponent(p6component);
+	}
+
+	ImGui::Separator();
+	ImGui::Text("RigidBody");
+
+	std::vector<std::string> items = { "STATIC", "DYNAMIC" };
+
+	if (ImGui::BeginCombo("Dropdown", items[this->rbItem].c_str())) {
+		for (int i = 0; i < items.size(); i++) {
+			bool selected = (this->rbItem == i);
+			if (ImGui::Selectable(items[i].c_str(), selected))
+				this->rbItem = i;
+
+			if (selected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+
+	if (items[this->rbItem] == "STATIC") {
+		PhysicsComponent* p6 = this->currTrackedObject->GetComponent<PhysicsComponent>();
+		p6->SetBodyType(reactphysics3d::BodyType::STATIC);
+	}
+
+	if (items[this->rbItem] == "DYNAMIC") {
+		PhysicsComponent* p6 = this->currTrackedObject->GetComponent<PhysicsComponent>();
+		p6->SetBodyType(reactphysics3d::BodyType::DYNAMIC);
+	}
+
+
+	if (ImGui::Button("Remove RigidBody")) {
+		this->hasRB = false;
+		this->currTrackedObject->RemoveComponent<PhysicsComponent>();
+		PhysicsComponent* p6 = this->currTrackedObject->GetComponent<PhysicsComponent>();
+		PhysicsSystem::RemovePhysicsComponent(p6);
+	}
+}
+
 void InspectorScreen::showTextureOptions()
 {
+	ImGui::Separator();
 	if (ImGui::BeginMenu("Change Texture")) {
 		if (ImGui::MenuItem("Brick")) {
 			this->changeTextures("Assets/Textures/brick.png");
