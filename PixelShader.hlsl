@@ -29,7 +29,7 @@ float4 psmain(PS_INPUT input) : SV_TARGET
     }
     else
     {
-        return float4(0.8f, 0.8f, 0.8f, 1.0f);
+        return float4(1.0f, 1.0f, 1.0f, 1.0f);
     }
     
 }

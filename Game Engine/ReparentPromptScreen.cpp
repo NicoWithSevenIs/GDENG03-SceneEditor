@@ -1,5 +1,4 @@
 #include "UI/ReparentPromptScreen.h"
-#include "GameObject/GameObjectManager.h"
 #include "GameObject/ParentingManager.h"
 #include  <algorithm>
 void ReparentPromptScreen::draw()
@@ -19,7 +18,7 @@ void ReparentPromptScreen::draw()
 	ImGui::End();
 }
 
-void ReparentPromptScreen::drawParents(GameObject* parent)
+void ReparentPromptScreen::drawParents(Entity* parent)
 {
 	auto root_objects = ParentingManager::get().GetChildren(parent);
 	for (auto i : root_objects) {
@@ -29,10 +28,10 @@ void ReparentPromptScreen::drawParents(GameObject* parent)
 
 		const char* p_name = i->m_name.c_str();
 		if (ImGui::Button(p_name)) {
-			selection = (GameObject*)i;
+			selection = (Entity*)i;
 		}
 		ImGui::Indent();
-		this->drawParents((GameObject*)i);
+		this->drawParents((Entity*)i);
 		ImGui::Unindent();
 	}
 }

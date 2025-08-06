@@ -1,4 +1,11 @@
+#include "ECS/Systems/PhysicsSystem.h"
 #include "UI/InspectorScreen.h"
+#include "ECS/Systems/TimelineManager.h"
+#include "Utilities.h"
+#include "Settings.h"
+#include "ECS/Systems/SceneStateManager.h"
+#include "../Include/ECS/Components/CubeRenderer.h"
+#include "../Include/ECS/Components/SphereRenderer.h"
 
 InspectorScreen::InspectorScreen(float width, float height)
 {
@@ -13,6 +20,10 @@ InspectorScreen::~InspectorScreen()
 
 void InspectorScreen::draw()
 {
+
+	if(!Settings::ShowEditorInterfaceInPlayMode && SceneStateManager::get().CurrentState() == SceneState::PLAY)
+		return;
+
 	this->getTrackedTransform();
 
 	float windowWidth = 300;
@@ -27,11 +38,24 @@ void InspectorScreen::draw()
 		}
 		if (prompt.selection != nullptr) {
 			ParentingManager::get().SetParent(currTrackedObject, prompt.selection);
+			TimelineManager::get().SetDirty();
 			prompt.invoker = nullptr;
 			prompt.selection = nullptr;
 		}
 		if (ParentingManager::get().hasChild(currTrackedObject) && ImGui::Button("Unparent")) {
 			ParentingManager::get().Unparent(currTrackedObject);
+			TimelineManager::get().SetDirty();
+		}
+		this->showTextureOptions();
+
+		if (!hasRB) {
+			ImGui::Separator();
+			if (ImGui::Button("Add RigidBody")) {
+				this->hasRB = true;
+			}
+		}
+		else {
+			this->drawPhysicsComponent();
 		}
 	}
 
@@ -53,6 +77,10 @@ void InspectorScreen::drawInspector()
 	ImGui::Text("Rotation");
 	this->drawRotFields();
 
+	if (ImGui::Checkbox("Enabled", &this->enabled)) {
+		this->currTrackedObject->enabled = this->enabled;
+		TimelineManager::get().SetDirty();
+	}
 }
 
 void InspectorScreen::drawTranslateFields()
@@ -134,8 +162,94 @@ void InspectorScreen::drawRotFields()
 	ImGui::PopItemWidth();
 }
 
+void InspectorScreen::drawPhysicsComponent()
+{
+	if (this->currTrackedObject->GetComponent<PhysicsComponent>() == nullptr) {
+		PhysicsComponent* p6component = this->currTrackedObject->AddComponent<PhysicsComponent>(reactphysics3d::BodyType::STATIC);
+		PhysicsSystem::AddPhysicsComponent(p6component);
+	}
+
+	ImGui::Separator();
+	ImGui::Text("RigidBody");
+
+	std::vector<std::string> items = { "STATIC", "DYNAMIC" };
+
+	if (ImGui::BeginCombo("Dropdown", items[this->rbItem].c_str())) {
+		for (int i = 0; i < items.size(); i++) {
+			bool selected = (this->rbItem == i);
+			if (ImGui::Selectable(items[i].c_str(), selected))
+				this->rbItem = i;
+
+			if (selected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+
+	if (items[this->rbItem] == "STATIC") {
+		PhysicsComponent* p6 = this->currTrackedObject->GetComponent<PhysicsComponent>();
+		p6->SetBodyType(reactphysics3d::BodyType::STATIC);
+	}
+
+	if (items[this->rbItem] == "DYNAMIC") {
+		PhysicsComponent* p6 = this->currTrackedObject->GetComponent<PhysicsComponent>();
+		p6->SetBodyType(reactphysics3d::BodyType::DYNAMIC);
+	}
+
+
+	if (ImGui::Button("Remove RigidBody")) {
+		this->hasRB = false;
+		this->currTrackedObject->RemoveComponent<PhysicsComponent>();
+		PhysicsComponent* p6 = this->currTrackedObject->GetComponent<PhysicsComponent>();
+		PhysicsSystem::RemovePhysicsComponent(p6);
+	}
+}
+
+void InspectorScreen::showTextureOptions()
+{
+	ImGui::Separator();
+	if (ImGui::BeginMenu("Change Texture")) {
+		if (ImGui::MenuItem("Brick")) {
+			this->changeTextures("Assets/Textures/brick.png");
+		}
+		if (ImGui::MenuItem("Wood")) {
+			this->changeTextures("Assets/Textures/wood.jpg");
+		}
+		if (ImGui::MenuItem("Grass")) {
+			this->changeTextures("Assets/Textures/grass.jpg");
+		}
+		if (ImGui::MenuItem("Stars")) {
+			this->changeTextures("Assets/Textures/stars_map.jpg");
+		}
+		if (ImGui::MenuItem("Ground")) {
+			this->changeTextures("Assets/Textures/ground.jpg");
+		}
+		if (ImGui::MenuItem("None")) {
+			//this->changeTextures("Assets/Textures/ground.jpg");
+			this->currTrackedObject->cc.hasTex = false;
+		}
+		ImGui::EndMenu();
+	}
+}
+
+void InspectorScreen::changeTextures(std::string tex_name)
+{
+	if (this->currTrackedObject != nullptr) {
+		if (this->currTrackedObject->GetComponent<CubeRenderer>() != nullptr) {
+			this->currTrackedObject->GetComponent<CubeRenderer>()->TextureChange(tex_name);
+		}
+		if (this->currTrackedObject->GetComponent<SphereRenderer>() != nullptr) {
+			this->currTrackedObject->GetComponent<SphereRenderer>()->TextureChange(tex_name);
+		}
+	}
+}
+
 void InspectorScreen::getTrackedTransform()
 {
+	if(this->m_tracked_name == "")
+		return;
+
+	this->currTrackedObject = Utilities::Select<Entity*>(EntityManager::get_all(), [this](Entity* e){ return e->m_name == this->m_tracked_name;});
 	if (this->currTrackedObject != nullptr) {
 		this->m_translate_x = this->currTrackedObject->m_transform.m_translation.m_x;
 		this->m_translate_y = this->currTrackedObject->m_transform.m_translation.m_y;
@@ -150,11 +264,9 @@ void InspectorScreen::getTrackedTransform()
 		this->m_rot_z = this->currTrackedObject->m_transform.m_rotation.m_z;
 
 		this->m_tracked_name = this->currTrackedObject->m_name.c_str();
+		this->enabled =  this->currTrackedObject->enabled;
 	}
-	else {
-		std::string name = "NONE";
-		this->m_tracked_name = name;
-	}
+
 }
 
 void InspectorScreen::applyChanges()
@@ -173,6 +285,7 @@ void InspectorScreen::applyChanges()
 	this->currTrackedObject->m_transform.m_rotation.m_y = this->m_rot_y;
 	this->currTrackedObject->m_transform.m_rotation.m_z = this->m_rot_z;
 
+	TimelineManager::get().SetDirty();
 }
 
 

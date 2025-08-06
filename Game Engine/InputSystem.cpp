@@ -3,6 +3,7 @@
 
 InputSystem::InputSystem()
 {
+	
 }
 
 InputSystem::~InputSystem()
@@ -34,6 +35,11 @@ void InputSystem::Update()
 		first = false;
 	}
 
+	this->ShowCursor(true);
+	//else {
+	//	this->ShowCursor(false);
+	//	mousePos = Point(0, 0);
+	//}
 
 	if (current_mouse_pos.x != m_old_mouse_pos.m_x || current_mouse_pos.y != m_old_mouse_pos.m_y) {
 
@@ -61,7 +67,7 @@ void InputSystem::Update()
 						case VK_LBUTTON: 
 							if (m_keys_state[i] != m_old_keys_state[i]) (*it)->onLeftMouseDown(mousePos);
 							break;
-						case MK_RBUTTON: 
+						case VK_RBUTTON: 
 							if (m_keys_state[i] != m_old_keys_state[i]) (*it)->onRightMouseDown(mousePos);
 							break;
 						default:

@@ -28,6 +28,14 @@ void UIManager::initialize(HWND hwnd, ID3D11Device* device, ID3D11DeviceContext*
 	menu->m_screen = &get();
 	UIManager::addUIScreen("menu", menu);
 
+	auto scene_state = new SceneStateUI(get().width, get().height);
+	scene_state->m_screen = &get();
+	UIManager::addUIScreen("scene state", scene_state);
+
+	auto debug_window = new DebugWindow(get().width, get().height);
+	debug_window->m_screen = &get();
+	UIManager::addUIScreen("debug", debug_window);
+
 }
 
 void UIManager::draw()

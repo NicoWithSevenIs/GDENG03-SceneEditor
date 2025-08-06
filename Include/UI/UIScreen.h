@@ -1,5 +1,6 @@
 #pragma once
 #include "string";
+
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 #include "imgui.h"
@@ -11,7 +12,7 @@ class UIScreen
 	public:
 		virtual void draw() = 0;
 
-	protected:
+	public:
 		bool isOpen;
 		float height;
 		float width;

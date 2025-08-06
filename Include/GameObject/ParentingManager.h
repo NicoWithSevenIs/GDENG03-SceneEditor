@@ -26,4 +26,13 @@ class ParentingManager: public Singleton<ParentingManager>
 		inline void Release() {
 			descendants.clear();
 		}
+
+		inline std::unordered_map<IGUID*, IGUID*> GetAncestry(){
+			return std::unordered_map<IGUID*, IGUID*> (descendants);
+		}
+
+		inline void ReplaceHierarchy(std::unordered_map<IGUID*, IGUID*> hierarchy){
+			descendants.clear();
+			descendants = hierarchy;
+		}
 };
