@@ -9,6 +9,7 @@ PhysicsComponent::PhysicsComponent(reactphysics3d::BodyType type) : Component(Co
     this->rigidBody = nullptr;
 	PhysicsSystem::AddPhysicsComponent(this);
    // Init();
+   unit = 2;
 }
 
 void PhysicsComponent::Update(constant cc)
@@ -64,7 +65,66 @@ void PhysicsComponent::Init()
         this->rigidBody->setMass(this->mass);
     }
 
-    std::cout << "rigid body created: " << this->rigidBody << std::endl;
+}
+
+void PhysicsComponent::ExportToUnity(std::string& output)
+{
+    std::stringstream s;
+    std::cout << "Physics Owner GUID: " << owner->GUID << std::endl;
+    // BoxCollider component
+    s << "--- !u!65 &" << component_id << "\n";
+    s << "BoxCollider:\n";
+    s << "  m_ObjectHideFlags: 0\n";
+    s << "  m_CorrespondingSourceObject: {fileID: 0}\n";
+    s << "  m_PrefabInstance: {fileID: 0}\n";
+    s << "  m_PrefabAsset: {fileID: 0}\n";
+    s << "  m_GameObject: {fileID: " << owner->GUID << "}\n";
+    s << "  m_Material: {fileID: 0}\n";
+    s << "  m_IncludeLayers:\n";
+    s << "    serializedVersion: 2\n";
+    s << "    m_Bits: 0\n";
+    s << "  m_ExcludeLayers:\n";
+    s << "    serializedVersion: 2\n";
+    s << "    m_Bits: 0\n";
+    s << "  m_LayerOverridePriority: 0\n";
+    s << "  m_IsTrigger: 0\n";
+    s << "  m_ProvidesContacts: 0\n";
+    s << "  m_Enabled: 1\n";
+    s << "  serializedVersion: 3\n";
+    s << "  m_Size: {x: " << owner->m_transform.m_scale.m_x << ", y: " << owner->m_transform.m_scale.m_y << ", z: " << owner->m_transform.m_scale.m_z << "}\n";
+    s << "  m_Center: {x: 0, y: 0, z: 0}\n";
+
+    // Rigidbody component
+    s << "--- !u!54 &" << std::stoull(component_id) + 1 << "\n";
+    s << "Rigidbody:\n";
+    s << "  m_ObjectHideFlags: 0\n";
+    s << "  m_CorrespondingSourceObject: {fileID: 0}\n";
+    s << "  m_PrefabInstance: {fileID: 0}\n";
+    s << "  m_PrefabAsset: {fileID: 0}\n";
+    s << "  m_GameObject: {fileID: " << owner->GUID << "}\n";
+    s << "  serializedVersion: 5\n";
+    s << "  m_Mass: " << mass << "\n";
+    s << "  m_LinearDamping: 0\n";
+    s << "  m_AngularDamping: 0.05\n";
+    s << "  m_CenterOfMass: {x: 0, y: 0, z: 0}\n";
+    s << "  m_InertiaTensor: {x: 1, y: 1, z: 1}\n";
+    s << "  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}\n";
+    s << "  m_IncludeLayers:\n";
+    s << "    serializedVersion: 2\n";
+    s << "    m_Bits: 0\n";
+    s << "  m_ExcludeLayers:\n";
+    s << "    serializedVersion: 2\n";
+    s << "    m_Bits: 0\n";
+    s << "  m_ImplicitCom: 1\n";
+    s << "  m_ImplicitTensor: 1\n";
+    s << "  m_UseGravity: 1\n";
+    s << "  m_IsKinematic: 0\n";
+    s << "  m_Interpolate: 0\n";
+    s << "  m_Constraints: 0\n";
+    s << "  m_CollisionDetection: 0\n";
+
+    output = s.str();
+    
 }
 
 reactphysics3d::RigidBody* PhysicsComponent::GetRigidBody()

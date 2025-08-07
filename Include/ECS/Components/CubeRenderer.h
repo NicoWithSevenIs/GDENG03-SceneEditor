@@ -32,9 +32,11 @@ class CubeRenderer : public Component {
 	public:
 		inline CubeRenderer() : Component(ComponentType::RENDERER) {
 			Load();
+			unit = 2;
 		}
 		inline CubeRenderer(Entity* newOwner) : Component(ComponentType::RENDERER, newOwner) {
 			Load();
+			unit = 2;
 		}
 		inline void Update(constant cc) override {
 			m_cb->update(GraphicsEngine::get()->getImmediateDeviceContext(), &cc);
@@ -51,15 +53,72 @@ class CubeRenderer : public Component {
 			//this->m_cb->release();
 			//delete this;
 		}
+		inline void ExportToUnity(std::string& output) override {
+			std::stringstream s;
+
+			// MeshRenderer block
+			s << "--- !u!23 &" << component_id << "\n";
+			s << "MeshRenderer:\n";
+			s << "  m_ObjectHideFlags: 0\n";
+			s << "  m_CorrespondingSourceObject: {fileID: 0}\n";
+			s << "  m_PrefabInstance: {fileID: 0}\n";
+			s << "  m_PrefabAsset: {fileID: 0}\n";
+			s << "  m_GameObject: {fileID: " << owner->GUID << "}\n";
+			s << "  m_Enabled: 1\n";
+			s << "  m_CastShadows: 1\n";
+			s << "  m_ReceiveShadows: 1\n";
+			s << "  m_DynamicOccludee: 1\n";
+			s << "  m_StaticShadowCaster: 0\n";
+			s << "  m_MotionVectors: 1\n";
+			s << "  m_LightProbeUsage: 1\n";
+			s << "  m_ReflectionProbeUsage: 1\n";
+			s << "  m_RayTracingMode: 2\n";
+			s << "  m_RayTraceProcedural: 0\n";
+			s << "  m_RayTracingAccelStructBuildFlagsOverride: 0\n";
+			s << "  m_RayTracingAccelStructBuildFlags: 1\n";
+			s << "  m_SmallMeshCulling: 1\n";
+			s << "  m_RenderingLayerMask: 1\n";
+			s << "  m_RendererPriority: 0\n";
+			s << "  m_Materials:\n";
+			s << "  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}\n";
+			s << "  m_StaticBatchInfo:\n";
+			s << "    firstSubMesh: 0\n";
+			s << "    subMeshCount: 0\n";
+			s << "  m_StaticBatchRoot: {fileID: 0}\n";
+			s << "  m_ProbeAnchor: {fileID: 0}\n";
+			s << "  m_LightProbeVolumeOverride: {fileID: 0}\n";
+			s << "  m_ScaleInLightmap: 1\n";
+			s << "  m_ReceiveGI: 1\n";
+			s << "  m_PreserveUVs: 0\n";
+			s << "  m_IgnoreNormalsForChartDetection: 0\n";
+			s << "  m_ImportantGI: 0\n";
+			s << "  m_StitchLightmapSeams: 1\n";
+			s << "  m_SelectedEditorRenderState: 3\n";
+			s << "  m_MinimumChartSize: 4\n";
+			s << "  m_AutoUVMaxDistance: 0.5\n";
+			s << "  m_AutoUVMaxAngle: 89\n";
+			s << "  m_LightmapParameters: {fileID: 0}\n";
+			s << "  m_SortingLayerID: 0\n";
+			s << "  m_SortingLayer: 0\n";
+			s << "  m_SortingOrder: 0\n";
+			s << "  m_AdditionalVertexStreams: {fileID: 0}\n";
+
+			// MeshFilter block
+
+			s << "--- !u!33 &" << std::stoull(component_id) + 1 << "\n";
+			s << "MeshFilter:\n";
+			s << "  m_ObjectHideFlags: 0\n";
+			s << "  m_CorrespondingSourceObject: {fileID: 0}\n";
+			s << "  m_PrefabInstance: {fileID: 0}\n";
+			s << "  m_PrefabAsset: {fileID: 0}\n";
+			s << "  m_GameObject: {fileID: " << owner->GUID << "}\n";
+			s << "  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}\n";
+
+			output = s.str();
+		}
+
 	private:
 		inline void Load() {
-
-			if (this->owner == nullptr) {
-				std::cout << "owner is null" << std::endl;
-			}
-			else {
-				std::cout << "owner is not null" << std::endl;
-			}
 
 			auto  getRandom = [](int cap) {
 				Vector3D r;
@@ -157,7 +216,6 @@ class CubeRenderer : public Component {
 			if (!texture_path.empty()) {
 				cc.hasTex = m_tex->load(texture_path);
 				this->isTextured = cc.hasTex;
-				std::cout << "isFlat: " << isTextured << std::endl;
 			}
 			else {
 				cc.hasTex = false;

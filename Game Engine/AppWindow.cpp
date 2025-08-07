@@ -25,6 +25,8 @@
 #include "UI/UIManager.h"
 #include "UI/DebugWindow.h"
 
+#include "Settings.h"
+
 AppWindow::AppWindow()
 {
 }
@@ -57,7 +59,7 @@ void AppWindow::OnCreate()
 
 	UIManager::initialize(this->m_hwnd, GraphicsEngine::get()->getDevice(), GraphicsEngine::get()->getImmediateDeviceContext()->getContext());
 	EntityManager::Initialize();
-	TimelineManager::get().CreateSnapshot();
+	//TimelineManager::get().CreateSnapshot();
 	PhysicsSystem::Initialize();
 
 	//Setting Callbacks
@@ -74,6 +76,7 @@ void AppWindow::OnCreate()
 	std::cout << "GDENG03 Scene Editor initialized successfully!" << std::endl;
 	std::cout << "Use Window menu -> Debug Console or press 'L' key to open debug window" << std::endl;
 
+	std::cout << EngineTime::now() << std::endl;
 }
 
 void AppWindow::InitializeSceneStateCallbacks()
@@ -87,9 +90,9 @@ void AppWindow::InitializeSceneStateCallbacks()
 
 		UIManager::draw();
 
-		if (TimelineManager::get().IsDirty()) {
-			TimelineManager::get().CreateSnapshot();
-		}
+		//if (TimelineManager::get().IsDirty()) {
+			//TimelineManager::get().CreateSnapshot();
+		//}
 	};
 
 	SceneStateManager::get().UpdateCallbacks[SceneState::PLAY] = [this]() {

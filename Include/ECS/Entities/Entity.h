@@ -55,6 +55,14 @@ class Entity: public IGUID{
 			return copy;
 		}
 
+		int GetComponentTotalUnits() {
+			int count = 0;
+			for (auto c : components) {
+				count += c->unit;
+			}
+			return count;
+		}
+
 	#pragma region component handling	
 		template <typename T, typename... Args> inline
 			typename std::enable_if<std::is_base_of<Component, T>::value, T*>::type
@@ -65,9 +73,15 @@ class Entity: public IGUID{
 					return nullptr;
 			}
 			T* component = new T(std::forward<Args>(args)...);
+
 			component->owner = this;
+			std::stringstream s;
+			s << GUID << GetComponentTotalUnits() + 1;
+			component->component_id = s.str();
+
 			components.push_back(component);
 			component->Init();
+			
 			return component;
 		}
 
@@ -90,6 +104,7 @@ class Entity: public IGUID{
 				return typeid(*c) == typeid(T);
 			});
 		}
+
 	#pragma endregion
 
 	#pragma region parenting
@@ -163,6 +178,43 @@ class Entity: public IGUID{
 
 	#pragma endregion
 
+	#pragma region exporting
 
+		public:
+			inline void ExportToUnity(std::string& output) {
+				std::stringstream os;
+				std::cout << "MY GUID: " <<GUID<<std::endl;
+				os << "--- !u!1 &" << GUID << "\n";
+				os << "GameObject:\n";
+				os << "  m_ObjectHideFlags: " << 0 << "\n";
+				os << "  m_CorrespondingSourceObject: {fileID: " << 0 << "}\n";
+				os << "  m_PrefabInstance: {fileID: 0}\n";
+				os << "  m_PrefabAsset: {fileID: 0}\n";
+				os << "  serializedVersion: 6\n";
+				os << "  m_Component:\n";
+				os << "  - component: {fileID: " << m_transform.component_id << "}\n";
+
+				for (int i = 1; i <= GetComponentTotalUnits(); i++) {
+					os << "  - component: {fileID: " << GUID << i << "}\n";
+				}
+				os << "  m_Layer: 0\n";
+				os << "  m_Name: " << m_name << "\n";
+				os << "  m_TagString: Untagged\n";
+				os << "  m_Icon: {fileID: 0}\n";
+				os << "  m_NavMeshLayer: 0\n";
+				os << "  m_StaticEditorFlags: 0\n";
+				os << "  m_IsActive: " << int(enabled) << "\n";
+
+				os << m_transform.ExportToUnity();
+
+				for (auto c : components) {
+					std::string exported = "";
+					c->ExportToUnity(exported);
+					os << exported;
+				}
+				output = os.str();
+			}
+
+	#pragma endregion exporting
 
 };

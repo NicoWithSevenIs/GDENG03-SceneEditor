@@ -249,7 +249,7 @@ void InspectorScreen::getTrackedTransform()
 	if(this->m_tracked_name == "")
 		return;
 
-	this->currTrackedObject = Utilities::Select<Entity*>(EntityManager::get_all(), [this](Entity* e){ return e->m_name == this->m_tracked_name;});
+	this->currTrackedObject = Utilities::Select<Entity*>(EntityManager::get_all(), [this](Entity* e){ return e->GUID == this->m_tracked_name;});
 	if (this->currTrackedObject != nullptr) {
 		this->m_translate_x = this->currTrackedObject->m_transform.m_translation.m_x;
 		this->m_translate_y = this->currTrackedObject->m_transform.m_translation.m_y;
@@ -263,7 +263,7 @@ void InspectorScreen::getTrackedTransform()
 		this->m_rot_y = this->currTrackedObject->m_transform.m_rotation.m_y;
 		this->m_rot_z = this->currTrackedObject->m_transform.m_rotation.m_z;
 
-		this->m_tracked_name = this->currTrackedObject->m_name.c_str();
+		this->m_tracked_name = this->currTrackedObject->GUID.c_str();
 		this->enabled =  this->currTrackedObject->enabled;
 	}
 
@@ -297,7 +297,7 @@ bool InspectorScreen::checkParentValid(std::string name)
 	}
 
 	for (IGUID* target : parents) {
-		if (target->m_name == name) {
+		if (target->GUID == name) {
 			return true;
 		}
 	}
@@ -313,7 +313,7 @@ IGUID* InspectorScreen::getParentGUID(std::string name)
 	}
 
 	for (IGUID* target : parents) {
-		if (target->m_name == name) {
+		if (target->GUID == name) {
 			return target;
 		}
 	}

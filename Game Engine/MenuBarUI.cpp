@@ -11,6 +11,7 @@
 #include "ECS/Systems/TimelineManager.h"
 #include <random>
 #include <sstream>
+#include <Exporting/ExportManager.h>
 
 MenuBarUI::MenuBarUI(float width, float height)
 {
@@ -158,6 +159,18 @@ void MenuBarUI::draw()
 			}
 			ImGui::EndMenu();
 		}
+
+
+		if (ImGui::BeginMenu("Exporting")) {
+			if (ImGui::MenuItem("Export To Unity")) {
+
+				doOnPrompt = [this]() {
+					if (prompt_input[0] == '\0' || prompt_input[0] == ' ' || prompt_input == nullptr) return;
+						ExportManager::ExportToUnity(prompt_input);
+					};
+			}
+			ImGui::EndMenu();
+		}
 		ImGui::EndMainMenuBar();
 	}
 
@@ -198,14 +211,14 @@ void MenuBarUI::Spawn100Cubes()
 
 		auto cube = new Entity(ss.str());
 		cube->cc.hasTex = false;
+		std::cout << "1 Owner UID:" << cube->GUID << std::endl;
 		
 		cube->AddComponent<CubeRenderer>();
-
 		if (cube->GetComponent<PhysicsComponent>() == nullptr) {
 			PhysicsComponent* p6component = cube->AddComponent<PhysicsComponent>(reactphysics3d::BodyType::DYNAMIC);
 			PhysicsSystem::AddPhysicsComponent(p6component);
 		}
-
+		std::cout << "2 Owner GUID:" << cube->GetComponent<PhysicsComponent>()->owner->GUID << std::endl;
 		float randomX = dis(gen);
 		float randomZ = dis(gen);
 		cube->m_transform.m_translation = Vector3D(randomX, cubeSpawnHeight, randomZ);

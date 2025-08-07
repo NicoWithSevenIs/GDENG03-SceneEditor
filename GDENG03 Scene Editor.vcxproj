@@ -203,6 +203,7 @@
     <ClInclude Include="Include\ECS\Systems\PhysicsSystem.h" />
     <ClInclude Include="Include\ECS\Systems\SceneStateManager.h" />
     <ClInclude Include="Include\ECS\Systems\TimelineManager.h" />
+    <ClInclude Include="Include\Exporting\ExportManager.h" />
     <ClInclude Include="Include\Game Engine\EngineTime.h" />
     <ClInclude Include="Include\GameObject\IGUID.h" />
     <ClInclude Include="Include\GameObject\ParentingManager.h" />

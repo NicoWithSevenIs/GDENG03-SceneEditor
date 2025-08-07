@@ -13,7 +13,8 @@ class Component
 {
 	public:
 		Entity* owner;
-
+		std::string component_id;
+		int unit = 1;
 	public:
 		const ComponentType Type;
 		inline Component(ComponentType type) : Type(type) {}
@@ -23,6 +24,10 @@ class Component
 
 		virtual void Update(constant c) = 0;
 		virtual void Release() = 0;
-		virtual void Init() {}
+		virtual void Init(){}
+
+		inline virtual void ExportToUnity(std::string& output) {
+		
+		}
 };
 

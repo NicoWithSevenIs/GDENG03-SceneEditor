@@ -21,5 +21,7 @@ public:
 	static void LogFrameStart();
 	static void LogFrameEnd();
 
+	static std::string now();
+
 };
 
