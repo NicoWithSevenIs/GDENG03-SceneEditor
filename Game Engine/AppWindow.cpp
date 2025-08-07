@@ -1,4 +1,4 @@
-//#define NOMINMAX
+#define NOMINMAX
 #include "ECS/Systems/PhysicsSystem.h"		
 #include "Window/AppWindow.h"
 #include <Windows.h>

@@ -61,5 +61,9 @@ class MeshRenderer : public Component
 
 		void Load(std::string model_path, std::string tex_path);
 		void Draw();
+		
+		// Getter methods for serialization
+		const std::string& GetModelPath() const { return model_path; }
+		const std::string& GetTexturePath() const { return tex_path; }
 
 };

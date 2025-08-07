@@ -1,4 +1,5 @@
 #include "Input/InputSystem.h"
+#define NOMINMAX
 #include <Windows.h>
 
 InputSystem::InputSystem()

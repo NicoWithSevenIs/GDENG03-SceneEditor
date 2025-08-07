@@ -1,5 +1,12 @@
 {
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "limits": "cpp",
+        "algorithm": "cpp",
+        "chrono": "cpp",
+        "memory": "cpp",
+        "random": "cpp",
+        "utility": "cpp",
+        "xutility": "cpp"
     }
 }

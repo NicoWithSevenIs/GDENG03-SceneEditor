@@ -1,5 +1,6 @@
 #pragma once
 
+#define NOMINMAX
 #include "Interfaces/Singleton.h"
 #include "Interfaces/IDirtyHandler.h"
 #include "Snapshot/SceneSnapshot.h"
@@ -56,12 +57,12 @@ class TimelineManager : public Singleton<TimelineManager>, public IDirtyHandler 
 		}
 
 		inline void Undo() {
-			SetSnapshot(max(0, cursor - 1));
+			SetSnapshot(std::max(0, cursor - 1));
 			PrintTimeline();
 		}
 
 		inline void Redo() {
-			SetSnapshot(min(timeline.size()-1, cursor + 1));
+			SetSnapshot(std::min((int)(timeline.size()-1), cursor + 1));
 			PrintTimeline();
 		}
 

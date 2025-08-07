@@ -74,9 +74,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Library\Interfaces;$(ProjectDir)DirectXTex\include;$(ProjectDir)IMGUI;$(ProjectDir)Include;$(ProjectDir)ReactPhysics3D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Library\Interfaces;$(ProjectDir)DirectXTex\include;$(ProjectDir)IMGUI;$(ProjectDir)Include;$(ProjectDir)ReactPhysics3D;$(ProjectDir)JsonCpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -92,9 +92,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Library\Interfaces;$(ProjectDir)DirectXTex\include;$(ProjectDir)IMGUI;$(ProjectDir)Include;$(ProjectDir)ReactPhysics3D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Library\Interfaces;$(ProjectDir)DirectXTex\include;$(ProjectDir)IMGUI;$(ProjectDir)Include;$(ProjectDir)ReactPhysics3D;$(ProjectDir)JsonCpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -110,9 +110,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Library\Interfaces;$(ProjectDir)DirectXTex\include;$(ProjectDir)IMGUI;$(ProjectDir)Include;$(ProjectDir)ReactPhysics3D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Library\Interfaces;$(ProjectDir)DirectXTex\include;$(ProjectDir)IMGUI;$(ProjectDir)Include;$(ProjectDir)ReactPhysics3D;$(ProjectDir)JsonCpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -128,9 +128,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Library\Interfaces;$(ProjectDir)DirectXTex\include;$(ProjectDir)IMGUI;$(ProjectDir)Include;$(ProjectDir)ReactPhysics3D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Library\Interfaces;$(ProjectDir)DirectXTex\include;$(ProjectDir)IMGUI;$(ProjectDir)Include;$(ProjectDir)ReactPhysics3D;$(ProjectDir)JsonCpp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -161,6 +161,8 @@
     <ClCompile Include="Game Engine\PhysicsSystem.cpp" />
     <ClCompile Include="Game Engine\PixelShader.cpp" />
     <ClCompile Include="Game Engine\ReparentPromptScreen.cpp" />
+    <ClCompile Include="Game Engine\Scene.cpp" />
+    <ClCompile Include="Game Engine\SceneManager.cpp" />
     <ClCompile Include="Game Engine\SceneStateManager.cpp" />
     <ClCompile Include="Game Engine\SwapChain.cpp" />
     <ClCompile Include="Game Engine\Texture.cpp" />
@@ -178,6 +180,9 @@
     <ClCompile Include="Include\ECS\Components\MeshRenderer.cpp" />
     <ClCompile Include="Include\ECS\Components\SphereRenderer.cpp" />
     <ClCompile Include="Game Engine\SceneStateUI.cpp" />
+    <ClCompile Include="JsonCpp\src\json_reader.cpp" />
+    <ClCompile Include="JsonCpp\src\json_value.cpp" />
+    <ClCompile Include="JsonCpp\src\json_writer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +233,9 @@
     <ClInclude Include="Include\Rendering\Texture.h" />
     <ClInclude Include="Include\Rendering\VertexBuffer.h" />
     <ClInclude Include="Include\Rendering\VertexShader.h" />
+    <ClInclude Include="Include\Scene Saving\Scene.hpp" />
+    <ClInclude Include="Include\Scene Saving\SceneManager.hpp" />
+    <ClInclude Include="Include\Scene Saving\SceneTest.h" />
     <ClInclude Include="Include\Settings.h" />
     <ClInclude Include="Include\Snapshot\SceneSnapshot.h" />
     <ClInclude Include="Include\tiny_obj_loader.h" />
@@ -242,6 +250,17 @@
     <ClInclude Include="Include\Utilities.h" />
     <ClInclude Include="Include\Window\AppWindow.h" />
     <ClInclude Include="Include\Window\Window.h" />
+    <ClInclude Include="JsonCpp\include\json\allocator.h" />
+    <ClInclude Include="JsonCpp\include\json\assertions.h" />
+    <ClInclude Include="JsonCpp\include\json\config.h" />
+    <ClInclude Include="JsonCpp\include\json\forwards.h" />
+    <ClInclude Include="JsonCpp\include\json\json.h" />
+    <ClInclude Include="JsonCpp\include\json\json_features.h" />
+    <ClInclude Include="JsonCpp\include\json\reader.h" />
+    <ClInclude Include="JsonCpp\include\json\value.h" />
+    <ClInclude Include="JsonCpp\include\json\version.h" />
+    <ClInclude Include="JsonCpp\include\json\writer.h" />
+    <ClInclude Include="JsonCpp\src\json_tool.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
@@ -256,6 +275,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JsonCpp\src\json_valueiterator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

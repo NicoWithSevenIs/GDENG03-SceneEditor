@@ -1,0 +1,142 @@
+{
+  "entities" : 
+  [
+    {
+      "components" : 
+      [
+        {
+          "isTextured" : true,
+          "type" : "CubeRenderer"
+        }
+      ],
+      "constant" : 
+      {
+        "angle" : 0.013614100404083729,
+        "color" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "hasTex" : 0,
+        "isRandom" : 1
+      },
+      "enabled" : true,
+      "name" : "A",
+      "parent" : null,
+      "transform" : 
+      {
+        "position" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "rotation" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "scale" : 
+        {
+          "x" : 1.0,
+          "y" : 1.0,
+          "z" : 1.0
+        }
+      }
+    },
+    {
+      "components" : 
+      [
+        {
+          "isTextured" : true,
+          "type" : "CubeRenderer"
+        }
+      ],
+      "constant" : 
+      {
+        "angle" : 0.013614100404083729,
+        "color" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "hasTex" : 0,
+        "isRandom" : 1
+      },
+      "enabled" : true,
+      "name" : "B",
+      "parent" : "A",
+      "transform" : 
+      {
+        "position" : 
+        {
+          "x" : 0.0,
+          "y" : 1.0,
+          "z" : 0.0
+        },
+        "rotation" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "scale" : 
+        {
+          "x" : 1.0,
+          "y" : 1.0,
+          "z" : 1.0
+        }
+      }
+    },
+    {
+      "components" : 
+      [
+        {
+          "isTextured" : true,
+          "type" : "CubeRenderer"
+        }
+      ],
+      "constant" : 
+      {
+        "angle" : 0.013614100404083729,
+        "color" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "hasTex" : 0,
+        "isRandom" : 1
+      },
+      "enabled" : true,
+      "name" : "C",
+      "parent" : "B",
+      "transform" : 
+      {
+        "position" : 
+        {
+          "x" : 0.0,
+          "y" : 1.0,
+          "z" : 0.0
+        },
+        "rotation" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "scale" : 
+        {
+          "x" : 1.0,
+          "y" : 1.0,
+          "z" : 1.0
+        }
+      }
+    }
+  ],
+  "scene_name" : "ABC",
+  "version" : "1.0"
+}
