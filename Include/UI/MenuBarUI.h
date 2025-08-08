@@ -15,6 +15,8 @@ class MenuBarUI: public UIScreen
 		char scene_path_input[256];
 		bool show_save_dialog = false;
 		bool show_load_dialog = false;
+		bool show_import_unity_dialog = false;
+		char unity_path_input[256] = "";
 
 	public:
 		MenuBarUI(float width, float height);
@@ -23,6 +25,7 @@ class MenuBarUI: public UIScreen
 		void Spawn100Cubes();
 		void ShowSaveDialog();
 		void ShowLoadDialog();
+		void ShowImportUnityDialog();
 
 
 };

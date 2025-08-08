@@ -167,6 +167,7 @@
     <ClCompile Include="Game Engine\SwapChain.cpp" />
     <ClCompile Include="Game Engine\Texture.cpp" />
     <ClCompile Include="Game Engine\UIManager.cpp" />
+    <ClCompile Include="Game Engine\UnitySceneImporter.cpp" />
     <ClCompile Include="Game Engine\VertexBuffer.cpp" />
     <ClCompile Include="Game Engine\VertexShader.cpp" />
     <ClCompile Include="Game Engine\Window.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Game Engine\UnitySceneImporter.h" />
     <ClInclude Include="IMGUI\imconfig.h" />
     <ClInclude Include="IMGUI\imgui.h" />
     <ClInclude Include="IMGUI\imgui_impl_dx11.h" />

@@ -11,9 +11,63 @@
 #include "ECS/Systems/TimelineManager.h"
 #include "Scene Saving/SceneManager.hpp"
 #include "Constants/AppConstants.h"
+#include "Game Engine/UnitySceneImporter.h"
 #include <random>
 #include <sstream>
 #include <filesystem>
+
+void MenuBarUI::ShowImportUnityDialog() {
+	if (!show_import_unity_dialog)
+		return;
+	std::cout << "[MenuBarUI] ShowImportUnityDialog called!" << std::endl;
+	ImGui::SetNextWindowSize(ImVec2(400, 120));
+	ImGui::Begin("Import Unity Scene", &show_import_unity_dialog);
+	ImGui::Text("Unity .unity File Path:");
+	ImGui::InputText("##UnityFilePath", unity_path_input, IM_ARRAYSIZE(unity_path_input));
+	ImGui::Separator();
+
+	ImGui::Text("Suggested files:");
+	try {
+		std::vector<std::string> directories = { "Saved Scenes" };
+		for (const auto& dir : directories) {
+			if (std::filesystem::exists(dir)) {
+				for (const auto& entry : std::filesystem::directory_iterator(dir)) {
+					if (entry.is_regular_file() && entry.path().extension() == ".unity") {
+						std::string filename = entry.path().filename().string();
+						std::string displayName = dir + "/" + filename;
+						if (ImGui::Selectable(displayName.c_str())) {
+							strcpy_s(unity_path_input, displayName.c_str());
+						}
+					}
+				}
+			}
+		}
+	} catch (...) {
+		ImGui::Text("Could not read directory");
+	}
+
+	ImGui::Separator();
+	if (ImGui::Button("Import")) {
+		std::cout << "[MenuBarUI] Import button pressed! Path: " << unity_path_input << std::endl;
+		if (strlen(unity_path_input) > 0) {
+			std::string unityPath = std::string(unity_path_input);
+			std::string jsonPath = unityPath.substr(0, unityPath.find_last_of('.')) + ".json";
+			if (DX3D::UnitySceneImporter::ConvertUnitySceneToJson(unityPath, jsonPath)) {
+				std::cout << "[MenuBarUI] Unity scene converted to: " << jsonPath << std::endl;
+				std::cout << "[MenuBarUI] You can now load it using Load Scene!" << std::endl;
+			}
+		}
+		show_import_unity_dialog = false;
+		memset(unity_path_input, 0, sizeof(unity_path_input));
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Cancel")) {
+		std::cout << "[MenuBarUI] Import dialog canceled!" << std::endl;
+		show_import_unity_dialog = false;
+		memset(unity_path_input, 0, sizeof(unity_path_input));
+	}
+	ImGui::End();
+}
 
 MenuBarUI::MenuBarUI(float width, float height)
 {
@@ -31,6 +85,7 @@ void MenuBarUI::draw()
 	ShowPrompt();
 	ShowSaveDialog();
 	ShowLoadDialog();
+	ShowImportUnityDialog();
 
 	if (ImGui::BeginMainMenuBar() && !doOnPrompt && !show_save_dialog && !show_load_dialog) {
 		
@@ -49,17 +104,24 @@ void MenuBarUI::draw()
 				strcpy_s(scene_path_input, "new_scene.json");
 			}
 
-			if (ImGui::MenuItem("Load Scene")) {
-				show_load_dialog = true;
-			}
+			   if (ImGui::MenuItem("Load Scene")) {
+				   show_load_dialog = true;
+			   }
 
-			ImGui::Separator();
 
-			if (ImGui::MenuItem("Clear Scene")) {
-				DX3D::SceneManager::ClearCurrentScene();
-			}
+			   if (ImGui::MenuItem("Import Unity Scene (.unity)...")) {
+				   std::cout << "[MenuBarUI] Import Unity Scene menu item clicked!" << std::endl;
+				   show_import_unity_dialog = true;
+			   }
 
-			ImGui::EndMenu();
+
+			   ImGui::Separator();
+
+			   if (ImGui::MenuItem("Clear Scene")) {
+				   DX3D::SceneManager::ClearCurrentScene();
+			   }
+
+			   ImGui::EndMenu();
 		}
 
 		if (ImGui::BeginMenu("Create")) {
