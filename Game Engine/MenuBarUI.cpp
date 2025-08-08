@@ -1,6 +1,5 @@
 #include "ECS/Systems/PhysicsSystem.h"
 #include "UI/MenuBarUI.h"
-//#include "ECS/Systems/EntityManager.h"
 #include "UI/UIManager.h"
 #include "UI/DebugWindow.h"
 #include "ECS/Components/CubeRenderer.h"
@@ -132,9 +131,6 @@ void MenuBarUI::draw()
 					auto e = new Entity(prompt_input);
 					e->cc.hasTex = false;
 					e->AddComponent<CubeRenderer>();
-					//PhysicsComponent* p6Component = e->AddComponent<PhysicsComponent>(reactphysics3d::BodyType::DYNAMIC);
-					////e->AddComponent<PhysicsComponent>();
-					//PhysicsSystem::AddPhysicsComponent(p6Component);
 					EntityManager::AddObject(e);
 					TimelineManager::get().SetDirty();
 				};
@@ -233,8 +229,8 @@ void MenuBarUI::draw()
 				EntityManager::get().DoOnAll(reset_transforms);
 
 			}
-			if (ImGui::MenuItem("Spawn 100 Cubes")) {
-				Spawn100Cubes();
+			if (ImGui::MenuItem("Spawn 50 Cubes")) {
+				Spawn50Cubes();
 			}
 			ImGui::EndMenu();
 		}
@@ -393,7 +389,7 @@ void MenuBarUI::ShowLoadDialog() {
 	ImGui::End();
 }
 
-void MenuBarUI::Spawn100Cubes()
+void MenuBarUI::Spawn50Cubes()
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -402,7 +398,7 @@ void MenuBarUI::Spawn100Cubes()
 	std::cout << "[INFO] Spawning 100 cubes at height " << cubeSpawnHeight
 		<< " within area " << cubeSpawnArea << "x" << cubeSpawnArea << std::endl;
 
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 50; i++) {
 		std::stringstream ss;
 		ss << "SpawnedCube_" << i;
 

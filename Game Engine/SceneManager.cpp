@@ -81,7 +81,6 @@ bool SceneManager::LoadScene(const std::string& filepath) {
         return false;
     }
 
-    // Clear all entities before loading new scene
     EntityManager::Release();
 
     get().m_currentScene = std::make_unique<Scene>();
@@ -99,7 +98,6 @@ void SceneManager::ClearCurrentScene() {
         get().m_currentScene->Clear();
     }
 
-    // Clear all entities
     EntityManager::Release();
 
     std::cout << "Current scene cleared" << std::endl;

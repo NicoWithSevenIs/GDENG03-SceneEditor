@@ -11,25 +11,25 @@
       ],
       "constant" : 
       {
-        "angle" : 0.0,
+        "angle" : 0.013585800305008888,
         "color" : 
         {
-          "x" : 1.0,
-          "y" : 1.0,
-          "z" : 1.0
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
         },
         "hasTex" : 0,
-        "isRandom" : 0
+        "isRandom" : 1
       },
       "enabled" : true,
-      "name" : "Main Camera",
+      "name" : "A",
       "parent" : null,
       "transform" : 
       {
         "position" : 
         {
           "x" : 0.0,
-          "y" : 0.0,
+          "y" : 1.0,
           "z" : 0.0
         },
         "rotation" : 
@@ -56,25 +56,25 @@
       ],
       "constant" : 
       {
-        "angle" : 0.0,
+        "angle" : 0.013585800305008888,
         "color" : 
         {
-          "x" : 1.0,
-          "y" : 1.0,
-          "z" : 1.0
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
         },
         "hasTex" : 0,
-        "isRandom" : 0
+        "isRandom" : 1
       },
       "enabled" : true,
-      "name" : "Directional Light",
+      "name" : "B",
       "parent" : null,
       "transform" : 
       {
         "position" : 
         {
-          "x" : 0.0,
-          "y" : 0.0,
+          "x" : -1.5,
+          "y" : 2.5,
           "z" : 0.0
         },
         "rotation" : 
@@ -101,18 +101,63 @@
       ],
       "constant" : 
       {
-        "angle" : 0.0,
+        "angle" : 0.013585800305008888,
         "color" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "hasTex" : 0,
+        "isRandom" : 1
+      },
+      "enabled" : true,
+      "name" : "C",
+      "parent" : null,
+      "transform" : 
+      {
+        "position" : 
+        {
+          "x" : -1.5,
+          "y" : 3.0,
+          "z" : -1.5
+        },
+        "rotation" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "scale" : 
         {
           "x" : 1.0,
           "y" : 1.0,
           "z" : 1.0
+        }
+      }
+    },
+    {
+      "components" : 
+      [
+        {
+          "isTextured" : true,
+          "type" : "CubeRenderer"
+        }
+      ],
+      "constant" : 
+      {
+        "angle" : 0.013585800305008888,
+        "color" : 
+        {
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
         },
         "hasTex" : 0,
-        "isRandom" : 0
+        "isRandom" : 1
       },
       "enabled" : true,
-      "name" : "Global Volume",
+      "name" : "Floor",
       "parent" : null,
       "transform" : 
       {
@@ -130,13 +175,13 @@
         },
         "scale" : 
         {
-          "x" : 1.0,
-          "y" : 1.0,
-          "z" : 1.0
+          "x" : 10.0,
+          "y" : 0.10000000149011612,
+          "z" : 10.0
         }
       }
     }
   ],
-  "scene_name" : "ImportedUnityScene",
+  "scene_name" : "Test1",
   "version" : "1.0"
 }

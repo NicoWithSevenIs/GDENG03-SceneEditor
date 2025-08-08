@@ -22,7 +22,7 @@ class MenuBarUI: public UIScreen
 		MenuBarUI(float width, float height);
 		void draw() override;
 		void ShowPrompt();
-		void Spawn100Cubes();
+		void Spawn50Cubes();
 		void ShowSaveDialog();
 		void ShowLoadDialog();
 		void ShowImportUnityDialog();

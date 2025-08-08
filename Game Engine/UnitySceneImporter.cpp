@@ -13,7 +13,6 @@
 
 using namespace DX3D;
 
-// Helper struct for holding parsed GameObject data
 struct UnityGameObjectData {
     std::string name;
     int fileID = 0;
@@ -23,7 +22,6 @@ struct UnityGameObjectData {
     UnityGameObjectData() : scale(1.0f, 1.0f, 1.0f) {}
 };
 
-// Legacy function: Very basic YAML parser for Unity .unity files (only GameObject/Transform hierarchy)
 bool UnitySceneImporter::ImportUnityScene(const std::string& unityFilePath) {
     std::ifstream file(unityFilePath);
     if (!file.is_open()) {
@@ -37,9 +35,7 @@ bool UnitySceneImporter::ImportUnityScene(const std::string& unityFilePath) {
     int currentFileID = 0;
     UnityGameObjectData* currentObj = nullptr;
 
-    // Pass 1: Parse GameObjects and Transforms
     while (std::getline(file, line)) {
-        // Find GameObject blocks
         std::smatch match;
         if (std::regex_search(line, match, std::regex("!u!1 &([0-9]+)"))) {
             currentFileID = std::stoi(match[1]);
@@ -47,19 +43,16 @@ bool UnitySceneImporter::ImportUnityScene(const std::string& unityFilePath) {
             currentObj->fileID = currentFileID;
             continue;
         }
-        // Name
         if (currentObj && line.find("m_Name:") != std::string::npos) {
             size_t pos = line.find(":");
             if (pos != std::string::npos) currentObj->name = line.substr(pos + 1);
             currentObj->name.erase(0, currentObj->name.find_first_not_of(" \t"));
         }
-        // Parent (Transform block)
         if (std::regex_search(line, match, std::regex("m_Father: \\{fileID: ([0-9]+)"))) {
             int parentID = std::stoi(match[1]);
             if (currentObj) currentObj->parentFileID = parentID;
             childToParent[currentFileID] = parentID;
         }
-        // Position
         if (line.find("m_LocalPosition:") != std::string::npos) {
             float x = 0, y = 0, z = 0;
             std::getline(file, line); sscanf_s(line.c_str(), "  x: %f", &x);
@@ -67,7 +60,6 @@ bool UnitySceneImporter::ImportUnityScene(const std::string& unityFilePath) {
             std::getline(file, line); sscanf_s(line.c_str(), "  z: %f", &z);
             if (currentObj) currentObj->position = Vector3D(x, y, z);
         }
-        // Rotation (Euler)
         if (line.find("m_LocalEulerAnglesHint:") != std::string::npos) {
             float x = 0, y = 0, z = 0;
             std::getline(file, line); sscanf_s(line.c_str(), "  x: %f", &x);
@@ -75,7 +67,6 @@ bool UnitySceneImporter::ImportUnityScene(const std::string& unityFilePath) {
             std::getline(file, line); sscanf_s(line.c_str(), "  z: %f", &z);
             if (currentObj) currentObj->rotation = Vector3D(x, y, z);
         }
-        // Scale
         if (line.find("m_LocalScale:") != std::string::npos) {
             float x = 1, y = 1, z = 1;
             std::getline(file, line); sscanf_s(line.c_str(), "  x: %f", &x);
@@ -86,31 +77,26 @@ bool UnitySceneImporter::ImportUnityScene(const std::string& unityFilePath) {
     }
     file.close();
 
-    // Pass 2: Create entities
     std::unordered_map<int, Entity*> idToEntity;
     for (auto& [fileID, data] : objects) {
         auto* e = new Entity(data.name);
         e->m_transform.m_translation = data.position;
         e->m_transform.m_rotation = data.rotation;
         e->m_transform.m_scale = data.scale;
-        // TODO: Add component mapping if needed
         EntityManager::AddObject(e);
         idToEntity[fileID] = e;
     }
-    // Pass 3: Set up parent-child relationships
     for (auto& [childID, parentID] : childToParent) {
         if (parentID == 0) continue;
         auto childIt = idToEntity.find(childID);
         auto parentIt = idToEntity.find(parentID);
         if (childIt != idToEntity.end() && parentIt != idToEntity.end()) {
-            // ParentingManager::get().SetParent(childIt->second, parentIt->second);
         }
     }
     std::cout << "[UnitySceneImporter] Imported " << objects.size() << " GameObjects from Unity scene." << std::endl;
     return true;
 }
 
-// New: Convert Unity .unity to engine .json scene file
 bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePath, const std::string& outJsonPath) {
     std::ifstream file(unityFilePath);
     if (!file.is_open()) {
@@ -121,7 +107,7 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
     std::string line;
     std::unordered_map<int, UnityGameObjectData> objects;
     std::unordered_map<int, int> childToParent;
-    std::unordered_map<int, int> transformToGameObject; // Map Transform fileID to GameObject fileID
+    std::unordered_map<int, int> transformToGameObject;
     std::unordered_map<int, bool> isImportedSceneChild;
     int currentFileID = 0;
     UnityGameObjectData* currentObj = nullptr;
@@ -130,13 +116,10 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
 
     std::cout << "[UnitySceneImporter] Starting Unity scene import from: " << unityFilePath << std::endl;
 
-    // First pass - collect all GameObjects and their basic info
     while (std::getline(file, line)) {
         std::smatch match;
         
-        // Check for any Unity component using safer parsing
         if (line.find("--- !u!") == 0) {
-            // Extract component type and fileID manually for safety
             size_t typeStart = line.find("!u!") + 3;
             size_t typeEnd = line.find(" ", typeStart);
             size_t idStart = line.find("&") + 1;
@@ -146,23 +129,20 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
                     std::string typeStr = line.substr(typeStart, typeEnd - typeStart);
                     std::string idStr = line.substr(idStart);
                     
-                    // Remove any trailing whitespace/newlines from idStr
                     idStr.erase(idStr.find_last_not_of(" \t\r\n") + 1);
                     
                     if (!typeStr.empty() && !idStr.empty()) {
                         int componentType = std::stoi(typeStr);
                         currentFileID = std::stoi(idStr);
                         
-                        if (componentType == 1) { // GameObject
+                        if (componentType == 1) {
                             currentObj = &objects[currentFileID];
                             currentObj->fileID = currentFileID;
                             currentComponentType = "GameObject";
                             std::cout << "[UnitySceneImporter] Found GameObject with ID: " << currentFileID << std::endl;
-                        } else if (componentType == 4) { // Transform
+                        } else if (componentType == 4) {
                             currentComponentType = "Transform";
-                            // Find which GameObject this transform belongs to
                             for (auto& pair : objects) {
-                                // Simple heuristic: the GameObject usually comes right before its Transform
                                 if (pair.second.fileID < currentFileID && pair.second.fileID > currentFileID - 50) {
                                     transformToGameObject[currentFileID] = pair.second.fileID;
                                     currentObj = &pair.second;
@@ -184,7 +164,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
             continue;
         }
         
-        // Parse GameObject name
         if (currentObj && currentComponentType == "GameObject" && line.find("  m_Name: ") == 0) {
             std::string nameStr = line.substr(9);
             nameStr.erase(0, nameStr.find_first_not_of(" \t"));
@@ -193,7 +172,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
             
             std::cout << "[UnitySceneImporter] GameObject " << currentObj->fileID << " name: '" << currentObj->name << "'" << std::endl;
             
-            // Check if this is an "Imported_Scene_" object
             if (currentObj->name.find("Imported_Scene_") == 0) {
                 importedSceneRootID = currentObj->fileID;
                 isImportedSceneChild[currentObj->fileID] = true;
@@ -201,7 +179,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
             }
         }
         
-        // Parse Transform parent relationship
         if (currentObj && currentComponentType == "Transform" && line.find("  m_Father: {fileID: ") != std::string::npos) {
             size_t idStart = line.find("fileID: ") + 8;
             size_t idEnd = line.find("}", idStart);
@@ -223,7 +200,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
             }
         }
         
-        // Parse Transform position
         if (currentObj && currentComponentType == "Transform" && line.find("  m_LocalPosition:") != std::string::npos) {
             float x = 0, y = 0, z = 0;
             std::getline(file, line); 
@@ -235,7 +211,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
             currentObj->position = Vector3D(x, y, z);
         }
         
-        // Parse Transform rotation
         if (currentObj && currentComponentType == "Transform" && line.find("  m_LocalEulerAnglesHint:") != std::string::npos) {
             float x = 0, y = 0, z = 0;
             std::getline(file, line); 
@@ -247,7 +222,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
             currentObj->rotation = Vector3D(x, y, z);
         }
         
-        // Parse Transform scale
         if (currentObj && currentComponentType == "Transform" && line.find("  m_LocalScale:") != std::string::npos) {
             float x = 1, y = 1, z = 1;
             std::getline(file, line); 
@@ -263,7 +237,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
 
     std::cout << "[UnitySceneImporter] Parsing complete. Found " << objects.size() << " total GameObjects." << std::endl;
 
-    // Mark all children of the imported scene root recursively
     if (importedSceneRootID != -1) {
         std::cout << "[UnitySceneImporter] Processing imported scene hierarchy..." << std::endl;
         
@@ -279,7 +252,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
         };
         markChildren(importedSceneRootID, 1);
     } else {
-        // If no imported scene root found, include all objects for debugging
         std::cout << "[UnitySceneImporter] No 'Imported_Scene_' root found. Available objects:" << std::endl;
         for (const auto& [fileID, data] : objects) {
             std::cout << "[UnitySceneImporter] - GameObject ID " << fileID << ": '" << data.name << "'" << std::endl;
@@ -287,7 +259,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
                 std::cout << "[UnitySceneImporter] Found potential match: " << data.name << std::endl;
                 importedSceneRootID = fileID;
                 isImportedSceneChild[fileID] = true;
-                // Re-run the marking
                 std::function<void(int, int)> markChildren = [&](int parentID, int depth) {
                     for (const auto& [childID, parentIDInMap] : childToParent) {
                         if (parentIDInMap == parentID && !isImportedSceneChild[childID]) {
@@ -302,10 +273,8 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
         }
     }
 
-    // Create JSON output
     Json::Value root;
     
-    // Extract scene name
     std::string sceneName = "ImportedUnityScene";
     if (importedSceneRootID != -1 && objects.count(importedSceneRootID)) {
         const std::string& rootName = objects[importedSceneRootID].name;
@@ -323,17 +292,14 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
     
     int exportedCount = 0;
     for (const auto& [fileID, data] : objects) {
-        // Skip if not part of imported scene hierarchy
         if (importedSceneRootID != -1 && !isImportedSceneChild[fileID]) {
             continue;
         }
         
-        // Skip the root container itself
         if (fileID == importedSceneRootID) {
             continue;
         }
         
-        // Skip objects with empty names
         if (data.name.empty()) {
             continue;
         }
@@ -342,7 +308,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
         entityObj["name"] = data.name;
         entityObj["enabled"] = true;
         
-        // Transform
         Json::Value transformObj;
         transformObj["position"]["x"] = data.position.m_x;
         transformObj["position"]["y"] = data.position.m_y;
@@ -355,14 +320,12 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
         transformObj["scale"]["z"] = data.scale.m_z;
         entityObj["transform"] = transformObj;
         
-        // Parent
         if (data.parentFileID != 0 && objects.count(data.parentFileID) && data.parentFileID != importedSceneRootID) {
             entityObj["parent"] = objects.at(data.parentFileID).name;
         } else {
             entityObj["parent"] = Json::nullValue;
         }
         
-        // Constant data
         Json::Value constantObj;
         constantObj["color"]["x"] = 1.0f;
         constantObj["color"]["y"] = 1.0f;
@@ -372,7 +335,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
         constantObj["hasTex"] = 0;
         entityObj["constant"] = constantObj;
         
-        // Components
         Json::Value componentsArray(Json::arrayValue);
         Json::Value cubeRenderer;
         cubeRenderer["type"] = "CubeRenderer";
@@ -388,7 +350,6 @@ bool UnitySceneImporter::ConvertUnitySceneToJson(const std::string& unityFilePat
     
     root["entities"] = entitiesArray;
 
-    // Write to JSON file
     std::ofstream out(outJsonPath);
     if (!out.is_open()) {
         std::cerr << "[UnitySceneImporter] Failed to write json: " << outJsonPath << std::endl;
